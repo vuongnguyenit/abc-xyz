@@ -1,0 +1,2 @@
+<?php @session_start();
+echo '<a rel="nofollow" tabindex="-1" href="javascript:void(0);" id="refreshimg" title="Click lên đây để lấy hình khác"><img align="absmiddle" src="/captcha-image?' . time() . '" width="100" border="0" alt="Captcha" /></a>'?>

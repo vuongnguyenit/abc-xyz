@@ -1,0 +1,4 @@
+[11-Oct-2017 11:55:03 Asia/Saigon] PHP Warning:  preg_match(): Compilation failed: invalid range in character class at offset 7 in /home/viexpres/chauruachen.pns.vn/plugins/upload/class.upload.php on line 2993
+[11-Oct-2017 11:55:03 Asia/Saigon] PHP Warning:  preg_match(): Compilation failed: invalid range in character class at offset 7 in /home/viexpres/chauruachen.pns.vn/plugins/upload/class.upload.php on line 3011
+[06-Apr-2018 15:45:40 Asia/Saigon] PHP Warning:  preg_match(): Compilation failed: invalid range in character class at offset 7 in /home/viexpres/chauruachen.pns.vn/plugins/upload/class.upload.php on line 2993
+[06-Apr-2018 15:45:40 Asia/Saigon] PHP Warning:  preg_match(): Compilation failed: invalid range in character class at offset 7 in /home/viexpres/chauruachen.pns.vn/plugins/upload/class.upload.php on line 3011

@@ -1,0 +1,29 @@
+.swraper
+  {
+    display: none !important;
+  }
+  div#personPopupContainerClick
+  {
+    width:100% !important;
+    left:0px !important;
+    top:0px !important;
+  }
+  .personPopupPopup
+  {
+    width:100% !important;
+  }
+  .personPopupContentClick
+  {
+    overflow:visible !important;
+    width:100% !important;
+  }
+  .personPopupContentClick div
+  {
+    width:100% !important;
+    overflow:visible !important;
+    height: auto !important;
+  }
+  .button
+  {
+    display: none !important;
+  }

@@ -1,0 +1,70 @@
+body {
+	margin:0;
+	padding:0;
+	color:#333;
+}
+@font-face {
+	font-family: 'utm_cafetaregular';
+	src: url('../fonts/utm_cafeta-webfont.eot');
+	src: url('../fonts/utm_cafeta-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/utm_cafeta-webfont.woff') format('woff'), url('../fonts/utm_cafeta-webfont.ttf') format('truetype'), url('../fonts/utm_cafeta/utm_cafeta-webfont.svg#UTMCafetaRegular') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+.b {
+	font-weight:bold;
+	padding-left:15px;
+}
+.red {
+	color:#F00;
+}
+.fl {
+	float:left;
+}
+.quick-view {
+	width:780px;
+	height:400px;
+}
+.quick-view .picture {
+	float:left;
+	width:300px;
+	height:300px;
+	margin-right:30px;
+}
+.quick-view .picture img {
+	max-width:300px;
+}
+.quick-view .description .price {
+	color: #F00;
+	letter-spacing: -1px;
+	font-size: 14px;
+	padding-left: 10px;
+	font-size: 3em;
+	font-family: 'utm_cafetaregular', sans-serif;
+	font-weight: normal;
+}
+.quick-view .description {
+	float:left;
+	width:450px;
+}
+.quick-view .description p {
+	margin:10px 0;
+	padding:0;
+}
+.quick-view .description .icon {
+	background:url(../images/arrow-qv.png) 0px 5px no-repeat;
+}
+.quick-view .description .view-detail {
+	background: #ff7400;
+	background: -moz-linear-gradient(top, #ff7400 0%, #ff7400 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ff7400), color-stop(100%, #ff7400));
+	background: -webkit-linear-gradient(top, #ff7400 0%, #ff7400 100%);
+	background: -o-linear-gradient(top, #ff7400 0%, #ff7400 100%);
+	background: -ms-linear-gradient(top, #ff7400 0%, #ff7400 100%);
+	background: linear-gradient(to bottom, #ff7400 0%, #ff7400 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff7400', endColorstr='#ff7400', GradientType=0 );
+	color:#fff;
+	text-decoration:none;
+	padding:5px 20px;
+	border-radius:5px;
+	margin-top:20px;
+}

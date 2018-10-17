@@ -1,0 +1,260 @@
+@charset "utf-8";
+#main .comment {
+	clear:both;
+}
+#main .comment .cm-title {
+	font-size:1.2em;
+	font-weight:bold;
+}
+#main .comment .cm-info {
+	font-style:italic;
+}
+#main .comment .cm-info a {
+	color:#004B91;
+}
+#main .comment .cm-count {
+	font-weight:bold;
+	font-size:1.3em;
+}
+#main .comment .cm-title span {
+}
+#main .comment .content {
+	width: 95%;
+	overflow-x: hidden;
+	overflow-y: auto;
+	min-height: 200px;
+	max-height:800px;
+	margin:10px;
+}
+#main .comment .content .cmt-block:nth-child(1) {
+	border:0;
+}
+#main .comment .content .cmt-block, #main .comment .content .rep-block {
+	clear:both;
+	display:block;
+	margin-top:5px;
+	margin-bottom:5px;
+	padding:10px;
+	position:relative;
+	overflow:hidden;
+}
+#main .comment .content .rep-block {
+	padding-top:10px;
+	margin-left:84px;
+}
+#main .comment .content .cmt-block .avatar, #main .comment .content .rep-block .avatar {
+	float:left;
+	width:64px;
+	margin-right:20px;
+}
+#main .comment .content .cmt-block .cmt-content {
+	float:left;
+	width:800px;
+	margin-bottom:5px;
+}
+#main .comment .content .rep-block .cmt-content {
+	width:349px;
+}
+#main .comment .content .cmt-block .user, #main .comment .content .rep-block .user {
+	color:#000;
+	font-size:1em;
+	font-weight:bold;
+}
+#main .comment .content .cmt-block .text {
+	color:#000;
+	font-size:1em;
+	margin-top: 5px;
+	border:1px solid #b5b6b8;
+	padding:12px 5px;
+	border-radius:3px;
+	background: #fefefe; /* Old browsers */
+	background: -moz-linear-gradient(top, #fefefe 0%, #f5f5f5 50%, #dddddd 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fefefe), color-stop(50%, #f5f5f5), color-stop(100%, #dddddd)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #fefefe 0%, #f5f5f5 50%, #dddddd 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #fefefe 0%, #f5f5f5 50%, #dddddd 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #fefefe 0%, #f5f5f5 50%, #dddddd 100%); /* IE10+ */
+	background: linear-gradient(to bottom, #fefefe 0%, #f5f5f5 50%, #dddddd 100%); /* W3C */
+ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefefe', endColorstr='#dddddd', GradientType=0 ); /* IE6-9 */
+	-webkit-box-shadow: 0px 0px 5px 0px #888;
+	-moz-box-shadow:    0px 0px 5px 0px #888;
+	box-shadow:         0px 0px 5px 0px #888;
+	position:relative;
+}
+#main .comment .content .cmt-block .arrow {
+	background:url(../images/arrow-cm.png) no-repeat;
+	position:absolute;
+	left:-16px;
+	top:4px;
+	height:30px;
+	width:16px;
+}
+#main .comment .content .cmt-block .reply, #main .comment .content .rep-block .reply {
+	clear:both;
+	margin-top:5px;
+}
+#main .comment .content .cmt-block .reply a, #main .comment .content .rep-block .reply a {
+	font-size:0.9em;
+	color:#578CCA;
+}
+#main .comment .content .cmt-block .date, #main .comment .content .rep-block .date {
+	color:#666;
+	font-size:0.9em;
+}
+#main .comment .content .cmt-block .ct-cm, #main .comment .content .rep-block .ct-cm {
+	margin:5px 0;
+}
+#main .comment .content .rep-block .rep-content {
+	float: left;
+	width: 737px;
+	margin-bottom: 5px;
+}
+#main .comment .content .rep-block .avatar {
+	width:42px;
+	height:42px;
+	margin-top:8px;
+}
+#main .comment .content .rep-block .text {
+	color:#000;
+	font-size:1em;
+	margin-top: 5px;
+	border:1px solid #9daec0;
+	padding:12px 5px;
+	border-radius:3px;
+	background: #d4e6fa; /* Old browsers */
+	background: -moz-linear-gradient(top, #d4e6fa 0%, #cde2f5 50%, #c1d5ed 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #d4e6fa), color-stop(50%, #cde2f5), color-stop(100%, #c1d5ed)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #d4e6fa 0%, #cde2f5 50%, #c1d5ed 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #d4e6fa 0%, #cde2f5 50%, #c1d5ed 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #d4e6fa 0%, #cde2f5 50%, #c1d5ed 100%); /* IE10+ */
+	background: linear-gradient(to bottom, #d4e6fa 0%, #cde2f5 50%, #c1d5ed 100%); /* W3C */
+ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d4e6fa', endColorstr='#c1d5ed', GradientType=0 ); /* IE6-9 */
+	-webkit-box-shadow: 0px 0px 5px 0px #888;
+	-moz-box-shadow:    0px 0px 5px 0px #888;
+	box-shadow:         0px 0px 5px 0px #888;
+	position:relative;
+}
+#main .comment .content .rep-block .arrow {
+	background:url(../images/arrow-rp.png) no-repeat;
+	position:absolute;
+	left:-16px;
+	top:4px;
+	height:30px;
+	width:16px;
+}
+#main .comment .user-comment {
+	clear:both;
+	height:120px;
+	padding:0px;
+	margin: 10px 0;
+	position:relative;
+}
+#main .comment .user-comment .usr-title {
+	position:absolute;
+	top:0px;
+	left:0px;
+	background:url(../images/comments.png) 0px 5px no-repeat;
+	padding:5px 0 5px 20px;
+	font-size:1.2em;
+	font-weight:bold;
+}
+#main .comment .user-comment .user-name {
+	position:absolute;
+	top:0px;
+	left:0px;
+	width:275px;
+}
+#main .comment .user-comment .email {
+	position:absolute;
+	top:30px;
+	left:311px;
+	width:275px;
+}
+#main .comment .user-comment .text {
+	position:absolute;
+	top:0px;
+	left:0px;
+	width:250px;
+}
+#main .comment .user-comment .captcha {
+	position:absolute;
+	bottom:0px;
+	left:0px;
+}
+#main .comment .user-comment #captchaimage {
+	position: absolute;
+	bottom: 4px;
+	left: 150px;
+	display: block;
+	height: 19px;
+}
+#main .comment .user-comment .btnsubmit {
+	position:absolute;
+	bottom:0px;
+	left:250px;
+}
+#main .comment .user-comment input[type="text"], #main .comment .user-comment textarea {
+	padding:3px 5px;
+	border:1px solid #CCC;
+}
+#main .comment .user-comment textarea {
+	position:absolute;
+	left: 61px;
+	width: 483px;
+}
+#main .comment .user-comment input[type="text"] {
+	width:195px;
+}
+#main .comment .user-comment .character {
+	width:80px !important;
+}
+#main .comment .user-comment input[type="submit"] {
+	background:#035baf;
+	border-radius:3px;
+	-webkit-border-radius:3px;
+	-moz-border-radius:3px;
+	padding:5px 20px;
+	border:0;
+	color:#ff0;
+	cursor:pointer;
+	margin-right:5px;
+}
+#main .comment .user-comment input[type="button"] {
+	background:#FFF;
+	border-radius:3px;
+	-webkit-border-radius:3px;
+	-moz-border-radius:3px;
+	padding:5px 20px;
+	border:1px solid #035baf;
+	color:#035baf;
+	cursor:pointer;
+}
+#main .comment .content .cmt-block .user input {
+	border: 1px solid #E5E5E5;
+	margin: 0 0 5px 0;
+	padding: 2px;
+	width: 182px;
+}
+#main .comment .content .cmt-block .text textarea {
+	height:43px;
+	width:374px;
+	border: 1px solid #E5E5E5;
+	font-family: arial;
+}
+#main .comment .content .cmt-block .reply span.post, #main .comment .content .rep-block .reply span.post {
+	float: right;
+	background-color: #035baf;
+	font-size: 12px;
+	border-color: #035baf;
+	text-align: center;
+	/*margin-bottom: 3px;
+	margin-right: 4px;*/
+	font-weight: bold;
+	color: #FF0;
+	cursor: pointer;
+	width: 60px;
+	padding: 5px;
+	text-decoration:none;
+}
+#main .comment .content .hide {
+	display:none;
+}

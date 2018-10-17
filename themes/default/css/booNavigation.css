@@ -1,0 +1,71 @@
+/**
+ * Name: booNavigation.css
+ * Date:Sun 16 Feb 2014
+ * Author: Noemi Losada Estrella <info@noemilosada.com>
+ * Creative Commons License <http://creativecommons.org/licenses/by-sa/3.0/>
+ */
+
+/** General
+================================================== */
+
+.booNavigation {
+	position: relative;
+	margin:0 auto;
+	width:1000px;
+}
+.booNavigation li.navItem {	
+	padding: 13px 20px;
+	float: left;
+	text-decoration: none;
+	transition: all .3s ease;
+	-webkit-transition: all .5s ease;
+	-moz-transition: all .5s ease;
+	-ms-transition: all .5s ease;
+	-o-transition: all .5s ease;
+}
+.booNavigation ul li:last-child{
+	padding:13px 28px 13px 29px;}
+.booNavigation li.navItem:hover {
+	background-color: #fff;
+	cursor: pointer;
+}
+.booNavigation li.navItem > a {
+	color: #fff;	
+	font-weight:bold;
+}
+.booNavigation li.navItem:hover a{
+	color:#499bea;}
+.booNavigation li.navItem > a:hover{
+	text-decoration:none;}
+.booNavigation li.navItem .navContent {
+	background-color: #fff;
+	left: 0;
+	position: absolute;
+	top: 41px;
+	height:310px;
+	z-index: 999;
+	width:998px;
+	border:1px solid #499bea;
+	border-top:0px !important;
+}
+.booNavigation .navContent > li {
+	color: #333;
+	float: left;
+	padding: 10px;
+	width: 20%;
+}
+.booNavigation .navContent ul li a {
+	color: #fff;
+	text-decoration:none;
+	display: block;
+	padding: 10px;
+	transition: all .3s ease;
+	-webkit-transition: all .3s ease;
+	-moz-transition: all .3s ease;
+	-ms-transition: all .3s ease;
+	-o-transition: all .3s ease;
+}.booNavigation .navContent li li a{
+	color:#333 !important;}
+.booNavigation .navContent ul li a:hover {
+	padding-left: 20px;
+}

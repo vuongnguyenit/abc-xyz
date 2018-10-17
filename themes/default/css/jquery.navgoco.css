@@ -1,0 +1,100 @@
+.main-block .nav, .main-block .nav ul, .main-block .nav li {
+	list-style: none;
+}
+.main-block .nav ul {
+	padding: 0;
+	margin: 0 0 0 18px;
+}
+.main-block .nav {
+	padding: 0px;
+	background:#fff;
+	margin: 0px;
+}
+.main-block .nav > li {
+	margin: 0;
+}
+.main-block .nav > li li {
+	margin: 2px 0;
+}
+.main-block .nav a {
+	color: #000;
+	display: block;
+	outline: none;
+	text-decoration: none;
+}
+.main-block .nav li > a > span {
+	float: right;
+	font-size: 19px;
+	font-weight: bolder;
+}
+.main-block .nav li > a:hover > span {
+	color: #000;
+}
+.main-block .nav li > a > span:after {
+	display: inline-block;
+	font: normal normal normal 14px/1 FontAwesome;
+	font-size: inherit;
+	text-rendering: auto;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	content: "\f067";
+}
+.main-block .nav li.open > a > span:after {
+	display: inline-block;
+	font: normal normal normal 14px/1 FontAwesome;
+	font-size: inherit;
+	text-rendering: auto;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	content: "\f068";
+}
+.main-block .nav a:hover, .main-block .nav li.active > a {
+	background-color: #90A4AE;
+	color: #000;
+}
+.main-block .nav > li.active > a {
+	background-color: #078b40;
+	font-weight:bold;
+}
+.main-block .nav > li.active {
+	color:#5f3916;
+	font-size:1.3em;
+	line-height:30px;
+	font-weight:bold;
+	padding-left:10px;
+}
+.main-block .nav li a {
+	font-size: 12px;
+	line-height: 18px;
+	padding: 7px 10px;
+	border-bottom: 1px dotted #dadada;
+}
+.main-block .nav li a:before {
+	display: inline-block;
+	font: normal normal normal 14px/1 FontAwesome;
+	font-size: inherit;
+	text-rendering: auto;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	content: "\f0da";
+	margin-right:5px;
+	color:#000;
+	font-size:0.8em;
+}
+.main-block .nav li li a:before {
+	content: "\f105";
+}
+.main-block .nav li li li a:before {
+	content:"";
+}
+.main-block .nav .open a {
+	font-weight:bold;
+}
+.main-block .nav .open li a {
+	font-weight:normal !important;
+}
+.main-block .nav > li > a {
+	font-size: 14px;
+	line-height: 25px;
+	padding: 4px 10px;
+}

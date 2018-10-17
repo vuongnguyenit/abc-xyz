@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{title}</title>
+</head>
+<style type="text/css">
+body {
+	font-family:verdana;
+	font-size:12px;
+	font-weight:normal;
+}
+div {
+	font-family:verdana;
+	font-size:12px;
+	font-weight:normal
+}
+td {
+	font-family:verdana;
+	font-size:12px;
+	font-weight:normal;
+}
+p {
+	font-family:verdana;
+	font-size:12px;
+	font-weight:normal
+}
+a {
+	color:#000;
+	text-decoration:none;
+}
+a:hover {
+	color:#000;
+	text-decoration:none;
+}
+</style>
+</head><body>
+<div style="clear:both; margin-bottom:10px; width:700px">Cám ơn quý khách đã mua sắm tại website <a style="color:#0066FF; text-decoration:underline" href="{HOST}" target="_blank">www.{SITE_NAME}</a> của chúng tôi, dưới đây là thông tin đơn đặt hàng số <strong>{order_code}</strong> để quý khách lưu :</div>
+<table cellspacing="1" cellpadding="1" border="1" width="700" bordercolor="#C9C9C9" style="border-collapse:collapse">
+  <thead>
+    <tr>
+      <th align="left" width="50%" bgcolor="#f5f5f5" style="padding:5px 9px 6px 9px;line-height:1em;color:#333"><strong>Thông tin người mua:</strong></th>
+      <th align="left" width="50%" bgcolor="#f5f5f5" style="padding:5px 9px 6px 9px;line-height:1em;color:#333"><strong>Thông tin người nhận:</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td valign="top" style="padding:7px 9px 9px 9px;color:#5d5d5d">{billing_name}<br />
+        {billing_address}<br />
+        {billing_ward},  {billing_district},  {billing_city}<br />
+        {billing_country}<br />
+        T: {billing_phone} | C: {billing_mobile}</td>
+      <td valign="top" style="padding:7px 9px 9px 9px;color:#5d5d5d">{shipping_name}<br />
+        {shipping_address}<br />
+        {shipping_ward},  {shipping_district},  {billing_city}<br />
+        {shipping_country}<br />
+        T: {shipping_phone} | C: {shipping_mobile}</td>
+    </tr>
+    <tr>
+      <td valign="top" style="padding:7px 9px 0px 9px;color:#5d5d5d" colspan="2">
+        <p><strong>Phương thức thanh toán: </strong></p>{payment_zone}
+        <p><strong>Ghi chú đơn hàng: </strong></p>{note_zone}
+        <p><strong>Thông tin xuất hóa đơn:</strong></p>{tax_zone}
+      </td>
+    </tr>
+    <tr align="left">
+	  <td colspan="2">
+        <table width="100%" border="0" bgcolor="#f5f5f5" bordercolor="#C9C9C9" cellpadding="0" cellspacing="0" style="border-collapse:collapse">
+          <tr height="25">
+            <td colspan="5"><table width="100%" border="0" cellpadding="1" cellspacing="1">
+                <tr>
+                  <td align="left">&nbsp;<strong>SỐ ĐƠN HÀNG: {order_code}</strong></td>
+                  <td align="right"><strong>Thời gian đặt hàng: {order_created}</strong>&nbsp;</td>
+                </tr>
+              </table></td>
+          </tr>
+          <tr align="center" height="20">
+            <td width="5%">STT</td>
+            <td>Sản phẩm</td>
+            <td width="15%">Đơn giá</td>
+            <td width="12%">Số lượng</td>
+            <td width="18%">Thành tiền</td>
+          </tr>
+          {odd_txt}	
+          {sub_txt}		
+          {tax_txt}
+          <tr align="left" height="20">
+            <td align="right" colspan="4" style="padding:3px 9px">Tổng thành tiền&nbsp;</td>
+            <td align="right" style="padding:3px 9px"><strong>{total}</strong>&nbsp;</td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<div style="clear:both; margin-top:10px; width:700px">Nếu quý khách muốn thay đổi vài chi tiết liên quan đến đơn hàng xin liên hệ bộ phận Sales của chúng tôi theo địa chỉ email: <a style="color:#0066FF; text-decoration:underline" href="mailto:{mailcontact}" target="_blank">{mailcontact}</a> (hoặc số điện thoại: {hotline1}).</div>
+<div style="clear:both; margin-top:10px; width:700px">Hy vọng quý khách đã thoải mái khi mua sắm tại website <a style="color:#0066FF; text-decoration:underline" href="{HOST}" target="_blank">www.{SITE_NAME}</a>.</div>
+<div style="clear:both; height:5px; width:700px"></div>
+<div style="clear:both; border-top:1px dashed #000000; width:700px; height:0"></div>
+<div style="clear:both; height:5px; width:700px"></div>
+<table border="0" cellpadding="0" cellspacing="0" width="700">
+  <tr>
+    <td align="left" width="280" style="font-weight:bold;"><a style="color:#0066FF; text-decoration:underline" href="{HOST}" target="_blank">www.{SITE_NAME}</a></td>
+    <td align="left" width="210" style="font-weight:bold;">KH ký nhận</td>
+    <td align="center" width="210" style="font-weight:bold;">NV giao hàng ký nhận</td>
+  </tr>
+  <tr>
+    <td align="left">Hotline: {hotline1}</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+  <tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+</body>
+</html>

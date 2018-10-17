@@ -1,0 +1,142 @@
+body {	
+	background-color:#ffffff;
+	font-family:verdana;
+	font-size:11px;
+	text-align:center;
+}
+#space5
+{
+	padding-left:0px;
+	padding-right:5px;
+}
+h3{
+	text-align:left;
+	font-size:18px;
+	color:#333;
+	font-weight:normal;
+	font-family:arial;
+}
+
+p,li{
+	text-align:left;
+	font-weight:normal;
+	font-size:13px;
+	line-height:150%;
+}
+p.ie
+{
+	font-weight:bold;
+}
+td
+{
+	font-family:verdana;
+	font-size:11px;
+	font-weight:normal;
+	text-decoration:none;
+	text-align:left;
+}
+a:link,a:visited
+{
+color:#990000;
+font-family:verdana;
+font-size:11px;
+}
+a:hover
+{
+color:#FF9900;
+font-family:verdana;
+font-size:11px;
+}
+.boxGrey {
+padding-left: 15px; 
+padding-right: 10px; 
+padding-top: 10px; 
+padding-bottom: 10px;
+background:url(../images/bglogin.gif);
+color:#333333;
+font-size:11px;
+font-family:verdana;
+}
+.header4 {
+	FONT-WEIGHT: bold; 
+	FONT-SIZE: 22px; 
+	COLOR: #cc0000; 
+	FONT-FAMILY:arial;
+	padding-top:25px;
+}
+
+.txtdam
+{
+	font-size:11px;
+	font-family:verdana;
+	font-weight:normal;
+}
+form
+{
+	margin:0px;
+	padding:0px;
+}
+.hide { display:none; }
+.show { display:block; }
+.boxRed
+{
+	border-left:1px solid #d94e0a; 
+	border-right:1px solid #d94e0a; 
+	border-bottom:1px solid #d94e0a; 
+	padding-left: 4px; 
+	padding-right: 4px; 
+	padding-top: 1px; 
+	padding-bottom: 1px;
+	background-image:url(../images/bg.jpg);
+	background-repeat:repeat-x;
+	height:28px;
+	color:#FFFFFF;
+	font-size:13px;
+	font-family:verdana;
+	font-weight:700;
+ }
+.img
+{
+	border:0px solid #006688;
+}
+.nd1
+{
+	border:solid 1px #006688;
+	font-family:verdana;
+	font-size:11px;
+	font-weight:normal;
+	height:21px;
+	!height:16px;
+	width:150px;
+	padding-left:4px;	
+	padding-top:3px;
+	background-color:#EEEEE8;
+}
+.butt
+ {
+ 	BORDER-RIGHT: #000080 1px solid; 
+	BORDER-TOP: #000080 1px solid; FONT-SIZE: 11px; 
+	BORDER-LEFT: #000080 1px solid; COLOR: #000000; 
+	BORDER-BOTTOM: #000080 1px solid; 
+	FONT-FAMILY: Verdana, verdana, Helvetica, sans-serif
+ }
+ .txtdo
+ {
+	 color:#FF0000;
+	 font-family:verdana;
+	 font-size:11px;
+	 padding-left:5px;
+	 text-align:left;
+	 vertical-align:text-bottom;
+ }
+div#divposition
+ {
+ 	border:0px solid;
+	text-align:left;
+	margin:0 auto;
+	position:relative;
+	top:80px;
+	moz-opacity:0.8;
+	opacity:0.8;
+	filter:alpha(opacity=80);
+ }

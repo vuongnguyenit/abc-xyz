@@ -1,0 +1,24 @@
+#AuthType Basic
+#AuthName "chauruachen.pns.vn"
+#AuthUserFile /home/vuongnt777/web/chauruachen.pns.vn/private/.htpasswd
+#Require valid-user
+
+RewriteEngine on
+Options -Indexes
+
+RewriteRule (.*)\.jsp$ $1.php
+
+# DENY ACCESS TO PROTECTED SERVER FILES - .htaccess, .htpasswd and all file names starting with dot
+RedirectMatch 403 /\..*$
+
+#<FilesMatch "^(login\.php|index\.php)">
+#Order allow,deny
+#Deny from all
+#Allow from 183.80.45.189
+#</FilesMatch>
+
+# REQUEST METHODS FILTERED
+#RewriteEngine On
+#RewriteCond %{REQUEST_METHOD} ^(HEAD|TRACE|DELETE|TRACK|DEBUG) [NC]
+#RewriteRule ^(.*)$ - [F,L]
+
