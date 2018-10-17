@@ -152,38 +152,23 @@ if ($isEdit) {
     'class'  => 'validate',
 ]);
 ?>
-<?php if ($isEdit || $isInsert) { ?>
+<?php if($isInsert) : ?>
+<?php endif; ?>
+<?php if ($isEdit) : ?>
     <!-- form -->
     <div id="panelForm" class="panelForm">
         <table id="mainTable" cellpadding="0" cellspacing="0">
             <?php echo $dbf->returnTitleMenu($titleMenu) ?>
             <tr>
-                <td colspan="4" class="txtdo"
-                    align="center"><?php echo $msg ?></td>
+                <td colspan="4" class="txtdo" align="center"><?php echo $msg ?></td>
             </tr>
             <tr>
                 <td class="boxGrey"><?php echo $col['name'] ?></td>
-                <td class="boxGrey2"><input name="name" id="name" type="text"
-                                            class="nd3"
-                                            value="<?php echo isset($name) && !empty($name) ? $name : '' ?>"
-                                            disabled/></td>
+                <td class="boxGrey2">
+                    <input name="name" id="name" type="text" class="nd3" value="<?php echo isset($name) && !empty($name) ? $name : '' ?>" disabled/>
+                </td>
             </tr>
-            <?php if (in_array($type, [
-                'banking',
-                'note',
-                'header',
-                'footer',
-                'footer1',
-                'footer2',
-                'footer3',
-                'contact',
-                'why_choose_us',
-                'help',
-                'footer_menu',
-                'pd_desc',
-                'googlemap',
-                'mainmenu',
-            ])) : ?>
+            <?php if ($type == 'ckeditor') : ?>
                 <tr>
                     <td class="boxGrey" valign="top">Nội dung</td>
                     <td class="boxGrey2">
@@ -192,14 +177,9 @@ if ($isEdit) {
                         <script type="text/javascript"
                                 src="../plugins/editors2/ckfinder/ckfinder.js"></script>
                         <div id="tab-container-1">
-                            <ul id="tab-container-1-nav">
-                                <li><a href="#tieng-viet"><span><!--Tiếng Việt--></span></a>
-                                </li>
-                                <!--<li><a href="#tieng-anh"><span>Tiếng Anh</span></a></li>-->
-                            </ul>
                             <div class="clear" style="clear:both;"></div>
                             <div class="tab"
-                                 id="tieng-viet"><?php #echo $ckeditor->doDisplay('content', (isset($vi[0]->content) && !empty($vi[0]->content) ? stripslashes($vi[0]->content) : ''), '100%', '200', 'Default') ?>
+                                 id="tieng-viet">
                                 <textarea name="content" id="content" cols="75"
                                           rows="20"><?php echo (isset($vi[0]->content) && !empty($vi[0]->content)) ? stripslashes($vi[0]->content) : '' ?></textarea>
                                 <script type="text/javascript">
@@ -217,21 +197,10 @@ if ($isEdit) {
                                     CKFinder.setupCKEditor(editor, '../');
                                 </script>
                             </div>
-                            <!--<div class="tab" id="tieng-anh"><?php #echo $ckeditor->doDisplay('content_en', (isset($en[0]->content) && !empty($en[0]->content) ? stripslashes($en[0]->content) : ''), '100%', '200', 'Default') ?></div>-->
                         </div>
-                        <script type="text/javascript">var tabber1 = new Yetii({id: 'tab-container-1'});</script>
                     </td>
                 </tr>
-            <?php elseif (in_array($type, [
-                'title',
-                'keywords',
-                'description',
-                'date1',
-                'ga',
-                'fbcode',
-                'addthis',
-                'histats',
-            ])) : ?>
+            <?php elseif ($type == 'textarea') : ?>
                 <tr>
                     <td class="boxGrey">Nội dung</td>
                     <td class="boxGrey2"><textarea name="content" class="nd3"
@@ -240,7 +209,7 @@ if ($isEdit) {
                             <?php echo isset($vi[0]->content) && !empty($vi[0]->content) ? $vi[0]->content : '' ?></textarea>
                     </td>
                 </tr>
-            <?php elseif (in_array($type, ['logo', 'banner'])) : ?>
+            <?php elseif ($type == 'file') : ?>
                 <tr>
                     <td class="boxGrey">Nội dung</td>
                     <td class="boxGrey2">
@@ -285,8 +254,8 @@ if ($isEdit) {
         </table>
     </div>
     <!-- end Form-->
-<?php } ?>
-<?php if (empty($action)) {
+<?php endif; ?>
+<?php if (!$isEdit && !$isInsert) {
     echo $dbf->returnTitleMenuTable($titleMenu);
     $url      = 'setting.php?';
     $PageSize = 50;
@@ -297,7 +266,7 @@ if ($isEdit) {
             <table id="panelTable" cellspacing="0" cellpadding="0">
                 <tr>
                     <td class="cellAction1">
-                        <button>Thêm</button>
+                        <input type="button" onclick="location.href='/_pnsdotvn/setting.php?insert';" value="Thêm" />
                     </td>
                     <td class="cellAction">
                         <button>Xóa</button>
