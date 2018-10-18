@@ -106,4 +106,45 @@ jQuery(document).ready(function ($) {
             }
         });
     });
+    if($('#type').length) {
+        $('.content-label').hide();
+        $('.content').hide();
+        var renderCkeditor = function(type) {
+            if(type == 'ckeditor') {
+                var editor = CKEDITOR.replace(type, {
+                    language: 'vi',
+                    toolbar: 'Default',
+                    height: '300px',
+                    width: '100%',
+                    filebrowserBrowseUrl: '../../plugins/editors2/ckfinder/ckfinder.html',
+                    filebrowserImageBrowseUrl: '../../plugins/editors2/ckfinder/ckfinder.html?type=Images',
+                    filebrowserFlashBrowseUrl: '../../plugins/editors2/ckfinder/ckfinder.html?type=Flash',
+                    filebrowserImageUploadUrl: '../../plugins/editors2/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Images',
+                    filebrowserFlashUploadUrl: '../../plugins/editors2/ckfinder/core/connector/php/connector.php?command=QuickUpload&type=Flash'
+                });
+                CKFinder.setupCKEditor(editor, '../');
+            } else {
+                CKEDITOR.instances['ckeditor'].destroy()
+                $('#ckeditor').hide();
+            }
+        };
+        $('#type').on('change', function () {
+            $('.content-label').show();
+            if($(this).val() != '') {
+                $('.content').hide();
+                $('.content').removeAttr('name');
+                $('#' + $(this).val()).show();
+                $('#' + $(this).val()).attr('name', 'content');
+            } else {
+                $('.content-label').hide();
+            }
+            renderCkeditor($(this).val());
+        });
+        $('#subinsert').on('click', function () {
+            if($('#type').find('option:selected').val() == '') {
+                alert('Vui lòng chọn type!');
+                return false;
+            }
+        });
+    }
 });
