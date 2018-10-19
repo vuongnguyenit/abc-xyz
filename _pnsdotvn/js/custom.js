@@ -140,11 +140,42 @@ jQuery(document).ready(function ($) {
             }
             renderCkeditor($(this).val());
         });
-        $('#subinsert').on('click', function () {
-            if($('#type').find('option:selected').val() == '') {
-                alert('Vui lòng chọn type!');
-                return false;
+        $("form#frm").validate({
+            rules: {
+                name: "required",
+                position: "required",
+                type: "required"
+            },
+            // Specify validation error messages
+            messages: {
+                name: "Vui lòng nhập tên",
+                position: "Vui lòng nhập vị trí",
+                type: "Vui lòng chọn type"
+            },
+            // Make sure the form is submitted to the destination defined
+            // in the "action" attribute of the form when valid
+            submitHandler: function (form) {
+                form.submit();
             }
         });
     }
+    $('.checkAll').on('click', function () {
+        if($(this).is(':checked')) {
+            $('form#frm input[name="id[]"]').remove();
+            $(".checkDelete").each(function () {
+                $("form#frm").append('<input type="hidden" value="'+$(this).val()+'" name="id[]">');
+            });
+        } else {
+            $('form#frm input[name="id[]"]').remove();
+        }
+    });
+    $(".checkDelete").on('click', function () {
+        if($(this).is(':checked')) {
+            $("form#frm").append('<input type="hidden" value="'+$(this).val()+'" name="id[]">');
+        }
+    });
+    $('.deleleAction a').on('click', function () {
+        $("form#frm").append('<input type="hidden" value="delete" name="delete">');
+        $('form#frm').submit();
+    });
 });

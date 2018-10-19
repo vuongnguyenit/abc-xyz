@@ -7,7 +7,7 @@ require_once(dirname(dirname(__FILE__)) . '/plugins/upload/class.upload.php');
 $col       = [
     'id'       => 'Id',
     'name'     => 'Đề mục',
-    'type'     => 'Loại',
+    'type'     => 'Vị trí',
     'created'  => 'Ngày tạo',
     'modified' => 'Ngày sửa',
     'status'   => 'Trạng thái',
@@ -18,7 +18,6 @@ $action    = !empty($_GET['action']) ? $_GET['action'] : NULL;
 
 if ($subUpdate) {
     $err = 0;
-
     // BEGIN: UPLOAD PICTURE
     if (isset($_FILES['content']['name']) && is_array($_FILES['content']['name']) && count($_FILES['content']['name']) > 0) {
         $dir = $dbf->pnsdotvn_get_dir_upload(3);
@@ -95,15 +94,55 @@ if ($subUpdate) {
         $err = 1;
     }
 }
-if($subInsert){
+if(isset($_POST['insert'])){
     if(!empty($_POST['type'])) {
         if($_POST['type'] == 'file') {
-
+            if (isset($_FILES['content']['name'])  && count($_FILES['content']['name']) > 0) {
+                $dir = $dbf->pnsdotvn_get_dir_upload(3);
+                $uploaddir = MOD_ROOT_URL . $dir . '/';
+                $content = '/media/images/others/'. $dir . '/' . $_FILES['content']['name'];
+                $uploadfile = $uploaddir . basename($_FILES['content']['name']);
+                move_uploaded_file($_FILES['content']['tmp_name'], $uploadfile);
+            }
         } else {
-            echo "<pre>";
-            print_r($_POST);
-            die();
+            $content = $_POST['content'];
         }
+        $fields = [
+            'name',
+            'type',
+            'display',
+            'status',
+            'created',
+            'created_by',
+            'form_type',
+        ];
+        $created = date('Y-m-d H:i:s');
+        $status = isset($_POST['status']) ? $_POST['status'] : 0;
+        $values = [
+            @$_POST['name'],
+            @$_POST['position'],
+            $status,
+            $status,
+            $created,
+            '1',
+            $_POST['type'],
+        ];
+        $idSetting = $dbf->insertData(prefixTable . 'setting', $fields, $values);
+        $fields = [
+            'id',
+            'lang',
+            'content',
+            'default_value'
+        ];
+        $values = [
+            $idSetting,
+            'vi-VN',
+            $content,
+            ''
+        ];
+        $dbf->insertData(prefixTable . 'setting_desc', $fields, $values);
+        $msg = "Thêm dữ liệu thành công!";
+        header('location: setting.php');
     }
 
 }
@@ -120,19 +159,28 @@ if ($isEdit) {
         $vi = $dbf->getArray(prefixTable . 'setting_desc', 'id = "' . $id . '" and lang = "vi-VN"', '', 'stdObject');
     }
 } ?>
-
 <?php $dbf->FormUpload('frm', [
     'action' => '',
     'method' => 'post',
     'class'  => 'validate',
 ]);
 ?>
+<style type="text/css">
+    td.cellAction1 a {
+        padding: 3px 10px;
+        text-decoration: none;
+        border: 1px solid;
+        margin-left: 10px;
+        margin-top: -10px;
+    }
+</style>
 <script type="text/javascript" src="js/yetii.js"></script>
 <script type="text/javascript" src="../themes/default/js/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="js/jquery.validate.js"></script>
 <script type="text/javascript" src="../plugins/editors2/ckeditor/ckeditor.js"></script>
 <script type="text/javascript" src="../plugins/editors2/ckfinder/ckfinder.js"></script>
 <script type="text/javascript" src="js/custom.js"></script>
+
 <?php if($isInsert) : ?>
     <div id="panelForm" class="panelForm">
         <table id="mainTable" cellpadding="0" cellspacing="0">
@@ -147,10 +195,16 @@ if ($isEdit) {
                 </td>
             </tr>
             <tr>
-                <td class="boxGrey">Type</td>
+                <td class="boxGrey">Vị trí</td>
+                <td class="boxGrey2">
+                    <input name="position" id="position" type="text" class="nd3" value=""/>
+                </td>
+            </tr>
+            <tr>
+                <td class="boxGrey">Form type</td>
                 <td class="boxGrey2">
                     <select name="type" id="type">
-                        <option value="">--------------Chọn type-------------</option>
+                        <option value="">-------Chọn type-------</option>
                     <?php
                     $sql = 'SELECT DISTINCT form_type FROM '.prefixTable . "setting";
                     $result = $dbf->executeSql($sql, TRUE);
@@ -187,6 +241,7 @@ if ($isEdit) {
                     Kích hoạt?
                 </td>
             </tr>
+            <input type="hidden" name="insert" id="insert" value="1"  />
             <tr>
                 <td class="boxGrey"></td>
                 <td height="1" align="center" class="boxGrey2">
@@ -208,6 +263,12 @@ if ($isEdit) {
                 <td class="boxGrey"><?php echo $col['name'] ?></td>
                 <td class="boxGrey2">
                     <input name="name" id="name" type="text" class="nd3" value="<?php echo isset($name) && !empty($name) ? $name : '' ?>" disabled/>
+                </td>
+            </tr>
+            <tr>
+                <td class="boxGrey">Vị trí</td>
+                <td class="boxGrey2">
+                    <input name="position" id="position" type="text" class="nd3" value="<?= isset($name) && !empty($name) ? $name : '' ?>"/>
                 </td>
             </tr>
             <?php if ($form_type == 'ckeditor') : ?>
@@ -254,7 +315,7 @@ if ($isEdit) {
                     <td class="boxGrey">Nội dung</td>
                     <td class="boxGrey2">
                         <?php echo isset($vi[0]->content) && !empty($vi[0]->content) ? '<img src="resize.php?from=..' . $vi[0]->content . '&w=120&h=120" style="margin-bottom:5px;" /><br />' : '' ?>
-                        <input type="file" name="picture[]" id="picture"
+                        <input type="file" name="content[]" id="picture"
                                style="width:250px;"/>
                         <input type="hidden" name="picture_name[]"
                                id="picture_name"
@@ -297,19 +358,32 @@ if ($isEdit) {
 <?php endif; ?>
 <?php if (!$isEdit && !$isInsert) {
     echo $dbf->returnTitleMenuTable($titleMenu);
+    if(isset($_POST['delete']) && !empty($_POST['id'])) {
+        $ids = $_POST['id'];
+        if(count($ids) > 1) {
+            $dbf->deleteData(prefixTable .'setting', 'id', $ids);
+            $dbf->deleteData(prefixTable .'setting_desc', 'id', $ids);
+        } else {
+            $id = end($ids);
+            $dbf->deleteData(prefixTable .'setting', 'id', $id);
+            $dbf->deleteData(prefixTable .'setting_desc', 'id', $id);
+        }
+        $msg = "Dã xóa thành công " . count($ids) . ' item';
+        echo '<span class="txtdo" align="center">'.$msg.'</span>';
+    }
     $url      = 'setting.php?';
     $PageSize = 50;
-    $mang     = $dbf->paging(prefixTable . 'setting', 'display = 1', 'id', $url, $PageNo, $PageSize, $Pagenumber, $ModePaging);
+    $mang     = $dbf->paging(prefixTable . 'setting', 'display = 1', 'id desc', $url, $PageNo, $PageSize, $Pagenumber, $ModePaging);
     ?>
     <div id="panelAction" class="panelAction">
         <div class="panelActionContent" style="float: left; padding: 5px">
             <table id="panelTable" cellspacing="0" cellpadding="0">
                 <tr>
                     <td class="cellAction1">
-                        <input type="button" onclick="location.href='/_pnsdotvn/setting.php?insert';" value="Thêm" />
+                        <a href="/_pnsdotvn/setting.php?insert">Thêm</a>
                     </td>
-                    <td class="cellAction">
-                        <button>Xóa</button>
+                    <td class="cellAction1 deleleAction">
+                        <a href="javascript:void(0);">Xóa</a>
                     </td>
                 </tr>
             </table>
@@ -318,6 +392,7 @@ if ($isEdit) {
     <div id="panelView" class="panelView">
         <?php $dbf->normalView($col, 'setting.php', $mang, $statusAction, '&caturl=' . $iscatURL) ?>
     </div>
+
     <!-- end view-->
 <?php } ?>
 <?php ob_end_flush() ?>

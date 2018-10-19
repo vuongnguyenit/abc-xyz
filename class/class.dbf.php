@@ -6,7 +6,7 @@ class DBFunction extends HTML {
 
     protected $connect = NULL;
 
-    protected $_newConnect = NULL;
+    protected $_dbh = NULL;
 
     /**
      * DBFunction constructor.
@@ -17,7 +17,7 @@ class DBFunction extends HTML {
             mysql_select_db(DBNAME, $this->connect);
             $dsn = "mysql:host=" . HOSTADDRESS . ";dbname=" . DBNAME;
             // create a PDO connection with the configuration data
-            $this->_newConnect = new PDO($dsn, DBACCOUNT, DBPASSWORD);
+            $this->_dbh = new PDO($dsn, DBACCOUNT, DBPASSWORD);
         }
     }
 
@@ -142,11 +142,63 @@ class DBFunction extends HTML {
         }
     }
 
+    /**
+     * @param $tbName
+     * @param $fields
+     * @param $values
+     *
+     * @return string
+     * @throws \Exception
+     */
     function insertData($tbName, $fields, $values) {
-
-        
+        try {
+            $varFields = array_map(function ($val) {
+                return ':' . $val;
+            }, $fields);
+            $values = array_combine($varFields, $values);
+            $sql = "INSERT INTO {$tbName} (" . implode(',', $fields) . ") 
+                          VALUES (" . implode(',', $varFields) . ")";
+            $stmt = $this->_dbh->prepare($sql);
+            $stmt->execute($values);
+            return $this->_dbh->lastInsertId();
+        } catch (Exception $e) {
+            throw $e;
+        }
     }
 
+    function updateData($tbName, $conditions = [], $values) {
+        try {
+
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
+
+    /**
+     * @param $tbName
+     * @param $field
+     * @param array $values
+     *
+     * @return bool
+     * @throws \Exception
+     */
+    function deleteData($tbName, $field, $values = []) {
+        try {
+            $sql = "DELETE FROM {$tbName} WHERE {$field} ";
+            if (is_array($values) && count($values) > 1) {
+                $sql  .= 'IN (' . implode(',', $values) . ')';
+                $stmt = $this->_dbh->prepare($sql);
+                return $stmt->execute();
+            }
+            if (!is_array($values) && !empty($values)) {
+                $sql  .= '=:' . $field;
+                $stmt = $this->_dbh->prepare($sql);
+                return $stmt->execute([':' . $field => $values]);
+            }
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
     /*Phuong thuc cap nhat du lieu vao bang
     -----------------------------------------------------------------*/
     function updateTable($tbName, $arrayValue, $condition, $debug = FALSE) {
@@ -292,12 +344,13 @@ class DBFunction extends HTML {
      */
     public function executeSql($sql, $all = FALSE) {
         try {
-            $query  = $this->_newConnect->prepare($sql);
-            $query->execute();
+            $stmt = $this->_dbh->prepare($sql);
+            $stmt->execute();
             if ($all) {
-                $result = $query->fetchAll();
-            } else {
-                $result = $query->fetch();
+                $result = $stmt->fetchAll();
+            }
+            else {
+                $result = $stmt->fetch();
             }
             return $result;
         } catch (PDOException $e) {

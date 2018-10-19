@@ -2178,6 +2178,10 @@ class PNS_DOT_VN extends BusinessLogic {
 					</div>';
                     break;
                 case 'home' :
+                    $html .= '<section class="last-news">';
+                    $html .= mb_convert_encoding($d->footer_html, "UTF-8");
+                    $html .= '</section>';
+                    
                     $html .= '<section class="last-news">
 					  <div class="title mb10 box-line"><span>Tin mới</span></div>';
                     foreach ($a['list'] as $k => $v) {
