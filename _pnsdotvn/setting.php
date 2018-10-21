@@ -76,8 +76,21 @@ if ($subUpdate) {
         $data['status']      = isset($_POST['status']) && $_POST['status'] == 1 ? (int) $_POST['status'] : 0;
         $data['modified']    = date('Y-m-d H:i:s');
         $data['modified_by'] = 1;
-
-        $value['vi-VN']['content'] = isset($picture) && !empty($picture) ? $picture : addslashes($dbf->compressHtml(trim($_POST['content'])));
+        if (isset($_FILES['content']['name'])  && count($_FILES['content']['name']) > 0) {
+            $oldData = $dbf->getArray(prefixTable . 'setting_desc', 'id = "' . $_id . '" and lang = "vi-VN"', '', 'stdObject');
+            $oldData = end($oldData);
+            $dir = $dbf->pnsdotvn_get_dir_upload(3);
+            $uploaddir = MOD_ROOT_URL . $dir . '/';
+            $dir_writable = substr(sprintf('%o', fileperms($uploaddir)), -4);
+            if ( $dir_writable != '0777') {
+                chmod($uploaddir, 0777);
+            }
+            $value['vi-VN']['content'] = '/media/images/others/'. $dir . '/' . $_FILES['content']['name'];
+            $uploadfile = $uploaddir . basename($_FILES['content']['name']);
+            move_uploaded_file($_FILES['content']['tmp_name'], $uploadfile);
+        } else {
+            $value['vi-VN']['content'] = addslashes($dbf->compressHtml(trim($_POST['content'])));
+        }
 
         $affect = $dbf->updateTable(prefixTable . 'setting', $data, 'display = 1 AND id = ' . $_id);
         if ($affect > 0) {
@@ -86,7 +99,8 @@ if ($subUpdate) {
                 $dbf->updateTable(prefixTable . 'setting_desc', $value[$lang], 'lang = "' . $lang . '" and id = ' . $_id);
             }
 
-            $msg = 'Đã cập nhật (' . $affect . ') dòng trong cơ sở dữ liệu';
+            $_SESSION['message'] = 'Đã cập nhật (' . $affect . ') dòng trong cơ sở dữ liệu';
+            header('location: setting.php');
         }
     }
     else {
@@ -141,7 +155,7 @@ if(isset($_POST['insert'])){
             ''
         ];
         $dbf->insertData(prefixTable . 'setting_desc', $fields, $values);
-        $msg = "Thêm dữ liệu thành công!";
+        $_SESSION['message'] = "Thêm dữ liệu thành công!";
         header('location: setting.php');
     }
 
@@ -315,7 +329,7 @@ if ($isEdit) {
                     <td class="boxGrey">Nội dung</td>
                     <td class="boxGrey2">
                         <?php echo isset($vi[0]->content) && !empty($vi[0]->content) ? '<img src="resize.php?from=..' . $vi[0]->content . '&w=120&h=120" style="margin-bottom:5px;" /><br />' : '' ?>
-                        <input type="file" name="content[]" id="picture"
+                        <input type="file" name="content" id="picture"
                                style="width:250px;"/>
                         <input type="hidden" name="picture_name[]"
                                id="picture_name"
@@ -370,6 +384,10 @@ if ($isEdit) {
         }
         $msg = "Dã xóa thành công " . count($ids) . ' item';
         echo '<span class="txtdo" align="center">'.$msg.'</span>';
+    }
+    if(!empty($_SESSION['message'])) {
+        echo '<span class="txtdo" align="center">'.$_SESSION['message'].'</span>';
+        unset($_SESSION['message']);
     }
     $url      = 'setting.php?';
     $PageSize = 50;
