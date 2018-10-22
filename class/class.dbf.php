@@ -77,6 +77,45 @@ class DBFunction extends HTML {
         }
     }
 
+    /**
+     * @param $table
+     * @param $conditions
+     * @param array $orderBys
+     * @param null $limit
+     * @param null $offset
+     *
+     * @return bool
+     * @throws \Exception
+     */
+    function selectData($table, $conditions, $orderBys = [], $limit = NULL, $offset = NULL) {
+        try {
+            $condition = '';
+            if ($conditions) {
+                $condition = ' WHERE ';
+                foreach ($conditions as $con) {
+                    $condition .= $con['field'] . $con['type'] . $con['value'] . ' ';
+                }
+            }
+            $orderby = [];
+            if ($orderBys) {
+                foreach ($orderBys as $con) {
+                    $orderby[] = $con['field'] . $con['type'];
+                }
+            }
+            $range = '';
+            if (!is_null($limit) && !is_null($offset)) {
+                $range = ' Limit ' . $limit . ', ' . $offset . ' ';
+            }
+            $sql = 'SELECT * FROM ' . $table . ' ' . $condition . ' ' . $range . ' ' . implode(',', $orderby);
+            $stmt = $this->_dbh->prepare($sql);
+            $stmt->execute();
+            $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+            return $result;
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
+
     //Join 2 bang
     function getDynamicJoin($tbName1, $tbName2, $arrayNewName = NULL, $typejoin = "inner join", $condition, $orderby, $on, $debug = FALSE) {
         try {

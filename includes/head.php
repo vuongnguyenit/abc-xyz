@@ -40,7 +40,9 @@ $html =
 <link rel="apple-touch-icon" href="' . IMAGES_PATH . 'favicon.ico" />
 <link rel="icon" type="image/x-icon" href="' . IMAGES_PATH . 'favicon.ico" />
 <link rel="shortcut icon" type="image/x-icon" href="' . IMAGES_PATH . 'favicon.ico" />
+<link rel="stylesheet" type="text/css" href="' . CSS_PATH . 'bootstrap.css" media="screen" />
 <link rel="stylesheet" type="text/css" href="' . CSS_PATH . 'master.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="' . CSS_PATH . 'custom.css" media="screen" />
 <script type="text/javascript" src="' . JS_PATH . 'jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="' . JS_PATH . 'jquery-migrate-1.2.1.min.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -52,6 +54,7 @@ $html =
 <script type="text/javascript" src="' . JS_PATH . 'jquery.cart.js"></script>
 <script type="text/javascript" src="' . JS_PATH . 'functions_main.js"></script>
 <script type="text/javascript" src="' . JS_PATH . 'jquery.autocomplete.js"></script>
+<script type="text/javascript" src="' . JS_PATH . 'custom.js"></script>
 <script type="text/javascript"> var lang = \'' . $def->code . '\'; </script>
 <script type="text/javascript">$(function(){ setAutoComplete(); });
 $(document).ready(function() {

@@ -1,0 +1,13 @@
+#price-product .text {
+  width: 25%;
+  height: 30px;
+}
+#price-product #btnSearch {
+  float: none;
+}
+#price-product .list {
+    height: 33px;
+    border: 1px solid #d0dce7;
+    border-radius: 3px;
+    margin-left: 3px;
+}
