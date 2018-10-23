@@ -8,7 +8,6 @@ if (! defined('PHUONG_NAM_SOLUTION'))
 $html =
 '<link rel="profile" href="http://gmpg.org/xfn/11" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta charset="UTF-8">
 <title>' . $def->title . '</title>
 <meta name="description" content="' . $def->description . '" />
 <meta name="keywords" content="' . $def->keywords . '" />

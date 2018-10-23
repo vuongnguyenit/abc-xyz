@@ -15,7 +15,7 @@ class DBFunction extends HTML {
         if (empty($this->connect)) {
             $this->connect = mysql_connect(HOSTADDRESS, DBACCOUNT, DBPASSWORD);
             mysql_select_db(DBNAME, $this->connect);
-            $dsn = "mysql:host=" . HOSTADDRESS . ";dbname=" . DBNAME;
+            $dsn = "mysql:host=" . HOSTADDRESS . ";dbname=" . DBNAME .';charset=utf8';
             // create a PDO connection with the configuration data
             $this->_dbh = new PDO($dsn, DBACCOUNT, DBPASSWORD);
         }
@@ -89,24 +89,34 @@ class DBFunction extends HTML {
      */
     function selectData($table, $conditions, $orderBys = [], $limit = NULL, $offset = NULL) {
         try {
-            $condition = '';
+            $where = '';
             if ($conditions) {
-                $condition = ' WHERE ';
+                $where = ' WHERE ';
+                $condition = [];
                 foreach ($conditions as $con) {
-                    $condition .= $con['field'] . $con['type'] . $con['value'] . ' ';
+                    if(is_string($con['value'])) {
+                        $condition[]= $con['field'] . $con['type'] . "'" . $con['value'] . "'" . ' ';
+                    } else {
+                        $condition[]= $con['field'] . $con['type'] . $con['value'] . ' ';
+                    }
                 }
+                $where .= implode(' AND ', $condition);
             }
-            $orderby = [];
+
+            $order = '';
             if ($orderBys) {
+                $order = ' ORDER BY ';
+                $orderBy = [];
                 foreach ($orderBys as $con) {
-                    $orderby[] = $con['field'] . $con['type'];
+                    $orderBy[] = $con['field'] . $con['type'];
                 }
+                $order .= implode(',', $orderBy);
             }
             $range = '';
             if (!is_null($limit) && !is_null($offset)) {
                 $range = ' Limit ' . $limit . ', ' . $offset . ' ';
             }
-            $sql = 'SELECT * FROM ' . $table . ' ' . $condition . ' ' . $range . ' ' . implode(',', $orderby);
+            $sql = 'SELECT * FROM ' . $table . ' ' . $where . ' ' . $range . ' ' . $order;
             $stmt = $this->_dbh->prepare($sql);
             $stmt->execute();
             $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);

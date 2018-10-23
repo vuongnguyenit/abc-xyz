@@ -1,13 +1,14 @@
 <?php
+
 if (!defined('PHUONG_NAM_SOLUTION')) {
     header('Location: /errors/403.shtml');
     die();
 }
-
-$html = $pns->buildBreadcrumb($def, $_LNG);
-$pns->showHTML($html);
+require_once 'action/class.pagination.php';
+// $html = $pns->buildBreadcrumb($def, $_LNG);
+// $pns->showHTML($html);
 $categories = $pns->getDynamic(prefixTable . 'category', ' parentid = 0');
-$brand = $pns->getDynamic(prefixTable . 'brand');
+$brand      = $pns->getDynamic(prefixTable . 'brand');
 
 ?>
 
@@ -55,7 +56,7 @@ $brand = $pns->getDynamic(prefixTable . 'brand');
                     <?php
                     if ($dbf->totalRows($brand)) {
                         while ($row = $dbf->nextObject($brand)) {
-                            $selected = $categoryValue == $row->id ? 'selected' : '';
+                            $selected = $brandValue == $row->id ? 'selected' : '';
                             echo "<option {$selected} value='{$row->id}'>{$row->name}</option>";
                         }
                     }
@@ -76,43 +77,45 @@ else {
     $page = (int) $_GET['page'];
 }
 $numPerPage = 10;
-$offset = ($page - 1) * $numPerPage;
+$offset     = ($page - 1) * $numPerPage;
 $conditions = [];
 if (isset($_GET['code']) && $_GET['code'] != '') {
     $conditions[] = [
         'field' => 'code',
-        'type' => '=',
+        'type'  => '=',
         'value' => $_GET['code'],
     ];
 }
 if (isset($_GET['name']) && $_GET['name'] != '') {
     $conditions[] = [
         'field' => 'name',
-        'type' => ' like ',
+        'type'  => ' like ',
         'value' => '%' . $_GET['name'] . '%',
     ];
 }
 if (isset($_GET['category']) && $_GET['category'] != '') {
     $conditions[] = [
         'field' => 'cid',
-        'type' => '=',
+        'type'  => '=',
         'value' => $_GET['category'],
     ];
 }
 if (isset($_GET['brand']) && $_GET['brand'] != '') {
     $conditions[] = [
         'field' => 'brand',
-        'type' => '=',
+        'type'  => '=',
         'value' => $_GET['brand'],
     ];
 }
-$searchData = $dbf->selectData(prefixTable . 'product', $conditions, [], $offset, $numPerPage);
+$searchDataTotal = $dbf->selectData(prefixTable . 'product', $conditions);
+$searchDataTotal = count($searchDataTotal);
+$searchData      = $dbf->selectData(prefixTable . 'product', $conditions, [], $offset, $numPerPage);
 ?>
 <div class="manufacturer mt10">
     <div class="block">
         <table class="table" width="100%">
-            <?php if($searchData) : ?>
-                <thead>
+            <?php if ($searchData) : ?>
+                <thead style="font-weight: bold">
                 <tr>
                     <th>Hình ảnh</th>
                     <th>Mã sản phẩm</th>
@@ -122,11 +125,48 @@ $searchData = $dbf->selectData(prefixTable . 'product', $conditions, [], $offset
                 </thead>
                 <tbody>
                 <?php foreach ($searchData as $row): ?>
+                    <?php
+                    $conditions = [
+                        [
+                            'field' => 'id',
+                            'type'  => '=',
+                            'value' => $row['id'],
+                        ],
+                    ];
+                    $pDesc      = $dbf->selectData(prefixTable . 'product_desc', $conditions);
+                    if ($pDesc) {
+                        $pDesc = reset($pDesc);
+                        $pDesc = $pDesc['rewrite'];
+                        $href  = '/san-pham/' . $pDesc . '-' . $row['id'] . '.html';
+                    }
+                    ?>
                     <tr>
-                        <td><?= $row['id'] ?></td>
+                        <td>
+                            <a href="<?= $href ?>">
+                                <img src="<?= $row['picture'] ?>" width="40"
+                                     height="40"/>
+                            </a>
+                        </td>
                         <td><?= $row['code'] ?></td>
-                        <td><?= utf8_encode($row['name']); ?></td>
-                        <td><?= $row['brand'] ?></td>
+                        <td><a href="<?= $href ?>"><?= $row['name'] ?></a></td>
+                        <?php
+                        $conditions = [
+                            [
+                                'field' => 'id',
+                                'type'  => '=',
+                                'value' => $row['brand'],
+                            ],
+                        ];
+                        $brand      = $dbf->selectData(prefixTable . 'brand', $conditions);
+                        if ($brand) {
+                            $brand = reset($brand);
+                            $brand = $brand['name'];
+                        }
+                        else {
+                            $brand = 'N\A';
+                        }
+                        ?>
+                        <td><?= $brand ?></td>
                     </tr>
                 <?php endforeach; ?>
                 </tbody>
@@ -138,5 +178,17 @@ $searchData = $dbf->selectData(prefixTable . 'product', $conditions, [], $offset
                 </thead>
             <?php endif; ?>
         </table>
+        <?php
+        $config = [
+            'total' => $searchDataTotal,
+            'limit' => $numPerPage,
+            'full' => false,
+            'path' => '/bang-gia-san-pham.html'
+        ];
+        $page = new Pagination($config);
+        ?>
+        <nav aria-label="Page navigation example">
+            <?= $page->getPagination(); ?>
+        </nav>
     </div>
 </div>
