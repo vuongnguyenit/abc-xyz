@@ -19,7 +19,7 @@ class PNS_DOT_VN extends BusinessLogic {
             <script type="text/javascript" src="' . JS_PATH . 'JS.rating.js"></script>
             <input type="hidden" class="rating" value="' . ($rating = round($p->rating_point / $p->rating_vote, 1)) . '" data-fractions="2" />' . ($p->rating_vote > 0 ? '
             <span class="label label-default">(' . $p->rating_vote . ' lượt bình chọn)</span>' : '') .
-                '<div itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating" class="hidden">
+            '<div itemprop="aggregateRating" itemscope itemtype="http://schema.org/AggregateRating" class="hidden">
                 <span itemprop="ratingValue">' . $rating . '</span>
                 <span itemprop="bestRating">5</span>
                 <span itemprop="ratingCount">' . $p->rating_vote . '</span>
@@ -99,7 +99,7 @@ class PNS_DOT_VN extends BusinessLogic {
 
     function buildPointHistory($d, $_LNG, $html = '') {
         $html = '<h1>Quản lý điểm tặng</h1>' . '<div class="clear">Bạn hiện có <strong>' . $this->getPoint() . '</strong> điểm.</div>';
-        $a    = $this->getPointHistory($d);
+        $a = $this->getPointHistory($d);
         #$this->printr($a);
         if (isset($a['list']) && is_array($a['list']) && isset($a['total']) && $a['total'] > 0) {
             $html .= '<div class="clear">
@@ -149,8 +149,8 @@ class PNS_DOT_VN extends BusinessLogic {
   			  <h2 class="title box-line"><a rel="nofollow" href="javascript:;" title="Sản phẩm cùng thương hiệu">Sản phẩm cùng thương hiệu</a></h2>  
   			  <div id="normal-imglist-inbrand" class="util-carousel normal-imglist wow fadeIn animated">';
             foreach ($a['list'] as $a => $b) {
-                $v    = (object) $b;
-                $o    = $v->outofstock ? TRUE : FALSE;
+                $v = (object) $b;
+                $o = $v->outofstock ? TRUE : FALSE;
                 $html .= '<div class="item">
 				  <div class="block">
 					<div class="border">' . (!empty($v->lname) && !empty($v->lcolor) ? '<span class="label ' . $v->lcolor . '">' . $v->lname . '</span>' : '') . '<div class="picture"><a href="' . $v->href . '" title="' . $v->title . '"><img alt="' . $v->rewrite . '" src="/thumb/250x250' . $v->src . '" title="' . $v->title . '" /></a></div>
@@ -170,16 +170,16 @@ class PNS_DOT_VN extends BusinessLogic {
     function buildViewedProduct($_LNG, $html = '') {
         if (isset($_SESSION['PNSDOTVN_VIEWED_PRODUCTS']) && count($_SESSION['PNSDOTVN_VIEWED_PRODUCTS']) > 0) {
             $a['list'] = array_reverse($_SESSION['PNSDOTVN_VIEWED_PRODUCTS']);
-            $html      = '<section class="products mt20">
+            $html = '<section class="products mt20">
   			  <h2 class="title box-line"><a rel="nofollow" href="javascript:;" title="Sản phẩm đã xem">Sản phẩm đã xem</a></h2>  
   			  <div id="normal-imglist-viewed-product" class="util-carousel normal-imglist wow fadeIn animated">';
             foreach ($a['list'] as $a => $b) {
-                $v    = (object) $b;
-                $o    = $v->outofstock ? TRUE : FALSE;
+                $v = (object) $b;
+                $o = $v->outofstock ? TRUE : FALSE;
                 $html .= '<div class="item">
 				  <div class="block">
 					<div class="border">' . #(!empty($v->lname) && !empty($v->lcolor) ? '<span class="label ' . $v->lcolor . '">' . $v->lname . '</span>' : '') .
-                         '<div class="picture"><a href="' . $v->href . '" title="' . $v->title . '"><img alt="' . $v->rewrite . '" src="/thumb/250x250' . $v->src . '" title="' . $v->title . '" /></a></div>
+                    '<div class="picture"><a href="' . $v->href . '" title="' . $v->title . '"><img alt="' . $v->rewrite . '" src="/thumb/250x250' . $v->src . '" title="' . $v->title . '" /></a></div>
 					  <div class="proname"><a href="' . $v->href . '" title="' . $v->title . '">' . $v->name . '</a></div>
 					  <div class="gr-price">' . ($v->list_price > $v->price ? ' <span class="list-price"><span>' . $this->pricevnd($v->list_price, $_LNG->product->currency) . '</span></span>' : '') . ' <span class="price"><span>' . ($v->price > 0 ? $this->pricevnd($v->price, $_LNG->product->currency) : $_LNG->contact->title) . '</span></span></div>
 					</div>
@@ -377,13 +377,13 @@ class PNS_DOT_VN extends BusinessLogic {
 				</div>';
                 break;
             case 'member' :
-                $m              = $this->getMember($d, $_LNG);
-                $m->city_id     = $m->city_id > 0 ? $m->city_id : 51; // 51 ~ TP.HCM
+                $m = $this->getMember($d, $_LNG);
+                $m->city_id = $m->city_id > 0 ? $m->city_id : 51; // 51 ~ TP.HCM
                 $m->district_id = $m->district_id > 0 ? $m->district_id : 621; // 621 ~ Q.Go Vap
-                $m->ward_id     = $m->ward_id > 0 ? $m->ward_id : 10072; // 621 ~ P.14
-                $m->salutation  = strtolower($m->salutation);
-                $s              = (array) $_LNG->member->salutation->list;
-                $html           = '<div id="member">
+                $m->ward_id = $m->ward_id > 0 ? $m->ward_id : 10072; // 621 ~ P.14
+                $m->salutation = strtolower($m->salutation);
+                $s = (array) $_LNG->member->salutation->list;
+                $html = '<div id="member">
 				  <h1>Thông tin thành viên <span id="modify">[Thay đổi thông tin]</span></h1>
 				  <form id="frm" name="frm" method="post" action="/xu-ly-thong-tin-thanh-vien" enctype="application/x-www-form-urlencoded" >
 					<label class="label required" for="salutation">Danh xưng:</label>
@@ -525,7 +525,7 @@ class PNS_DOT_VN extends BusinessLogic {
 
     function buildHomeProduct($d, $_LNG, $html = '') {
         $d->route->position = 'new';
-        $html               = '<section class="pro-home box-line">
+        $html = '<section class="pro-home box-line">
 		  <div class="tab" role="tabpanel">
 			<ul class="nav nav-tabs row" role="tablist">
 			  <li role="presentation" class="active"><a rel="nofollow" href="#san-pham-moi" aria-controls="home" role="tab" data-toggle="tab">Sản phẩm mới</a></li>
@@ -534,8 +534,8 @@ class PNS_DOT_VN extends BusinessLogic {
 			<div class="tab-content">
 			  <div role="tabpanel" class="tab-pane fade in active san_pham_moi" id="san-pham-moi">
 				<section class="products">' . //$this->getTextlink('topnewhome') .
-                              '<div class="text-link text-link-home">' . $this->getTextlink('topnewhome') . '</div>' . '<div id="0_NEW_HOME_PAGE_0" class="content">' . $this->buildNewProduct($d, $_LNG) . '</div>' . //$this->getTextlink('botnewhome') .
-                              '<div class="text-link text-link-home">' . $this->getTextlink('botnewhome') . '</div>' . '</section>' . $this->buildScrollingScript($d) . '</div>
+            '<div class="text-link text-link-home">' . $this->getTextlink('topnewhome') . '</div>' . '<div id="0_NEW_HOME_PAGE_0" class="content">' . $this->buildNewProduct($d, $_LNG) . '</div>' . //$this->getTextlink('botnewhome') .
+            '<div class="text-link text-link-home">' . $this->getTextlink('botnewhome') . '</div>' . '</section>' . $this->buildScrollingScript($d) . '</div>
 			  <div role="tabpanel" class="tab-pane fade" id="san-pham-ban-chay">
 				<section class="products">
 				  <div id="0_HOT_HOME_PAGE_0" class="content">' . $this->buildHotProduct($d, $_LNG) . '</div>
@@ -552,8 +552,8 @@ class PNS_DOT_VN extends BusinessLogic {
             foreach ($d->option as $k => $v) {
                 if (isset($v['oid']) && !empty($v['oid']) && isset($v['id']) && !empty($v['id'])) {
                     $d->joid = $v['oid'];
-                    $d->jid  = $v['id'];
-                    $a       = $this->getProductOption($d);
+                    $d->jid = $v['id'];
+                    $a = $this->getProductOption($d);
                     if (isset($a[0]['catalog']) && isset($a[0]['child'][0])) {
                         $b = $a[0]['catalog'];
                         $c = $a[0]['child'][0];
@@ -573,7 +573,7 @@ class PNS_DOT_VN extends BusinessLogic {
             if (isset($a) && is_array($a) && count($a)) {
                 foreach ($a as $k => $v) {
                     if (isset($v['catalog'])) {
-                        $c    = $v['catalog'];
+                        $c = $v['catalog'];
                         $html .= '<div id="' . $c->code . '-' . $c->id . '" class="categories mt10">
 						  <div class="title beefup__head">' . $c->name . '</div>
 						  <ul class="beefup__body">';
@@ -584,10 +584,10 @@ class PNS_DOT_VN extends BusinessLogic {
                                 'search',
                             ]) ? TRUE : FALSE;
                             foreach ($v['child'] as $k2 => $v2) {
-                                $f          = isset($_SESSION['PNSDOTVN_PRODUCT_FILTER'][$c->code]) && str_replace('+', ' ', $_SESSION['PNSDOTVN_PRODUCT_FILTER'][$c->code]) == $v2->name ? TRUE : FALSE;
+                                $f = isset($_SESSION['PNSDOTVN_PRODUCT_FILTER'][$c->code]) && str_replace('+', ' ', $_SESSION['PNSDOTVN_PRODUCT_FILTER'][$c->code]) == $v2->name ? TRUE : FALSE;
                                 $d->joption = 'opt' . $c->id . '_' . $v2->id;
-                                $t          = $this->countProduct($d, 'product_option');
-                                $html       .= '<li class="item" ' . ($f && !$p ? ' class="filter"' : '') . '><a href="' . ($p ? '/san-pham' . EXT : '') . '?' . $c->code . '=' . str_replace(' ', '+', $v2->name) . '" title="' . $v2->name . '">' . $v2->name . '</a>' . ($t > 0 ? ' (<span class="pro-count">' . $t . '</span>)' : '') . ($f && !$p ? '<a title="Xóa bộ lọc" rel="nofollow" class="remove" href="?REMOVE_PRODUCT_' . strtoupper($c->code) . '_FILTER">x</a>' : '') . '</li>';
+                                $t = $this->countProduct($d, 'product_option');
+                                $html .= '<li class="item" ' . ($f && !$p ? ' class="filter"' : '') . '><a href="' . ($p ? '/san-pham' . EXT : '') . '?' . $c->code . '=' . str_replace(' ', '+', $v2->name) . '" title="' . $v2->name . '">' . $v2->name . '</a>' . ($t > 0 ? ' (<span class="pro-count">' . $t . '</span>)' : '') . ($f && !$p ? '<a title="Xóa bộ lọc" rel="nofollow" class="remove" href="?REMOVE_PRODUCT_' . strtoupper($c->code) . '_FILTER">x</a>' : '') . '</li>';
                             }
                         }
                         $html .= '</ul></div>';
@@ -704,8 +704,8 @@ class PNS_DOT_VN extends BusinessLogic {
         ]) ? TRUE : FALSE;
         if (isset($_SESSION['PNSDOTVN_PRODUCT_FILTER']['price']) && !$p) {
             $tmp = explode(';', $_SESSION['PNSDOTVN_PRODUCT_FILTER']['price']);
-            $f   = $tmp[0];
-            $t   = $tmp[1];
+            $f = $tmp[0];
+            $t = $tmp[1];
         }
         $html = '<div class="search-price mt10">' . '<div class="title">Tìm theo giá</div>' . '<link rel="stylesheet" type="text/css" href="' . CSS_PATH . 'ion.rangeSlider.css" media="all" />' . '<script src="' . JS_PATH . 'ion.rangeSlider.js"></script>' . '<script>
 		  $(function () { 
@@ -763,11 +763,11 @@ class PNS_DOT_VN extends BusinessLogic {
                     }
                     $billing = unserialize($_SESSION['PNSDOTVN_BILLING']);
                     #$this->printr($billing);
-                    $ward     = (isset($billing['billing_ward']) ? $this->getLocation('ward', $billing['billing_district'], $billing['billing_ward']) : '');
+                    $ward = (isset($billing['billing_ward']) ? $this->getLocation('ward', $billing['billing_district'], $billing['billing_ward']) : '');
                     $district = (isset($billing['billing_district']) ? $this->getLocation('district', $billing['billing_city'], $billing['billing_district']) : '');
-                    $city     = (isset($billing['billing_city']) ? $this->getLocation('city', 0, $billing['billing_city']) : '');
-                    $a        = $this->getCart($d->code, $_LNG);
-                    $html     = '<div id="content" class="col-md-12">
+                    $city = (isset($billing['billing_city']) ? $this->getLocation('city', 0, $billing['billing_city']) : '');
+                    $a = $this->getCart($d->code, $_LNG);
+                    $html = '<div id="content" class="col-md-12">
 					<link rel="stylesheet" href="' . CSS_PATH . 'tmm_form_wizard_style.css" />
 					<link rel="stylesheet" href="' . CSS_PATH . 'tmm_form_wizard_layout.css" />
 					<link rel="stylesheet" href="' . CSS_PATH . 'fontello.css" />  
@@ -899,7 +899,7 @@ class PNS_DOT_VN extends BusinessLogic {
 										  <div class="dropdown">
 											<span id="shipping_district">' . $this->SelectWithTable2($d->code, prefixTable . 'location', 'status = 1 and lgroup = 2 and pid = ' . (isset($billing['billing_city']) ? $billing['billing_city'] : (isset($m->city_id) ? $m->city_id : 51)), 'name', 'shipping_district', 'name', 'id', (isset($billing['billing_district']) ? $billing['billing_district'] : (isset($m->district_id) ? $m->district_id : 621)), [
                             'firstText' => $_LNG->member->errors->district,
-                            'class'     => 'dropdown-select sel short district {validate:{required:true}} cus',
+                            'class' => 'dropdown-select sel short district {validate:{required:true}} cus',
                         ]) . '</span>										  
 										  </div>
 										</fieldset>
@@ -910,7 +910,7 @@ class PNS_DOT_VN extends BusinessLogic {
 										  <div class="dropdown">
 											<span id="shipping_ward">' . $this->SelectWithTable2($d->code, prefixTable . 'location', 'status = 1 and lgroup = 3 and pid = ' . (isset($billing['billing_district']) ? $billing['billing_district'] : (isset($m->district_id) ? $m->district_id : 621)), 'name', 'shipping_ward', 'name', 'id', (isset($billing['billing_ward']) ? $billing['billing_ward'] : (isset($m->ward_id) ? $m->ward_id : 10072)), [
                             'firstText' => $_LNG->member->errors->ward,
-                            'class'     => 'dropdown-select sel short {validate:{required:true}} cus',
+                            'class' => 'dropdown-select sel short {validate:{required:true}} cus',
                         ]) . '</span>
 										  </div>	
 										</fieldset>
@@ -1003,7 +1003,7 @@ class PNS_DOT_VN extends BusinessLogic {
 							<li><label for="shipping_name" class="error">' . $_LNG->checkout->errors->shipping_name . '</label></li>
 							<li><label for="shipping_phone" class="error">' . $_LNG->checkout->errors->shipping_phone . '</label></li>
 							<li><label for="shipping_mobile" class="error">' . $_LNG->checkout->errors->shipping_mobile . '</label></li>' . #'<li><label for="shipping_country" class="error">' . $_LNG->checkout->errors->shipping_country . '</label></li>' .
-                             '<li><label for="shipping_city" class="error">' . $_LNG->checkout->errors->shipping_city . '</label></li>
+                        '<li><label for="shipping_city" class="error">' . $_LNG->checkout->errors->shipping_city . '</label></li>
 							<li><label for="shipping_district" class="error">' . $_LNG->checkout->errors->shipping_district . '</label></li>
 							<li><label for="shipping_ward" class="error">' . $_LNG->checkout->errors->shipping_ward . '</label></li>
 							<li><label for="shipping_address" class="error">' . $_LNG->checkout->errors->shipping_address . '</label></li>							  
@@ -1161,7 +1161,7 @@ class PNS_DOT_VN extends BusinessLogic {
 										<div class="dropdown">
 										  <span id="billing_district">' . $this->SelectWithTable2($d->code, prefixTable . 'location', 'status = 1 and lgroup = 2 and pid = ' . (isset($billing['billing_city']) ? $billing['billing_city'] : (isset($m->city_id) ? $m->city_id : 51)), 'name', 'billing_district', 'name', 'id', (isset($billing['billing_district']) ? $billing['billing_district'] : (isset($m->district_id) ? $m->district_id : 621)), [
                             'firstText' => $_LNG->member->errors->district,
-                            'class'     => 'dropdown-select sel short district {validate:{required:true}} cus',
+                            'class' => 'dropdown-select sel short district {validate:{required:true}} cus',
                         ]) . '</span>										  
 										</div>
 									  </fieldset>
@@ -1172,7 +1172,7 @@ class PNS_DOT_VN extends BusinessLogic {
 										<div class="dropdown">
 										  <span id="billing_ward">' . $this->SelectWithTable2($d->code, prefixTable . 'location', 'status = 1 and lgroup = 3 and pid = ' . (isset($billing['billing_district']) ? $billing['billing_district'] : (isset($m->district_id) ? $m->district_id : 621)), 'name', 'billing_ward', 'name', 'id', (isset($billing['billing_ward']) ? $billing['billing_ward'] : (isset($m->ward_id) ? $m->ward_id : 10072)), [
                             'firstText' => $_LNG->member->errors->ward,
-                            'class'     => 'dropdown-select sel sel short {validate:{required:true}} cus',
+                            'class' => 'dropdown-select sel sel short {validate:{required:true}} cus',
                         ]) . '</span>										  
 										</div>
 									  </fieldset>
@@ -1207,7 +1207,7 @@ class PNS_DOT_VN extends BusinessLogic {
 							  <li><label for="billing_email" class="error">' . $_LNG->checkout->errors->billing_email . '</label></li>
 							  <li><label for="billing_phone" class="error">' . $_LNG->checkout->errors->billing_phone . '</label></li>
 							  <li><label for="billing_mobile" class="error">' . $_LNG->checkout->errors->billing_mobile . '</label></li>' . #'<li><label for="billing_country" class="error">' . $_LNG->checkout->errors->billing_country . '</label></li>' .
-                            '<li><label for="billing_city" class="error">' . $_LNG->checkout->errors->billing_city . '</label></li>
+                        '<li><label for="billing_city" class="error">' . $_LNG->checkout->errors->billing_city . '</label></li>
 							  <li><label for="billing_district" class="error">' . $_LNG->checkout->errors->billing_district . '</label></li>
 							  <li><label for="billing_ward" class="error">' . $_LNG->checkout->errors->billing_ward . '</label></li>
 							  <li><label for="billing_address" class="error">' . $_LNG->checkout->errors->billing_address . '</label></li>							  
@@ -1217,7 +1217,7 @@ class PNS_DOT_VN extends BusinessLogic {
 						  <script type="text/javascript" src="' . JS_PATH . 'jquery.form.js"></script>
 						  <script type="text/javascript" src="' . JS_PATH . 'jquery.validate.pack.js"></script>
 						  <script type="text/javascript" src="' . JS_PATH . 'jquery.metadata.js"></script>' . /*'<script type="text/javascript" src="' . JS_PATH . 'JS.checkout.js"></script>' .*/
-                            '<script type="text/javascript">
+                        '<script type="text/javascript">
 						  $(function() {
 							  var container = jQuery(\'div#showdata\');
 							  var v = jQuery(\'#frmCheckout\').validate({
@@ -1363,25 +1363,25 @@ class PNS_DOT_VN extends BusinessLogic {
 						  $this->SelectWithTable2($d->code, prefixTable . 'country', 'status = 1 and id = 233', 'id', 'billing_country', 'name', 'id', (isset($m->country_id) ? $m->country_id : 233), array('class' => 'sel short {validate:{required:true}} cus', 'tabindex' => 4)) .
 						'</div>' .
 						*/
-                    '<div class="input-box">
+                '<div class="input-box">
 						  <label for="billing_city">' . $_LNG->member->city . ': <span class="required">*</span></label><br />
 						  <span id="billing_city">' . $this->SelectWithTable2($d->code, prefixTable . 'location', 'status = 1 and lgroup = 1 and pid = 0', 'id', 'billing_city', 'name', 'id', (isset($m->city_id) ? $m->city_id : 51), [
-                    'class'    => 'sel short city {validate:{required:true}} cus',
+                    'class' => 'sel short city {validate:{required:true}} cus',
                     'tabindex' => 5,
                 ]) . '</span></div>
 						<div class="input-box">
 						  <label for="billing_district">' . $_LNG->member->district . ': <span class="required">*</span></label><br />
 						  <span id="billing_district">' . $this->SelectWithTable2($d->code, prefixTable . 'location', 'status = 1 and lgroup = 2 and pid = ' . (isset($m->city_id) ? $m->city_id : 51), 'name', 'billing_district', 'name', 'id', (isset($m->district_id) ? $m->district_id : 621), [
                     'firstText' => $_LNG->member->errors->district,
-                    'class'     => 'sel short district {validate:{required:true}} cus',
-                    'tabindex'  => 6,
+                    'class' => 'sel short district {validate:{required:true}} cus',
+                    'tabindex' => 6,
                 ]) . '</span></div>
 						<div class="input-box input-end">
 						  <label for="billing_ward">' . $_LNG->member->ward . ': <span class="required">*</span></label><br />
 						  <span id="billing_ward">' . $this->SelectWithTable2($d->code, prefixTable . 'location', 'status = 1 and lgroup = 3 and pid = ' . (isset($m->district_id) ? $m->district_id : 621), 'name', 'billing_ward', 'name', 'id', (isset($m->ward_id) ? $m->ward_id : 10072), [
                     'firstText' => $_LNG->member->errors->ward,
-                    'class'     => 'sel short {validate:{required:true}} cus',
-                    'tabindex'  => 6,
+                    'class' => 'sel short {validate:{required:true}} cus',
+                    'tabindex' => 6,
                 ]) . '</span></div>
 					  </li>
 					  <li>' . (!isset($m->id) ? '<div class="input-box">
@@ -1427,25 +1427,25 @@ class PNS_DOT_VN extends BusinessLogic {
 						  $this->SelectWithTable2($d->code, prefixTable . 'country', 'status = 1 and id = 233', 'id', 'shipping_country', 'name', 'id', 233, array('class' => 'sel short {validate:{required:true}} cus', 'tabindex' => 11)) .
 						'</div>' .
 						*/
-                    '<div class="input-box">
+                '<div class="input-box">
 						  <label for="shipping_city">' . $_LNG->member->city . ': <span class="required">*</span></label><br />
 						  <span id="shipping_city">' . $this->SelectWithTable2($d->code, prefixTable . 'location', 'status = 1 AND lgroup = 1 AND pid = 0', 'id', 'shipping_city', 'name', 'id', (isset($m->city_id) ? $m->city_id : 51), [
-                    'class'    => 'sel short city {validate:{required:true}} cus',
+                    'class' => 'sel short city {validate:{required:true}} cus',
                     'tabindex' => 12,
                 ]) . '</span></div>
 						<div class="input-box">
 						  <label for="shipping_district">' . $_LNG->member->district . ': <span class="required">*</span></label><br />
 						  <span id="shipping_district">' . $this->SelectWithTable2($d->code, prefixTable . 'location', 'status = 1 and lgroup = 2 AND pid = ' . (isset($m->city_id) ? $m->city_id : 51), 'name', 'shipping_district', 'name', 'id', (isset($m->district_id) ? $m->district_id : 621), [
                     'firstText' => $_LNG->member->errors->district,
-                    'class'     => 'sel short district {validate:{required:true}} cus',
-                    'tabindex'  => 13,
+                    'class' => 'sel short district {validate:{required:true}} cus',
+                    'tabindex' => 13,
                 ]) . '</span></div>
 						<div class="input-box input-end">
 						  <label for="shipping_ward">' . $_LNG->member->ward . ': <span class="required">*</span></label><br />
 						  <span id="shipping_ward">' . $this->SelectWithTable2($d->code, prefixTable . 'location', 'status = 1 and lgroup = 3 AND pid = ' . (isset($m->district_id) ? $m->district_id : 621), 'name', 'shipping_ward', 'name', 'id', (isset($m->ward_id) ? $m->ward_id : 10072), [
                     'firstText' => $_LNG->member->errors->ward,
-                    'class'     => 'sel short {validate:{required:true}} cus',
-                    'tabindex'  => 14,
+                    'class' => 'sel short {validate:{required:true}} cus',
+                    'tabindex' => 14,
                 ]) . '</span></div>
 					  </li>
 					  <li>
@@ -1614,7 +1614,7 @@ class PNS_DOT_VN extends BusinessLogic {
 
     function buildCart($d, $_LNG, $html = '') {
         $html = '<div id="pns-cart">';
-        $a    = $this->getCart($d->code, $_LNG);
+        $a = $this->getCart($d->code, $_LNG);
         if (isset($a['item']) && $a['item'] > 0 && isset($a['total']) && $a['total'] >= 0 && isset($a['list']) && is_array($a['list']) && count($a['list']) > 0) {
             $html .= '<div class="clear">
 			  <table cellspacing="0" cellpadding="0" id="cartContentsDisplay">
@@ -1627,7 +1627,7 @@ class PNS_DOT_VN extends BusinessLogic {
 					<th id="pTotal_title">' . $_LNG->cart->unittotal . '</th>
 					<th id="pTools_title">&nbsp;</th>
 				  </tr>';
-            $i    = 1;
+            $i = 1;
             foreach ($a['list'] as $k => $v) {
                 $html .= '<tr id="#item_' . $v->ids . '" class="sc_pContent item_' . $v->ids . ($i == $a['item'] ? ' last' : '') . '">
 				  <td class="pNo ordering">' . $i . '</td>
@@ -1669,7 +1669,7 @@ class PNS_DOT_VN extends BusinessLogic {
     }
 
     function buildBreadcrumb($d, $_LNG, $html = '') {
-        $a    = (MULTI_LANG ? DS . $d->code2 : '');
+        $a = (MULTI_LANG ? DS . $d->code2 : '');
         $html .= ($d->route->name == 'product' && $d->route->type == 'detail' ? '<div class="container-fluid">' : '') . '<div class="row">
 		  <div class="breadCrumb module">
 			<ul>
@@ -1711,7 +1711,7 @@ class PNS_DOT_VN extends BusinessLogic {
                     $html .= '<ul class="bl1">';
                     foreach ($a as $k => $v) {
                         if (isset($v['catalog'])) {
-                            $c    = $v['catalog'];
+                            $c = $v['catalog'];
                             $html .= '<li><a href="' . $c->href . '" title="' . $c->title . '">' . $c->name . '</a></li>';
                         }
                     }
@@ -1728,8 +1728,8 @@ class PNS_DOT_VN extends BusinessLogic {
 					  <ul class="beefup__body">';
                     foreach ($a as $k => $v) {
                         if (isset($v['catalog'])) {
-                            $c    = $v['catalog'];
-                            $t    = $this->countProduct($c->id, 'catalog');
+                            $c = $v['catalog'];
+                            $t = $this->countProduct($c->id, 'catalog');
                             $html .= '<li><a href="' . $c->href . '" title="' . $c->title . '">' . $c->name . '</a>' . ($t > 0 ? ' (' . $t . ')' : '') . '</li>';
                         }
                     }
@@ -1745,7 +1745,7 @@ class PNS_DOT_VN extends BusinessLogic {
 					<option value="0">Tất cả danh mục</option>';
                     foreach ($a as $k => $v) {
                         if (isset($v['catalog'])) {
-                            $c    = $v['catalog'];
+                            $c = $v['catalog'];
                             $html .= '<option value="' . $c->id . '">' . $c->name . '</option>';
                         }
                     }
@@ -1760,7 +1760,7 @@ class PNS_DOT_VN extends BusinessLogic {
                     $html .= '<ul' . ($lv == 1 ? ' id="navmenu-v"' : '') . '>';
                     foreach ($a as $k => $v) {
                         if (isset($v['catalog'])) {
-                            $c    = $v['catalog'];
+                            $c = $v['catalog'];
                             $html .= '<li><a href="' . $c->href . '" title="' . $c->title . '">' . $c->name . '</a>';
                             if (isset($v['child']) && is_array($v['child']) && count($v['child'])) {
                                 $this->buildCatalogMenu($l, $pid, $t, $lv + 1, $v['child'], $html);
@@ -1781,7 +1781,7 @@ class PNS_DOT_VN extends BusinessLogic {
             if (is_array($i) && ($c = count($i)) > 0) {
                 for ($j = 0; $j < $c; $j++) {
                     $i[$j] = trim($i[$j]);
-                    $t[]   = '<a href="' . (MULTI_LANG ? DS . $d->code2 : '') . DS . 'tim-kiem' . EXT . '?keyword=' . str_replace(' ', '+', $i[$j]) . '" title="' . $i[$j] . '" rel="tag nofollow">' . $i[$j] . '</a>';
+                    $t[] = '<a href="' . (MULTI_LANG ? DS . $d->code2 : '') . DS . 'tim-kiem' . EXT . '?keyword=' . str_replace(' ', '+', $i[$j]) . '" title="' . $i[$j] . '" rel="tag nofollow">' . $i[$j] . '</a>';
                 }
                 if (isset($t) && is_array($t) && count($t) > 0) {
                     $html = implode(', ', $t);
@@ -1819,15 +1819,15 @@ class PNS_DOT_VN extends BusinessLogic {
 
     function buildSearch($d, $u) {
         $data = isset($_POST) ? $_POST : '';
-        $a    = (isset($data['keyword']) && !empty($data['keyword'])) ? $u->checkValues($data['keyword']) : (isset($_GET['keyword']) && !empty($_GET['keyword']) ? str_replace('+', ' ', $u->checkValues($_GET['keyword'])) : '');
+        $a = (isset($data['keyword']) && !empty($data['keyword'])) ? $u->checkValues($data['keyword']) : (isset($_GET['keyword']) && !empty($_GET['keyword']) ? str_replace('+', ' ', $u->checkValues($_GET['keyword'])) : '');
         if (!empty($a)) {
             $d->search = $a;
-            $b         = 'k=' . str_replace(' ', '+', $a);
+            $b = 'k=' . str_replace(' ', '+', $a);
         }
         $c = (isset($data['standard-dropdown']) && $data['standard-dropdown'] > 0) ? $u->checkValues($data['standard-dropdown']) : (isset($_GET['catalog']) && $_GET['catalog'] > 0 ? $u->checkValues($_GET['catalog']) : '');
         if (!empty($c)) {
             $d->catalog_search = $c;
-            $e                 = 'catalog=' . $c;
+            $e = 'catalog=' . $c;
         }
         if (isset($_POST) && !empty($_POST) && count($_POST) > 0) {
             header('Location: ' . (MULTI_LANG ? DS . $d->code2 : '') . DS . 'tim-kiem' . EXT . (!empty($b) ? '?' . $b : '') . (isset($e) && !empty($e) ? '&' . $e : ''));
@@ -1836,19 +1836,19 @@ class PNS_DOT_VN extends BusinessLogic {
     }
 
     function buildNewProduct($d, $_LNG, $html = '') {
-        $d->PageNo      = PAGE;
-        $d->PageUrl     = $d->url;
-        $d->Pagenumber  = PAGE_NUMBER;
-        $d->ModePaging  = MODE_PAGING;
+        $d->PageNo = PAGE;
+        $d->PageUrl = $d->url;
+        $d->Pagenumber = PAGE_NUMBER;
+        $d->ModePaging = MODE_PAGING;
         $d->route->name = 'new';
-        $a              = $this->getProduct($d);
+        $a = $this->getProduct($d);
         if (isset($a['list']) && is_array($a['list']) && isset($a['total']) && $a['total'] > 0) {
             $i = 0;
             foreach ($a['list'] as $k => $v) {
-                $o    = $v->outofstock ? TRUE : FALSE;
+                $o = $v->outofstock ? TRUE : FALSE;
                 $html .= '<div class="block box col-lg-3 col-md-4 col-sm-6 col-xs-6" data-wow-delay="' . ($i * 100) . 'ms">
 				  <div class="border box-img"> <span class="over-layer-0"></span>' . (!empty($v->lcolor) && !empty($v->lname) ? '<span class="label ' . $v->lcolor . '">' . $v->lname . '</span>' : '') . #($v->new ? '<div class="sale-box">New</div>' : '') .
-                         ($v->sale_off > 0 ? '<span class="label red">-' . $v->sale_off . '%</span>' : '') . '<div class="picture"><a href="' . $v->href . '" title="' . $v->title . '"><img alt="' . $v->rewrite . '" src="/thumb/250x250' . $v->src . '" title="' . $v->title . '" /></a></div>
+                    ($v->sale_off > 0 ? '<span class="label red">-' . $v->sale_off . '%</span>' : '') . '<div class="picture"><a href="' . $v->href . '" title="' . $v->title . '"><img alt="' . $v->rewrite . '" src="/thumb/250x250' . $v->src . '" title="' . $v->title . '" /></a></div>
 					<div class="proname"><a href="' . $v->href . '" title="' . $v->title . '">' . $v->name . '</a></div>
 					<div class="gr-price">' . ($v->list_price > 0 && $v->list_price > $v->price ? ' <span class="list-price"><span>' . $this->pricevnd($v->list_price, $_LNG->product->currency) . '</span></span>' : '') . ' <span class="price"><span>' . ($v->price > 0 ? $this->pricevnd($v->price, $_LNG->product->currency) : $_LNG->contact->title) . '</span></span> </div>
 				  </div>
@@ -1861,15 +1861,15 @@ class PNS_DOT_VN extends BusinessLogic {
     }
 
     function buildHotProduct($d, $_LNG, $html = '') {
-        $d->PageNo      = PAGE;
-        $d->PageUrl     = $d->url;
-        $d->Pagenumber  = PAGE_NUMBER;
-        $d->ModePaging  = MODE_PAGING;
+        $d->PageNo = PAGE;
+        $d->PageUrl = $d->url;
+        $d->Pagenumber = PAGE_NUMBER;
+        $d->ModePaging = MODE_PAGING;
         $d->route->name = 'hot';
-        $a              = $this->getProduct($d);
+        $a = $this->getProduct($d);
         if (isset($a['list']) && is_array($a['list']) && isset($a['total']) && $a['total'] > 0) {
             foreach ($a['list'] as $k => $v) {
-                $o    = $v->outofstock ? TRUE : FALSE;
+                $o = $v->outofstock ? TRUE : FALSE;
                 $html .= '<div class="block box col-lg-3 col-md-4 col-sm-6 col-xs-6">
 				  <div class="border box-img"> <span class="over-layer-0"></span>' . (!empty($v->lcolor) && !empty($v->lname) ? '<span class="label ' . $v->lcolor . '">' . $v->lname . '</span>' : '') . ($v->new ? '<div class="sale-box">New</div>' : '') . ($v->sale_off > 0 ? '<span class="label red">-' . $v->sale_off . '%</span>' : '') . '<div class="picture"><a href="' . $v->href . '" title="' . $v->title . '"><img alt="' . $v->rewrite . '" src="/thumb/250x250' . $v->src . '" title="' . $v->title . '" /></a></div>
 					<div class="proname"><a href="' . $v->href . '" title="' . $v->title . '">' . $v->name . '</a></div>
@@ -1905,11 +1905,11 @@ class PNS_DOT_VN extends BusinessLogic {
                 Cookie::Set('PRODUCT_SORTING', array_search(DEFAULT_PRODUCT_SORTING, $d->PRODUCT_SORTING), Cookie::OneYear);
             }
         }
-        $d->PageNo     = PAGE;
-        $d->PageUrl    = $d->url;
+        $d->PageNo = PAGE;
+        $d->PageUrl = $d->url;
         $d->Pagenumber = PAGE_NUMBER;
         $d->ModePaging = MODE_PAGING;
-        $a             = $this->getProduct($d);
+        $a = $this->getProduct($d);
         if (isset($a['list']) && is_array($a['list']) && isset($a['total']) && $a['total'] > 0) {
             $b = ($d->route->name == 'brand' && $d->route->type == 'all' ? TRUE : FALSE);
             $s = ($d->route->name == 'supplier' && $d->route->type == 'all' ? TRUE : FALSE);
@@ -1919,13 +1919,13 @@ class PNS_DOT_VN extends BusinessLogic {
             @$d->toolbar->total = $a['total'];
             @$d->toolbar->brand = $b;
             @$d->toolbar->supplier = $s;
-            $tb   = $this->buildToolbar($d);
+            $tb = $this->buildToolbar($d);
             $html = ($z ? (isset($d->image) && !empty($d->image) && $d->route->name == 'category' ? '<div class="cat-banner visible-md visible-lg"><img alt="" src="' . $d->image . '" title="" onerror="$(this).css({display:\'none\'})" /></div>' : '') . '<div class="text visible-md visible-lg">' . (isset($d->desc) ? $d->desc : '') . '</div>' . '<div id="central" class="mt5">' . (in_array($d->route->name, ['category']) ? '<link href="' . CSS_PATH . 'bootstrap-rating.css" rel="stylesheet" />
 			  <script type="text/javascript" src="' . JS_PATH . 'bootstrap-rating.js"></script>' : '') . $tb . '<section class="products ' . $d->route->name . '">
     			<div class="content">' : '<section class="h-products products bg-white mt10" style="border:0px;width:100%">
 			  <div class="title title-ember">Sản phẩm ' . ($d->route->name == 'inbrand' ? 'cùng thương hiệu' : 'liên quan') . ':</div>
 			  <div id="normal-imglist-' . $d->route->name . '" class="util-carousel normal-imglist content">');
-            $i    = 0;
+            $i = 0;
             foreach ($a['list'] as $k => $v) {
                 $o = !$b && !$s && $v->outofstock ? TRUE : FALSE;
                 if ($z) {
@@ -1988,16 +1988,16 @@ class PNS_DOT_VN extends BusinessLogic {
                 }
                 else {
                     if ($d->route->name != 'inbrand') {
-                        $t1             = $d->route->name;
-                        $t2             = $d->route->id;
+                        $t1 = $d->route->name;
+                        $t2 = $d->route->id;
                         $d->route->name = 'product';
-                        $d->route->id   = $v->brand;
-                        $t3             = $this->getBrand($d);
+                        $d->route->id = $v->brand;
+                        $t3 = $this->getBrand($d);
                         if (!empty($t3) && is_array($t3) && count($t3) == 1) {
                             $brand = $t3[0];
                         }
                         $d->route->name = $t1;
-                        $d->route->id   = $t2;
+                        $d->route->id = $t2;
                     }
                     $html .= /*
 					'<div class="item">
@@ -2029,7 +2029,7 @@ class PNS_DOT_VN extends BusinessLogic {
             $html .= ($z ? '</div>
   			  </section>' . str_replace('head_toolbar', 'foot_toolbar', $tb) . $this->buildMenu('m-catalog', $d) . '<div class="desc-cat">
 				<h1>' . $d->name . '</h1>' . #'<div class="text">' . (isset($d->desc) ? $d->desc : '') . '</div>' .
-                           '</div>
+                '</div>
 			</div><div id="scroll_loading" class="hidden">Đang tải..</div>' . (in_array($d->route->name, [
                     'allproduct',
                     'category',
@@ -2062,10 +2062,10 @@ class PNS_DOT_VN extends BusinessLogic {
                 $q = ALLPRODUCT_PRODUCT_ITEM;
                 break;
         }
-        $e     = PAGE * $q;
-        $t     = $d->toolbar->total;
+        $e = PAGE * $q;
+        $t = $d->toolbar->total;
         $title = ($d->route->name == 'brand' && $d->route->type == 'all' ? 'Thương hiệu' : ($d->route->name == 'supplier' && $d->route->type == 'all' ? 'Nhà cung cấp' : 'Sản phẩm'));
-        $html  = '<div id="head_toolbar" class="toolbars">
+        $html = '<div id="head_toolbar" class="toolbars">
 		  <div class="pager">
 			<div class="left col-md-3 visible-lg visible-md">' . $title . ' từ ' . ((PAGE - 1) * $q + 1) . ' - ' . ($e > $t ? $t : $e) . ' / [<span class="b">' . $t . '</span> ' . $title . ']</div>
 			<div class="right col-md-9 col-sm-12 col-xs-12">' . (isset($d->toolbar->page) ? $d->toolbar->page : '') . '</div>
@@ -2137,11 +2137,11 @@ class PNS_DOT_VN extends BusinessLogic {
 
     function buildNews($d, $_LNG, $html = '') {
         #$this->printr($d);
-        $d->PageNo     = PAGE;
-        $d->PageUrl    = $d->url;
+        $d->PageNo = PAGE;
+        $d->PageUrl = $d->url;
         $d->Pagenumber = PAGE_NUMBER;
         $d->ModePaging = MODE_PAGING;
-        $a             = $this->getNews($d);
+        $a = $this->getNews($d);
         if (isset($a['list']) && is_array($a['list']) && count($a['list'])) {
             switch ($d->route->name) {
                 case 'MAYBE_INTERESTED' :
@@ -2181,7 +2181,7 @@ class PNS_DOT_VN extends BusinessLogic {
                     $html .= '<section class="last-news">';
                     $html .= mb_convert_encoding($d->footer_html, "UTF-8");
                     $html .= '</section>';
-                    
+
                     $html .= '<section class="last-news">
 					  <div class="title mb10 box-line"><span>Tin mới</span></div>';
                     foreach ($a['list'] as $k => $v) {
@@ -2224,7 +2224,7 @@ class PNS_DOT_VN extends BusinessLogic {
                                 #$this->printr($a['catalog']);
                                 $f = 0;
                                 if ($a['total'] >= 4) {
-                                    $f  = 1;
+                                    $f = 1;
                                     $n1 = $a['list'][0];
                                     $n2 = $a['list'][1];
                                     $n3 = $a['list'][2];
@@ -2271,11 +2271,11 @@ class PNS_DOT_VN extends BusinessLogic {
                                 if (count($a['catalog'] > 0)) {
                                     foreach ($a['catalog'] as $v) {
                                         #$this->printr($v);
-                                        $c            = $v['item'];
-                                        $n1           = $v['list'][0];
+                                        $c = $v['item'];
+                                        $n1 = $v['list'][0];
                                         $d->route->id = $n1->id;
-                                        $cmt          = $this->countComment($d);
-                                        $html         .= '<div class="news-list-bottom clear">
+                                        $cmt = $this->countComment($d);
+                                        $html .= '<div class="news-list-bottom clear">
 										  <div class="title col-md-12">
 											<div class="br-bt"><span><a href="' . $c->href . '" title="' . $c->title . '">' . $c->name . '</a></span></div>
 										  </div>
@@ -2293,10 +2293,10 @@ class PNS_DOT_VN extends BusinessLogic {
 											<div class="right-post">';
                                         if (count($v['list']) > 1) {
                                             for ($i = 1; $i <= 3; $i++) {
-                                                $n2           = $v['list'][$i];
+                                                $n2 = $v['list'][$i];
                                                 $d->route->id = $n2->id;
-                                                $cmt          = $this->countComment($d);
-                                                $html         .= '<div class="small-post"> <a class="thumbnail-link" href="' . $n2->href . '" title="' . $n2->title . '"> <img width="100" height="100" alt="' . $n2->rewrite . '" src="/thumb/120x120/1:1' . $n2->src . '" title="' . $n2->title . '" /> </a>
+                                                $cmt = $this->countComment($d);
+                                                $html .= '<div class="small-post"> <a class="thumbnail-link" href="' . $n2->href . '" title="' . $n2->title . '"> <img width="100" height="100" alt="' . $n2->rewrite . '" src="/thumb/120x120/1:1' . $n2->src . '" title="' . $n2->title . '" /> </a>
 													  <h2 class="subject" itemprop="headline"><a href="' . $n2->href . '" itemprop="url" title="' . $n2->title . '">' . $n2->name . '</a></h2>
 													  <div class="meta">
 														<time class="date published" datetime="' . date("Y-m-d\TH:i:sO", $n2->created) . '" itemprop="datePublished" title="' . date("l, F d, Y, g:i a", $n2->created) . '">' . date('d/m/Y', $n2->created) . '</time>' . ($cmt > 0 ? '&nbsp;<span class="comment"><a rel="nofollow" href="' . $n2->href . '#comments" itemprop="discussionURL">' . $cmt . ' bình luận</a></span>' : '') . ' </div>
@@ -2319,24 +2319,24 @@ class PNS_DOT_VN extends BusinessLogic {
                             $html .= '<div id="news" class="">
 							  <div id="content">
 								<div id="t-list" class="top">';
-                            $v    = $a['list'][0];
+                            $v = $a['list'][0];
                             #$this->printr($v);
-                            $f              = $d->display == 'DETAIL' ? TRUE : FALSE;
-                            $html           .= '<div class="block"> 
+                            $f = $d->display == 'DETAIL' ? TRUE : FALSE;
+                            $html .= '<div class="block"> 
 							  <h1 class="c-title">' . $v->name . '</h1>' . $this->buildCmsRating($v) . ($f ? '<div class="c-fulltime">' . $_LNG->cms->posted . ' ' . date('H:i', $v->created) . ', ' . date('d/m/Y', $v->created) . '</div>
 							  <div class="c-desc">' . $v->introtext . '</div>' . (!empty($v->html1) ? '<div class="dyn-html-detail">' . $v->html1 . '</div>' : '') : '') . '</div>
 							<div class="c-detail">' . $v->content . '</div>' . (!empty($v->html1) ? '<div class="dyn-html-detail">' . $v->html1 . '</div>' : '');
                             $d->route->name = 'MAYBE_INTERESTED';
-                            $html           .= ($f ? $this->buildNews($d, $_LNG) : '');
+                            $html .= ($f ? $this->buildNews($d, $_LNG) : '');
                             $d->route->name = 'related';
-                            $html           .= ($f ? $this->buildNews($d, $_LNG) : '');
-                            $v->href        = HOST . $v->href;
-                            $v->loggedin    = $this->chkLoggedin();
-                            $v->ctype       = 'ARTICLE';
-                            $html           .= '<div class="clear box-title mt20">Bình luận Facebook:</div>
+                            $html .= ($f ? $this->buildNews($d, $_LNG) : '');
+                            $v->href = HOST . $v->href;
+                            $v->loggedin = $this->chkLoggedin();
+                            $v->ctype = 'ARTICLE';
+                            $html .= '<div class="clear box-title mt20">Bình luận Facebook:</div>
 	  						<div class="fb-comments clear mt10" data-href="' . $v->href . '" data-numposts="10" data-width="100%" data-mobile="Auto-detected" data-order-by="time"></div>' . '<script type="text/javascript">var  ITEM_ID = ' . $v->id . '; var ITEM_TYPE = "ARTICLE"</script>
 							<script type="text/javascript" src="' . JS_PATH . 'JS.loadcomment.js"></script>' . '<div class="clear box-title mt20">Bình luận:</div>' . '<div class="comment">' . $this->buildProductComment($v) . '</div>';
-                            $html           .= '<div class="clear box-title mt20 visible-lg visible-md">Tags:</div>
+                            $html .= '<div class="clear box-title mt20 visible-lg visible-md">Tags:</div>
 							<div class="clear">Từ khóa liên quan: ' . $this->buildTag($d->keywords) . '</div>' . '</div></div></div>';
                             break;
                     }
@@ -2364,15 +2364,15 @@ class PNS_DOT_VN extends BusinessLogic {
                             break;
                         case 'FIRST' :
                         case 'DETAIL' :
-                            $v              = $a['list'][0];
-                            $f              = $d->display == 'DETAIL' ? TRUE : FALSE;
-                            $html           .= '<div class="block"> 
+                            $v = $a['list'][0];
+                            $f = $d->display == 'DETAIL' ? TRUE : FALSE;
+                            $html .= '<div class="block"> 
 							  <h1 class="c-title">' . $v->name . '</h1>' . ($f ? '<div class="c-fulltime">' . $_LNG->cms->posted . ' ' . date('H:i', $v->created) . ', ' . date('d/m/Y', $v->created) . '</div>
 							  
 							  <div class="c-desc">' . $v->introtext . '</div>' : '') . '</div>
 							<div class="c-detail">' . $v->content . '</div>';
                             $d->route->name = 'related';
-                            $html           .= ($f ? $this->buildNews($d, $_LNG) : '');
+                            $html .= ($f ? $this->buildNews($d, $_LNG) : '');
                             break;
                     }
                     $html .= '</div></div></div>';
@@ -2407,15 +2407,15 @@ class PNS_DOT_VN extends BusinessLogic {
                     $html = '<div class="brand visible-md visible-lg mt10">
 					  <div class="title">Thương hiệu</div>
 					  <ul class="scroll-pane">';
-                    $p    = !in_array($d->route->tmp, [
+                    $p = !in_array($d->route->tmp, [
                         'category',
                         'allproduct',
                         'search',
                     ]) ? TRUE : FALSE;
                     foreach ($a as $k => $v) {
-                        $f     = isset($_SESSION['PNSDOTVN_PRODUCT_FILTER']['brand']) && str_replace('+', ' ', $_SESSION['PNSDOTVN_PRODUCT_FILTER']['brand']) == $v->name ? TRUE : FALSE;
-                        $t     = $this->countProduct($v->id, 'brand');
-                        $html  .= '<li' . ($f && !$p ? ' class="filter"' : '') . '><a href="' . ($p ? '/san-pham' . EXT : '') . '?brand=' . $v->name . '" title="' . $v->title . '">' . $v->name . '</a>' . ($t > 0 ? ' (' . $t . ')' : '') . ($f && !$p ? '<a title="Xóa bộ lọc" rel="nofollow" class="remove" href="?REMOVE_PRODUCT_BRAND_FILTER">x</a>' : '') . '</li>';
+                        $f = isset($_SESSION['PNSDOTVN_PRODUCT_FILTER']['brand']) && str_replace('+', ' ', $_SESSION['PNSDOTVN_PRODUCT_FILTER']['brand']) == $v->name ? TRUE : FALSE;
+                        $t = $this->countProduct($v->id, 'brand');
+                        $html .= '<li' . ($f && !$p ? ' class="filter"' : '') . '><a href="' . ($p ? '/san-pham' . EXT : '') . '?brand=' . $v->name . '" title="' . $v->title . '">' . $v->name . '</a>' . ($t > 0 ? ' (' . $t . ')' : '') . ($f && !$p ? '<a title="Xóa bộ lọc" rel="nofollow" class="remove" href="?REMOVE_PRODUCT_BRAND_FILTER">x</a>' : '') . '</li>';
                         $tmp[] = $v->name;
                     }
                     if (isset($tmp) && is_array($tmp) && count($tmp) > 0 && isset($_SESSION['PNSDOTVN_PRODUCT_FILTER']['brand']) && !in_array($_SESSION['PNSDOTVN_PRODUCT_FILTER']['brand'], $tmp)) {
@@ -2445,15 +2445,15 @@ class PNS_DOT_VN extends BusinessLogic {
                     $html = '<div class="brand supplier mt10">
 					  <div class="title">Nhà cung cấp</div>
 					  <ul class="scroll-pane">';
-                    $p    = !in_array($d->route->tmp, [
+                    $p = !in_array($d->route->tmp, [
                         'category',
                         'allproduct',
                         'search',
                     ]) ? TRUE : FALSE;
                     foreach ($a as $k => $v) {
-                        $f     = isset($_SESSION['PNSDOTVN_PRODUCT_FILTER']['supplier']) && str_replace('+', ' ', $_SESSION['PNSDOTVN_PRODUCT_FILTER']['supplier']) == $v->name ? TRUE : FALSE;
-                        $t     = $this->countProduct($v->id, 'supplier');
-                        $html  .= '<li' . ($f && !$p ? ' class="filter"' : '') . '><a href="' . ($p ? '/san-pham' . EXT : '') . '?supplier=' . str_replace(' ', '+', $v->name) . '" title="' . $v->title . '">' . $v->name . '</a>' . ($t > 0 ? ' (' . $t . ')' : '') . ($f && !$p ? '<a title="Xóa bộ lọc" rel="nofollow" class="remove" href="?REMOVE_PRODUCT_SUPPLIER_FILTER">x</a>' : '') . '</li>';
+                        $f = isset($_SESSION['PNSDOTVN_PRODUCT_FILTER']['supplier']) && str_replace('+', ' ', $_SESSION['PNSDOTVN_PRODUCT_FILTER']['supplier']) == $v->name ? TRUE : FALSE;
+                        $t = $this->countProduct($v->id, 'supplier');
+                        $html .= '<li' . ($f && !$p ? ' class="filter"' : '') . '><a href="' . ($p ? '/san-pham' . EXT : '') . '?supplier=' . str_replace(' ', '+', $v->name) . '" title="' . $v->title . '">' . $v->name . '</a>' . ($t > 0 ? ' (' . $t . ')' : '') . ($f && !$p ? '<a title="Xóa bộ lọc" rel="nofollow" class="remove" href="?REMOVE_PRODUCT_SUPPLIER_FILTER">x</a>' : '') . '</li>';
                         $tmp[] = $v->name;
                     }
                     if (isset($tmp) && is_array($tmp) && count($tmp) > 0 && isset($_SESSION['PNSDOTVN_PRODUCT_FILTER']['supplier']) && !in_array($_SESSION['PNSDOTVN_PRODUCT_FILTER']['supplier'], $tmp)) {
@@ -2473,15 +2473,15 @@ class PNS_DOT_VN extends BusinessLogic {
             $i = 1;
             foreach ($a as $k => $v) {
                 if (isset($v['catalog']) && isset($v['child']['list']) && is_array($v['child']['list']) && count($v['child']['list'])) {
-                    $c      = $v['catalog'];
-                    $ida    = $this->getChildCategory($c->id);
+                    $c = $v['catalog'];
+                    $ida = $this->getChildCategory($c->id);
                     $d->ids = (is_array($ida) && count($ida) > 0) ? implode(',', $ida) : $c->id;
-                    $html   .= '<section class="products mt40">
+                    $html .= '<section class="products mt40">
 					  <h2 class="title box-line"><a href="' . $c->href . '" title="' . $c->title . '">' . $c->name . '</a></h2>					  
 					  <div class="row">
 						<div class="col-md-12">
 					  	  <div id="normal-imglist-' . $c->rewrite . '" class="util-carousel normal-imglist wow fadeIn animated">';
-                    $p      = $this->getProduct($d);
+                    $p = $this->getProduct($d);
                     if (isset($p) && is_array($p) && count($p) > 0) {
                         foreach ($p['list'] as $k2 => $v2) {
                             $html .= '<div class="item">
@@ -2522,7 +2522,7 @@ class PNS_DOT_VN extends BusinessLogic {
 					  <div class="box col-md-12">
 					    <ul class="">';
                     foreach ($a as $k => $v) {
-                        $t    = str_replace('"', '', stripslashes($v->name));
+                        $t = str_replace('"', '', stripslashes($v->name));
                         $html .= '<li><a' . ($v->nofollow ? ' rel="nofollow"' : '') . ' href="' . $v->href . '" target="' . $v->target . '" title="' . $t . '"><img alt="' . $u->generate_url_from_text($v->name) . '" src="' . $v->src . '" title="' . $t . '" /></a></li>';
                     }
                     $html .= '</ul>
@@ -2533,7 +2533,7 @@ class PNS_DOT_VN extends BusinessLogic {
                     $html = '<div class="title mt10">Quảng cáo</div>
 					<div class="pns-banner">';
                     foreach ($a as $k => $v) {
-                        $t    = str_replace('"', '', stripslashes($v->name));
+                        $t = str_replace('"', '', stripslashes($v->name));
                         $html .= '<a' . ($v->nofollow ? ' rel="nofollow"' : '') . ' href="' . $v->href . '" target="' . $v->target . '" title="' . $t . '"><img alt="' . $u->generate_url_from_text($v->name) . '" src="' . $v->src . '" title="' . $t . '" /></a>';
                     }
                     $html .= '</div>';
@@ -2550,7 +2550,7 @@ class PNS_DOT_VN extends BusinessLogic {
 					  <div class="flexslider">
 						<ul class="slides">';
                     foreach ($a as $k => $v) {
-                        $t    = str_replace('"', '', stripslashes($v->name));
+                        $t = str_replace('"', '', stripslashes($v->name));
                         $html .= '<li><a' . ($v->nofollow ? ' rel="nofollow"' : '') . ' href="' . $v->href . '" target="' . $v->target . '" title="' . $t . '"><img alt="' . $u->generate_url_from_text($v->name) . '" src="' . $v->src . '" title="' . $t . '" /></a></li>';
                     }
                     $html .= '</ul></div></section>';
@@ -2564,7 +2564,7 @@ class PNS_DOT_VN extends BusinessLogic {
 						  <div class="">
 							<ul id="slider-1">';
                     foreach ($a as $k => $v) {
-                        $t    = str_replace('"', '', stripslashes($v->name));
+                        $t = str_replace('"', '', stripslashes($v->name));
                         $html .= '<li><a' . ($v->nofollow ? ' rel="nofollow"' : '') . ' href="' . $v->href . '" target="' . $v->target . '" title="' . $t . '"><img alt="' . $u->generate_url_from_text($v->name) . '" src="' . $v->src . '" title="' . $t . '" /></a></li>';
                     }
                     $html .= '</ul>
@@ -2579,7 +2579,7 @@ class PNS_DOT_VN extends BusinessLogic {
                     break;
                 case 'right-home' :
                     foreach ($a as $k => $v) {
-                        $t    = str_replace('"', '', stripslashes($v->name));
+                        $t = str_replace('"', '', stripslashes($v->name));
                         $html .= '<a' . ($v->nofollow ? ' rel="nofollow"' : '') . ' href="' . $v->href . '" target="' . $v->target . '" title="' . $t . '" class="col-md-12 col-xs-6 p-0"><img alt="' . $u->generate_url_from_text($v->name) . '" src="' . $v->src . '" title="' . $t . '" width="100%" /></a>';
                     }
                     break;
@@ -2587,7 +2587,7 @@ class PNS_DOT_VN extends BusinessLogic {
                     $html = '<section class="banner-main-top-home visible-md visible-lg">
   					  <div class="row">';
                     foreach ($a as $k => $v) {
-                        $t    = str_replace('"', '', stripslashes($v->name));
+                        $t = str_replace('"', '', stripslashes($v->name));
                         $html .= '<div class="col-md-4">
 						  <div class="box"><a' . ($v->nofollow ? ' rel="nofollow"' : '') . ' href="' . $v->href . '" target="' . $v->target . '" class="" title="' . $t . '"><img alt="' . $u->generate_url_from_text($v->name) . '" src="' . $v->src . '" title="' . $t . '" /></a></div>
 						</div>';
@@ -2601,7 +2601,7 @@ class PNS_DOT_VN extends BusinessLogic {
 						<h3 class="title">Đối tác</h3>
 						<div id="normal-imglist2" class="util-carousel normal-imglist">';
                     foreach ($a as $k => $v) {
-                        $t    = str_replace('"', '', stripslashes($v->name));
+                        $t = str_replace('"', '', stripslashes($v->name));
                         $html .= '<div class="item"><a' . ($v->nofollow ? ' rel="nofollow"' : '') . ' href="' . $v->href . '" target="' . $v->target . '" title="' . $t . '"><img alt="' . $u->generate_url_from_text($v->name) . '" src="' . $v->src . '" title="' . $t . '" /></a></div>';
                     }
                     $html .= '</div>
@@ -2642,7 +2642,7 @@ class PNS_DOT_VN extends BusinessLogic {
                     $html .= '<ul>';
                     foreach ($a as $k => $v) {
                         if (isset($v['catalog'])) {
-                            $c    = $v['catalog'];
+                            $c = $v['catalog'];
                             $html .= '<li' . ($lv == 1 && $d->route->id == $c->id ? ' class="active_top"' : '') . '><a href="' . $c->href . '" title="' . $c->title . '">' . $c->name . '</a>';
                             if (isset($v['child']) && is_array($v['child']) && count($v['child'])) {
                                 $this->buildMenu($p, $d, $lv + 1, $v['child'], $html);
@@ -2656,7 +2656,7 @@ class PNS_DOT_VN extends BusinessLogic {
                     $html .= '<ul class="' . ($lv == 1 ? 'mobile-sub wsmenu-list' : 'wsmenu-submenu') . '">';
                     foreach ($a as $k => $v) {
                         if (isset($v['catalog'])) {
-                            $c    = $v['catalog'];
+                            $c = $v['catalog'];
                             $html .= '<li><a href="' . $c->href . '" title="' . $c->title . '">' . ($lv > 1 ? '<i class="fa fa-angle-right"></i>' : '') . $c->name . ($lv == 1 ? ' <span class="arrow"></span>' : '') . '</a>';
                             if (isset($v['child']) && is_array($v['child']) && count($v['child'])) {
                                 $this->buildMenu($p, $d, $lv + 1, $v['child'], $html);
@@ -2670,7 +2670,7 @@ class PNS_DOT_VN extends BusinessLogic {
                     $html .= '<ul>';
                     foreach ($a as $k => $v) {
                         if (isset($v['catalog'])) {
-                            $c    = $v['catalog'];
+                            $c = $v['catalog'];
                             $html .= '<li><a href="' . $c->href . '" title="' . $c->title . '">' . $c->name . '</a>';
                             if (isset($v['child']) && is_array($v['child']) && count($v['child'])) {
                                 $this->buildMenu($p, $d, $lv + 1, $v['child'], $html);
@@ -2697,7 +2697,7 @@ class PNS_DOT_VN extends BusinessLogic {
                     $html .= '<ul' . ($lv == 1 ? ' id="cate" class="nav"' : '') . '>';
                     foreach ($a as $k => $v) {
                         if (isset($v['catalog'])) {
-                            $c    = $v['catalog'];
+                            $c = $v['catalog'];
                             $html .= '<li><a rel="nofollow" href="' . $c->href . '" title="' . $c->title . '">' . $c->name . '</a>';
                             if (isset($v['child']) && is_array($v['child']) && count($v['child'])) {
                                 $this->buildMenu($p, $d, $lv + 1, $v['child'], $html);
@@ -2726,18 +2726,18 @@ class PNS_DOT_VN extends BusinessLogic {
     }
 
     function buildWishlist($d, $_LNG, $html = '') {
-        $tmp                = $d->route->position;
+        $tmp = $d->route->position;
         $d->route->position = 'member';
-        $w                  = $this->getWishlist($d, $_LNG);
+        $w = $this->getWishlist($d, $_LNG);
         $d->route->position = $tmp;
         if (!empty($w) && is_array($w) && count($w) > 0) {
-            $id     = array_keys($w);
+            $id = array_keys($w);
             $d->ids = implode(',', $id);
-            $a      = $this->getWishlist($d, $_LNG);
+            $a = $this->getWishlist($d, $_LNG);
             if (!empty($a['list']) && is_array($a['list']) && count($a['list']) > 0 && isset($a['list'])) {
-                $b    = $a['list'];
+                $b = $a['list'];
                 $html = '<div id="wishlist">' . '<h1>Sản phẩm yêu thích (' . $a['total'] . ')</h1>' . '<table class="table table-bordered" id="wishlist-table" width="100%" cellspacing="0">' . '<colgroup>' . '<col width="20%" />' . '<col width="44%" />' . '<col width="15%" />' . '<col width="16%" />' . '<col width="5%" />' . '</colgroup>' . '<thead>' . '<tr class="first last">' . '<th>Hình ảnh</th>' . '<th>Sản phẩm</th>' . '<th>Thêm vào ngày</th>' . '<th>Thêm vào giỏ hàng</th>' . '<th>&nbsp;</th>' . '</tr>' . '</thead>' . '<tbody>';
-                $i    = 1;
+                $i = 1;
                 foreach ($b as $c) {
                     $html .= '<tr id="item_' . $c->id . '" class="' . ($i == 1 ? 'first ' : '') . ($i == $a['total'] ? 'last ' : '') . ($i == 2 || $i % 2 == 0 ? 'even' : 'odd') . '">' . '<td class="center"><a href="' . $c->href . '" title="' . $c->title . '"><img alt="' . $c->rewrite . '" src="/thumb/300x300/1:1' . $c->pic . '" width="120" height="120" title="' . $c->title . '" onerror="$(this).css({display:\'none\'})" /></a></td>' . '<td><a href="' . $c->href . '" title="' . $c->title . '"><strong>' . $c->name . '</strong></a>' . '<p class="price">' . ($c->list_price > 0 && $c->list_price > $c->price ? '<span class="list_price">' . $this->pricevnd($c->list_price, $_LNG->product->currency) . '</span>' . ($c->sale_off > 0 ? ' <span class="sale_off">(-' . $c->sale_off . '%)</span>' : '') . '<br />' : '') . '<span class="price">' . ($c->price > 0 ? $this->pricevnd($c->price, $_LNG->product->currency) : $_LNG->contact->title) . '</span>' . '</p>' . '</td>' . '<td class="center">' . date('d/m/Y', $w[$c->id]) . '</td>' . '<td class="center">' . '<input type="hidden" name="product_' . $c->id . '" id="product_' . $c->id . '" value="' . $c->id . '" />' . '<button type="submit" id="' . $c->id . '" name="btnAddtoCart" class="order-now" title="' . $c->title . '"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</button>' . '</td>' . '<td class="center"><a rel="nofollow" id="' . $c->id . '" class="removeWishlist" href="javascript:;" title="Loại bỏ sản phẩm này">[x]</a></td>' . '</tr>';
                     $i++;
@@ -2754,7 +2754,7 @@ class PNS_DOT_VN extends BusinessLogic {
     function buildOrder($d, $_LNG, $html = '') {
         $html = '<div id="order">';
         if (isset($_GET['VIEW_ORDER_DETAIL']) && isset($_GET['CODE']) && !empty($_GET['CODE'])) {
-            $d->oid             = $this->checkValues($_GET['CODE']);
+            $d->oid = $this->checkValues($_GET['CODE']);
             $d->route->position = 'detail';
         }
         else {
@@ -2779,7 +2779,7 @@ class PNS_DOT_VN extends BusinessLogic {
 							</tr>
 						  </thead>
 						<tbody>';
-                        $i    = 1;
+                        $i = 1;
                         foreach ($a['list'] as $b) {
                             $html .= '<tr class="' . ($i == 1 ? 'first' : '') . ($i == 2 || $i % 2 == 0 ? ' even' : ' odd') . ($i == $a['total'] ? ' last' : '') . '">
 							  <td><a href="?VIEW_ORDER_DETAIL&CODE=' . $b->order_code . '" title="' . $_LNG->order->view . '">' . $b->order_code . '</a></td>
@@ -2799,7 +2799,7 @@ class PNS_DOT_VN extends BusinessLogic {
                     break;
                 case 'detail' :
                     if (isset($a['order']) && isset($a['list']) && count($a['list']) > 0) {
-                        $b    = $a['order'];
+                        $b = $a['order'];
                         $html .= '<h1>' . $_LNG->order->detail . ' ' . $b->order_code . ' | ' . $_LNG->order->status->title . ': ' . $this->getOrderStatus($b->status) . '</h1>
 						<div id="order-history-' . $b->id . '" class="history">					
 						  <table border="0" width="100%" cellspacing="0" cellpadding="0" class="orders_prodcuts">
@@ -2835,10 +2835,10 @@ class PNS_DOT_VN extends BusinessLogic {
 								  <th width="10%"><strong>' . $_LNG->cart->qty . '</strong></th>
 								  <th width="17%"><strong>' . $_LNG->cart->unittotal . '</strong></th>
 								</tr>';
-                        $i    = 1;
+                        $i = 1;
                         foreach ($a['list'] as $c) {
                             $id = explode('|', $c->product_id);
-                            $d  = unserialize($c->info);
+                            $d = unserialize($c->info);
                             #$c = $this->getColorbyCode($id[2], $d->code);
                             #$n = $this->getProductName($id[0], $d->code);
                             $html .= '<tr>
@@ -2956,7 +2956,7 @@ $(document).ready(function(){$("#pinBoot").pinterest_grid({no_columns:4,padding_
     			<ul>' : '');
             foreach ($a as $k => $v) {
                 if (isset($v['catalog'])) {
-                    $c    = $v['catalog'];
+                    $c = $v['catalog'];
                     $html .= ($lv == 1 ? '<div class="white-panel">
 					  <div><img alt="' . $c->rewrite . '" src="' . $c->picture . '" title="' . $c->title . '" /></div>
 					  <h2>' . $c->name . '</h2>' : '') . ($lv == 2 ? '<li><a href="' . $c->href . '" title="' . $c->title . '">' . $c->name . '</a></li>' : '');
@@ -2975,7 +2975,7 @@ $(document).ready(function(){$("#pinBoot").pinterest_grid({no_columns:4,padding_
 
     function buildProductAZ($d, $html = '') {
         if (isset($_GET['alphabet']) && in_array($_GET['alphabet'], range('A', 'Z'))) {
-            $a    = $_GET['alphabet'];
+            $a = $_GET['alphabet'];
             $html = '<div class="all-products">
 			  <h2>Tất cả sản phẩm</h2>
 			  <div class="block">
@@ -2983,12 +2983,12 @@ $(document).ready(function(){$("#pinBoot").pinterest_grid({no_columns:4,padding_
             foreach (range('A', 'Z') as $c) {
                 $html .= '<li><a' . ($a == $c ? ' class="select"' : '') . ' href="?alphabet=' . $c . '" title="' . $c . '">' . $c . '</a></li>';
             }
-            $html        .= '</ul>
+            $html .= '</ul>
 			  </div>';
-            $d->url      .= '?alphabet=' . $a;
+            $d->url .= '?alphabet=' . $a;
             $d->alphabet = $a;
             $d->PageSize = 100;
-            $b           = $this->getProductAZ($d);
+            $b = $this->getProductAZ($d);
             if (isset($b['list']) && is_array($b['list']) && isset($b['total']) && $b['total'] > 0) {
                 $html .= '<div class="block">
 					<dl>
@@ -3041,16 +3041,20 @@ $(document).ready(function(){$("#pinBoot").pinterest_grid({no_columns:4,padding_
                 $prev = $b - 1;
                 $next = $b + 1;
             }
-            else if ($b == 0) {
-                $prev = $c - 1;
-                $next = $b + 1;
+            else {
+                if ($b == 0) {
+                    $prev = $c - 1;
+                    $next = $b + 1;
+                }
+                else {
+                    if ($b == ($c - 1)) {
+                        $prev = $b - 1;
+                        $next = 0;
+                    }
+                }
             }
-            else if ($b == ($c - 1)) {
-                $prev = $b - 1;
-                $next = 0;
-            }
-            $p    = $a['list'][$a['nav'][$prev]];
-            $n    = $a['list'][$a['nav'][$next]];
+            $p = $a['list'][$a['nav'][$prev]];
+            $n = $a['list'][$a['nav'][$next]];
             $html = ' | <a href="' . $p->href . '" title="' . $p->title . '">
             <i class="fa fa-step-backward" aria-hidden="true"></i></a> - <a href="' . $n->href . '" title="' . $n->title . '">
             <i class="fa fa-step-forward" aria-hidden="true"></i></a>';
@@ -3070,12 +3074,12 @@ $(document).ready(function(){$("#pinBoot").pinterest_grid({no_columns:4,padding_
         $a = $this->getAlsoBoughtProduct($d);
         if (isset($a['list']) && count($a['list']) > 0) {
             $t1 = $t2 = $t3 = '';
-            $i  = 1;
+            $i = 1;
             foreach ($a['list'] as $k => $v) {
                 $src = explode(';', $v->src);
-                $t1  .= ',[' . $i . ',' . $v->price . ']';
-                $t2  .= '<li id="imgatt_' . $i . '" class="img-pg fl"><a href="' . $v->href . '" title="' . $v->name . '"><img alt="' . $v->rewrite . '" src="' . $src[0] . '" title="' . $v->name . '" border="0" /></a></li>';
-                $t3  .= '<p>
+                $t1 .= ',[' . $i . ',' . $v->price . ']';
+                $t2 .= '<li id="imgatt_' . $i . '" class="img-pg fl"><a href="' . $v->href . '" title="' . $v->name . '"><img alt="' . $v->rewrite . '" src="' . $src[0] . '" title="' . $v->name . '" border="0" /></a></li>';
+                $t3 .= '<p>
                       <input type="checkbox" name="plist[]" value="' . $v->id . '" checked="checked" id="plist_' . $i . '" class="plist" />
                       <span id="spantext_' . $i . '" class="bold">
                         <a href="' . $v->href . '" title="' . $v->name . '">' . $v->name . '</a> - <span class="c-red">' . ($v->price > 0 ? $this->pricevnd($v->price, $_LNG->product->currency) : $_LNG->contact->title) . '</span></span></p>';
@@ -3110,16 +3114,16 @@ $(document).ready(function(){$("#pinBoot").pinterest_grid({no_columns:4,padding_
                 $html = '<div id="updated-addon" class="categories visible-md visible-lg mt10">
 				  <div class="title beefup__head">Cập nhật</div>
 				  <ul class="beefup__body">';
-                $p    = !in_array($d->route->tmp, [
+                $p = !in_array($d->route->tmp, [
                     'category',
                     'allproduct',
                     'search',
                 ]) ? TRUE : FALSE;
                 foreach ($d->UPDATE_ADDON as $k => $v) {
                     $d->day = $v['day'];
-                    $t      = $this->countProduct($d, 'updated');
-                    $f      = isset($_SESSION['PNSDOTVN_PRODUCT_FILTER']['updated']) && $_SESSION['PNSDOTVN_PRODUCT_FILTER']['updated'] == $k ? TRUE : FALSE;
-                    $html   .= '<li class="item"><a href="?updated=' . $k . '" title="' . $v['title'] . '">' . $v['title'] . '</a> (<span class="pro-count">' . $t . '</span>)' . ($f && !$p ? '<a title="Xóa bộ lọc" rel="nofollow" class="remove" href="?REMOVE_PRODUCT_UPDATED_FILTER">x</a>' : '') . '</li>';
+                    $t = $this->countProduct($d, 'updated');
+                    $f = isset($_SESSION['PNSDOTVN_PRODUCT_FILTER']['updated']) && $_SESSION['PNSDOTVN_PRODUCT_FILTER']['updated'] == $k ? TRUE : FALSE;
+                    $html .= '<li class="item"><a href="?updated=' . $k . '" title="' . $v['title'] . '">' . $v['title'] . '</a> (<span class="pro-count">' . $t . '</span>)' . ($f && !$p ? '<a title="Xóa bộ lọc" rel="nofollow" class="remove" href="?REMOVE_PRODUCT_UPDATED_FILTER">x</a>' : '') . '</li>';
                 }
                 $html .= '</ul>
 				</div>';
@@ -3128,7 +3132,7 @@ $(document).ready(function(){$("#pinBoot").pinterest_grid({no_columns:4,padding_
                 $html .= '<div id="saledoff-addon" class="categories visible-md visible-lg mt10">
 				  <div class="title beefup__head">Giảm giá</div>
 				  <ul class="beefup__body">';
-                $p    = !in_array($d->route->tmp, [
+                $p = !in_array($d->route->tmp, [
                     'category',
                     'allproduct',
                     'search',
@@ -3136,9 +3140,9 @@ $(document).ready(function(){$("#pinBoot").pinterest_grid({no_columns:4,padding_
                 foreach ($d->SALEOFF_ADDON as $k => $v) {
                     $d->fsale = $v['from'];
                     $d->tsale = $v['to'];
-                    $t        = $this->countProduct($d, 'saleoff');
-                    $f        = isset($_SESSION['PNSDOTVN_PRODUCT_FILTER']['saleoff']) && $_SESSION['PNSDOTVN_PRODUCT_FILTER']['saleoff'] == $k ? TRUE : FALSE;
-                    $html     .= '<li class="item"><a href="?saleoff=' . $k . '" title="' . $v['title'] . '">' . $v['title'] . '</a> (<span class="pro-count">' . $t . '</span>)' . ($f && !$p ? '<a title="Xóa bộ lọc" rel="nofollow" class="remove" href="?REMOVE_PRODUCT_SALEOFF_FILTER">x</a>' : '') . '</li>';
+                    $t = $this->countProduct($d, 'saleoff');
+                    $f = isset($_SESSION['PNSDOTVN_PRODUCT_FILTER']['saleoff']) && $_SESSION['PNSDOTVN_PRODUCT_FILTER']['saleoff'] == $k ? TRUE : FALSE;
+                    $html .= '<li class="item"><a href="?saleoff=' . $k . '" title="' . $v['title'] . '">' . $v['title'] . '</a> (<span class="pro-count">' . $t . '</span>)' . ($f && !$p ? '<a title="Xóa bộ lọc" rel="nofollow" class="remove" href="?REMOVE_PRODUCT_SALEOFF_FILTER">x</a>' : '') . '</li>';
                 }
                 $html .= '</ul>
 				</div>';
@@ -3153,13 +3157,84 @@ $(document).ready(function(){$("#pinBoot").pinterest_grid({no_columns:4,padding_
             if (is_array($i) && ($c = count($i)) > 0) {
                 for ($j = 0; $j < $c; $j++) {
                     $i[$j] = trim($i[$j]);
-                    $t[]   = '<a href="' . (MULTI_LANG ? DS . $d->code2 : '') . DS . 'tag' . DS . str_replace(' ', '+', $i[$j]) . EXT . '" title="' . $i[$j] . '" rel="tag nofollow">' . $i[$j] . '</a>';
+                    $t[] = '<a href="' . (MULTI_LANG ? DS . $d->code2 : '') . DS . 'tag' . DS . str_replace(' ', '+', $i[$j]) . EXT . '" title="' . $i[$j] . '" rel="tag nofollow">' . $i[$j] . '</a>';
                 }
                 if (isset($t) && is_array($t) && count($t) > 0) {
                     $html = implode(', ', $t);
                 }
             }
         }
+        return $html;
+    }
+
+    /**
+     * @return string
+     * @throws \Exception
+     */
+    function buildSaleAjax() {
+        $conditions = [];
+        $conditions[] = [
+            'field' => 'sale_ajax',
+            'type' => '=',
+            'value' => 1
+        ];
+        $conditions[] = [
+            'field' => 'outofstock',
+            'type' => '=',
+            'value' => 0
+        ];
+        $orderBys = [];
+        $orderBys[] = [
+            'field' => 'modified',
+            'type' => 'desc',
+        ];
+        $productSale = $this->selectData(prefixTable . 'product', $conditions, $orderBys, 8, 0);
+        $totalproductSale = $this->selectData(prefixTable . 'product', $conditions, $orderBys);
+        $html = '<section class="products mt40">';
+        $html .= '<h2 class="title box-line"><a href="/sale.html" >Giảm giá</a></h2>';
+        $html .= '<div class="content">';
+        if ($productSale) {
+            foreach ($productSale as $product) {
+                $conditions = [
+                    [
+                        'field' => 'id',
+                        'type'  => '=',
+                        'value' => $product['id'],
+                    ],
+                ];
+                $pDesc      = $this->selectData(prefixTable . 'product_desc', $conditions);
+                if ($pDesc) {
+                    $pDesc = reset($pDesc);
+                    $pDesc = $pDesc['rewrite'];
+                    $href  = '/san-pham/' . $pDesc . '-' . $product['id'] . '.html';
+                }
+                $imgUrl = explode(';', $product['picture']);
+                $imgUrl = reset($imgUrl);
+
+                $html .= '<div class="block box col-lg-3 col-md-4 col-sm-6 col-xs-6">';
+                $html .= '<div class="border box-img">';
+                $html .= '<div class="picture">';
+                $html .= '<a href="'.$href.'" title="'.$product['name'].'">';
+                $html .= '<img alt="'.$product['name'].'" src="'.$imgUrl.'" title="'.$product['name'].'"></a>';
+                $html .= '</div>';
+                $html .= '<div class="proname"><a href="'.$href.'" title="'.$product['name'].'">'.$product['name'].'</a></div>';
+                $html .= '<div class="gr-price">
+                            <span class="list-price"><span>'.number_format($product['list_price']).' đ</span></span>
+                            <span class="price"><span>'.number_format($product['price']).' đ</span></span>
+                        </div>';
+                $html .= '</div></div>';
+            }
+        }
+        if(count($totalproductSale) > 8) {
+            $html .= '<div class="text-center" style="margin:3em;">';
+            $html .= '<a class="btn btn-primary" href="/sale.html">';
+            $html .= 'Xem thêm</a';
+            $html .= '</div>';
+        }
+
+        $html .= '</div>';
+        $html .= '</section>';
+
         return $html;
     }
 }

@@ -108,15 +108,16 @@ class DBFunction extends HTML {
                 $order = ' ORDER BY ';
                 $orderBy = [];
                 foreach ($orderBys as $con) {
-                    $orderBy[] = $con['field'] . $con['type'];
+                    $orderBy[] = $con['field'] . ' ' . $con['type'];
                 }
                 $order .= implode(',', $orderBy);
             }
             $range = '';
             if (!is_null($limit) && !is_null($offset)) {
-                $range = ' Limit ' . $limit . ', ' . $offset . ' ';
+                $range = ' limit ' . $limit . ' offset ' . $offset . ' ';
             }
-            $sql = 'SELECT * FROM ' . $table . ' ' . $where . ' ' . $range . ' ' . $order;
+
+            $sql = 'SELECT * FROM ' . $table . ' ' . $where . ' ' . $order . ' ' .$range;
             $stmt = $this->_dbh->prepare($sql);
             $stmt->execute();
             $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
