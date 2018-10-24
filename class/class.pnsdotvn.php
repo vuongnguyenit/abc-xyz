@@ -3237,6 +3237,34 @@ $(document).ready(function(){$("#pinBoot").pinterest_grid({no_columns:4,padding_
 
         return $html;
     }
+
+    /**
+     * @return string
+     * @throws \Exception
+     */
+    function buildListCategory() {
+        $sql = "SELECT DISTINCT cid FROM " . prefixTable . "product WHERE sale_ajax = 1";
+        $categories = $this->executeSql($sql, TRUE);
+        $html = '<div class="categories is-open">';
+        $html .= '<div class="title">Danh mục</div>';
+        $html .= '<div id="sale-hot" class="row"><div class="span12 pagination-centered">';
+              foreach ($categories as $cate) {
+                  $conditions = [];
+                  $conditions[] = [
+                      'field' => 'id',
+                      'type'  => '=',
+                      'value' => $cate['cid']
+                  ];
+                  $category = $this->selectData(prefixTable . 'category', $conditions);
+                  $category = reset($category);
+                  $html .= '<div class="checkbox">
+                            <label><input type="checkbox" value="'.$cate['cid'].'">'.$category['name'].'</label>
+                          </div>';
+              }
+        $html.='</div></div>';
+        $html .= '</div>';
+        return $html;
+    }
 }
 
 $pns = new PNS_DOT_VN();

@@ -19,4 +19,7 @@ $pns->buildSupplier($def, $_LNG) .
 $pns->buildAddonFilter($def, $_LNG) .
 $pns->buildAdvertising('left', $utls, $_LNG);
 $def->route->name = $tmp;
+if($tmp == 'sale') {
+    $html = $pns->buildListCategory();
+}
 $pns->showHTML($html);

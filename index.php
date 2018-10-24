@@ -68,6 +68,7 @@ switch($_route) {
   case 'captcha-require': include_once PNSDOTVN_CAP . DS . 'require.php'; exit; break;
   case 'captcha-process': include_once PNSDOTVN_CAP . DS . 'process.php'; exit; break;
   case 'captcha-image': include_once PNSDOTVN_CAP . DS . 'image.php'; exit; break;  
+  case 'load-more': include_once PNSDOTVN_INC . '/load-more.php'; exit; break;
 }
 require_once PNSDOTVN_ADM . DS . 'defineConst.php';
 require_once PNSDOTVN_CLS . DS . 'define.pnsdotvn.php';
