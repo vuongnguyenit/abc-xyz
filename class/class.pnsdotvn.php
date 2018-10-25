@@ -3258,7 +3258,7 @@ $(document).ready(function(){$("#pinBoot").pinterest_grid({no_columns:4,padding_
                   $category = $this->selectData(prefixTable . 'category', $conditions);
                   $category = reset($category);
                   $html .= '<div class="checkbox">
-                            <label><input type="checkbox" value="'.$cate['cid'].'">'.$category['name'].'</label>
+                            <label><input class="category" type="checkbox" value="'.$cate['cid'].'">'.$category['name'].'</label>
                           </div>';
               }
         $html.='</div></div>';

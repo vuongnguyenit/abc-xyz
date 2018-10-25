@@ -73,8 +73,8 @@ $totalproductSale = $pns->selectData(prefixTable . 'product', $conditions, $orde
         } ?>
     </div>
     <? if(count($totalproductSale) > 4) : ?>
-        <div class="text-center">
-            <a href="javascript:void(0);" id="loadMore" class="btn btn-default">Xem thêm</a>
+        <div class="text-center" id="loadMore">
+            <a href="javascript:void(0);" class="btn btn-default">Xem thêm</a>
         </div>
     <?php endif; ?>
 </section>

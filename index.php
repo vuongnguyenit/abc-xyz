@@ -57,6 +57,8 @@ switch($_route) {
   case 'tai-du-lieu': include_once PNSDOTVN_ACT . DS . 'getdata.php'; exit; break;
   case 'mua-tat-ca':
   case 'dat-mua':
+  case 'load-more':
+  case 'sale-filter':
   case 'cap-nhat-gio-hang':
   case 'xoa-gio-hang':
   case 'xoa-san-pham': include_once PNSDOTVN_ACT . DS . 'cart.php'; exit; break;
@@ -68,7 +70,7 @@ switch($_route) {
   case 'captcha-require': include_once PNSDOTVN_CAP . DS . 'require.php'; exit; break;
   case 'captcha-process': include_once PNSDOTVN_CAP . DS . 'process.php'; exit; break;
   case 'captcha-image': include_once PNSDOTVN_CAP . DS . 'image.php'; exit; break;  
-  case 'load-more': include_once PNSDOTVN_INC . '/load-more.php'; exit; break;
+  case 'load-more': include_once PNSDOTVN_ACT . DS . 'load-more.php'; exit; break;
 }
 require_once PNSDOTVN_ADM . DS . 'defineConst.php';
 require_once PNSDOTVN_CLS . DS . 'define.pnsdotvn.php';

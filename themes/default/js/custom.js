@@ -32,76 +32,156 @@ jQuery(document).ready(function ($) {
             $(this).attr('name', '');
         }
     });
-    // Biến dùng kiểm tra nếu đang gửi ajax thì ko thực hiện gửi thêm
+    var addCommas = function (str) {
+        var parts = (str + "").split("."),
+            main = parts[0],
+            len = main.length,
+            output = "",
+            first = main.charAt(0),
+            i;
+
+        if (first === '-') {
+            main = main.slice(1);
+            len = main.length;
+        } else {
+            first = "";
+        }
+        i = len - 1;
+        while(i >= 0) {
+            output = main.charAt(i) + output;
+            if ((len - i) % 3 === 0 && i > 0) {
+                output = "," + output;
+            }
+            --i;
+        }
+        // put sign back
+        output = first + output;
+        // put decimal part back
+        if (parts.length > 1) {
+            output += "." + parts[1];
+        }
+        return output;
+    }
     var is_busy = false;
-
-    // Biến lưu trữ trang hiện tại
     var page = 1;
-
-    // Số record trên mỗi trang
-    var record_per_page = 3;
-
-    // Biến lưu trữ rạng thái phân trang
-    var stopped = false;
-
-    // Khi kéo scroll thì xử lý
-    $('#loadMore').on('click', function () {
-        // Element append nội dung
-        $element = $('#content');
-
-        // ELement hiển thị chữ loadding
+    var record_per_page = 4;
+    var list = [];
+    $('input.category').on('click', function () {
+        $('div#loadMore').html('<a href="javascript:void(0);" class="btn btn-default">Xem thêm</a>')
+        $('div#loadMore a').hide();
+        if($(this).is(':checked')) {
+            list.push($(this).val());
+        } else {
+            var index = list.indexOf($(this).val());
+            if (index !== -1) list.splice(index, 1);
+        }
+        $element = $('.products.search div.content');
+        $.ajax(
+            {
+                type: 'post',
+                dataType: 'json',
+                url: '/sale-filter',
+                data: {
+                    'listCate': list,
+                    'action': 'saleFilter',
+                },
+                success: function (result) {
+                    var html = '';
+                    $.each(result.result, function (key, obj) {
+                        html += '<div class="block box col-lg-3 col-md-4 col-sm-6 col-xs-6">';
+                        html += '<div class="border box-img"><span class="over-layer-0"></span>';
+                        html += '<div class="picture">';
+                        html += '<a href="' + obj.link + '" title="' + obj.name + '">';
+                        html += '<img alt="' + obj.name + '" src="' + obj.image + '" title="' + obj.name + '">';
+                        html += '</a>';
+                        html += '</div>';
+                        html += '<div class="proname">';
+                        html += '<a href="' + obj.link + '" title="' + obj.name + '">' + obj.name + '</a>';
+                        html += '</div>';
+                        html += '<div class="gr-price">';
+                        html += '<span class="list-price"><span>'+ addCommas (obj.list_price)+'đ</span></span>';
+                        html += '<span class="price"><span>'+ addCommas (obj.price)+'đ</span></span>';
+                        html += '</div>';
+                        html += '</div></div>';
+                    });
+                    console.log(result.total);
+                    if(result.total > 4) {
+                        page = 1;
+                        $('div#loadMore a').show();
+                    }
+                    $element.html('');
+                    $element.html(html);
+                }
+            }
+        )
+    })
+    $(document).on('click','div#loadMore a', function () {
+        $element = $('.products.search div.content');
         $button = $(this);
-
-        // Nếu đang gửi ajax thì ngưng
         if (is_busy == true) {
             return false;
         }
-
-        // Tăng số trang lên 1
         page++;
-
-        // Hiển thị loadding ...
         $button.html('Đang tải ...');
-
         // Gửi Ajax
         $.ajax(
             {
-                type: 'get',
+                type: 'post',
                 dataType: 'json',
                 url: '/load-more',
-                data: {page: page},
+                data: {
+                    'page': page,
+                    'action': 'loadMore',
+                    'listCate': list
+                },
                 success: function (result) {
                     var html = '';
-
-                    // Trường hợp hết dữ liệu cho trang kết tiếp
                     if (result.length <= record_per_page) {
-                        // Lặp dữ liêụ
                         $.each(result, function (key, obj) {
-                            html += '<div>' + obj.id + ' - ' + obj.name + '-' + obj.website + '</div>';
+                            html += '<div class="block box col-lg-3 col-md-4 col-sm-6 col-xs-6">';
+                            html += '<div class="border box-img"><span class="over-layer-0"></span>';
+                            html += '<div class="picture">';
+                            html += '<a href="' + obj.link + '" title="' + obj.name + '">';
+                            html += '<img alt="' + obj.name + '" src="' + obj.image + '" title="' + obj.name + '">';
+                            html += '</a>';
+                            html += '</div>';
+                            html += '<div class="proname">';
+                            html += '<a href="' + obj.link + '" title="' + obj.name + '">' + obj.name + '</a>';
+                            html += '</div>';
+                            html += '<div class="gr-price">';
+                            html += '<span class="list-price"><span>'+ addCommas (obj.list_price)+'đ</span></span>';
+                            html += '<span class="price"><span>'+ addCommas (obj.price)+'đ</span></span>';
+                            html += '</div>';
+                            html += '</div></div>';
                         });
-
-                        // Thêm dữ liệu vào danh sách
                         $element.append(html);
-
-                        // Xóa button
                         $button.remove();
                     }
-                    else { // Trường hợp còn dữ liệu cho trang kế tiếp
-                        // Lặp dữ liêụ, trường hợp này ta lặp bỏ đi phần record cuối cùng vì ta selec với limit + 1
+                    else {
                         $.each(result, function (key, obj) {
                             if (key < result.length - 1) {
-                                html += '<div>' + obj.id + ' - ' + obj.name + '-' + obj.website + '</div>';
+                                html += '<div class="block box col-lg-3 col-md-4 col-sm-6 col-xs-6">';
+                                html += '<div class="border box-img"><span class="over-layer-0"></span>';
+                                html += '<div class="picture">';
+                                html += '<a href="' + obj.link + '" title="' + obj.name + '">';
+                                html += '<img alt="' + obj.name + '" src="' + obj.image + '" title="' + obj.name + '">';
+                                html += '</a>';
+                                html += '</div>';
+                                html += '<div class="proname">';
+                                html += '<a href="' + obj.link + '" title="' + obj.name + '">' + obj.name + '</a>';
+                                html += '</div>';
+                                html += '<div class="gr-price">';
+                                html += '<span class="list-price"><span>'+ addCommas (obj.list_price)+'đ</span></span>';
+                                html += '<span class="price"><span>'+ addCommas (obj.price)+'đ</span></span>';
+                                html += '</div>';
+                                html += '</div></div>';
                             }
                         });
-
-                        // Thêm dữ liệu vào danh sách
                         $element.append(html);
                     }
-
                 }
             })
             .always(function () {
-                // Sau khi thực hiện xong thì đổi giá trị cho button
                 $button.html('Xem thêm');
                 is_busy = false;
             });

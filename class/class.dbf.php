@@ -87,22 +87,21 @@ class DBFunction extends HTML {
      * @return bool
      * @throws \Exception
      */
-    function selectData($table, $conditions, $orderBys = [], $limit = NULL, $offset = NULL) {
+    function selectData($table, $conditions, $orderBys = [], $limit = NULL, $offset = NULL, $ajax = FALSE) {
         try {
             $where = '';
             if ($conditions) {
                 $where = ' WHERE ';
                 $condition = [];
                 foreach ($conditions as $con) {
-                    if(is_string($con['value'])) {
+                    if(is_string($con['value']) || is_numeric($con['value'])) {
                         $condition[]= $con['field'] . $con['type'] . "'" . $con['value'] . "'" . ' ';
                     } else {
-                        $condition[]= $con['field'] . $con['type'] . $con['value'] . ' ';
+                        $condition[]= $con['field'] . ' ' . $con['type'] . ' ' . '(' .implode(',', $con['value']). ')' . ' ';
                     }
                 }
                 $where .= implode(' AND ', $condition);
             }
-
             $order = '';
             if ($orderBys) {
                 $order = ' ORDER BY ';

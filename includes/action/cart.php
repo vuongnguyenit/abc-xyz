@@ -30,7 +30,6 @@ if (is_array($data) && count($data) > 0) {
     require_once PNSDOTVN_LNG . DS . 'lang.' . $lang . PHP;
     $_LNG = $dbf->arrayToObject($lng);
     $lg   = $dbf->getLanguage($lang);
-
     switch ($data['action']) {
         case 'alsobought':
             #$dbf->printr($data);
@@ -178,7 +177,132 @@ if (is_array($data) && count($data) > 0) {
                     ]);
             }
             break;
+        case 'loadMore':
+            // Lấy trang hiện tại
+            $page = isset($_POST['page']) ? (int) $_POST['page'] : 1;
 
+            if ($page < 1) {
+                $page = 1;
+            }
+
+            $limit = 4;
+
+            $start = ($limit * $page) - $limit;
+            $conditions = [];
+            $conditions[] = [
+                'field' => 'sale_ajax',
+                'type' => '=',
+                'value' => 1,
+            ];
+            $conditions[] = [
+                'field' => 'outofstock',
+                'type' => '=',
+                'value' => 0,
+            ];
+            if(!empty($_POST['listCate'])) {
+                $conditions[] = [
+                    'field' => 'cid',
+                    'type' => 'in',
+                    'value' => $_POST['listCate'],
+                ];
+            }
+            $orderBys = [];
+            $orderBys[] = [
+                'field' => 'modified',
+                'type' => 'desc',
+            ];
+
+            $productSale = $dbf->selectData(prefixTable . 'product', $conditions, $orderBys, $limit + 1, $start);
+            $result = [];
+            foreach ($productSale as $product) {
+                $conditions = [
+                    [
+                        'field' => 'id',
+                        'type' => '=',
+                        'value' => $product['id'],
+                    ],
+                ];
+                $pDesc = $dbf->selectData(prefixTable . 'product_desc', $conditions);
+                if ($pDesc) {
+                    $pDesc = reset($pDesc);
+                    $pDesc = $pDesc['rewrite'];
+                    $href = '/san-pham/' . $pDesc . '-' . $product['id'] . '.html';
+                }
+                $imgUrl = explode(';', $product['picture']);
+                $imgUrl = reset($imgUrl);
+                $row = [
+                    'id' => $product['id'],
+                    'image' => $imgUrl,
+                    'link'  => $href,
+                    'name'  => $product['name'],
+                    'price' => $product['price'],
+                    'list_price' => $product['list_price']
+                ];
+                // Thêm vào result
+                array_push($result, $row);
+            }
+            // Trả kết quả về cho ajax
+            die (json_encode($result));
+            break;
+        case 'saleFilter':
+            $listCate = $_POST['listCate'];
+            $conditions = [];
+            $conditions[] = [
+                'field' => 'sale_ajax',
+                'type' => '=',
+                'value' => 1,
+            ];
+            $conditions[] = [
+                'field' => 'outofstock',
+                'type' => '=',
+                'value' => 0,
+            ];
+            $conditions[] = [
+                'field' => 'cid',
+                'type' => 'in',
+                'value' => $listCate,
+            ];
+            $orderBys = [];
+            $orderBys[] = [
+                'field' => 'modified',
+                'type' => 'desc',
+            ];
+            $productSale = $dbf->selectData(prefixTable . 'product', $conditions, $orderBys, 4, 0);
+            $totalproductSale = $dbf->selectData(prefixTable . 'product', $conditions, $orderBys);
+            $result = [];
+            foreach ($productSale as $product) {
+                $conditions = [
+                    [
+                        'field' => 'id',
+                        'type' => '=',
+                        'value' => $product['id'],
+                    ],
+                ];
+                $pDesc = $dbf->selectData(prefixTable . 'product_desc', $conditions);
+                if ($pDesc) {
+                    $pDesc = reset($pDesc);
+                    $pDesc = $pDesc['rewrite'];
+                    $href = '/san-pham/' . $pDesc . '-' . $product['id'] . '.html';
+                }
+                $imgUrl = explode(';', $product['picture']);
+                $imgUrl = reset($imgUrl);
+                $row = [
+                    'id' => $product['id'],
+                    'image' => $imgUrl,
+                    'link'  => $href,
+                    'name'  => $product['name'],
+                    'price' => $product['price'],
+                    'list_price' => $product['list_price']
+                ];
+                // Thêm vào result
+                array_push($result, $row);
+            }
+            // Trả kết quả về cho ajax
+            die (json_encode([
+                'result' => $result,
+                'total'  => count($totalproductSale)
+            ]));
+            break;
         /*
         case 'calcTax':
             $sub_total = $cart->totalprice();
