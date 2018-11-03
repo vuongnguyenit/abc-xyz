@@ -185,7 +185,7 @@ if (is_array($data) && count($data) > 0) {
                 $page = 1;
             }
 
-            $limit = 4;
+            $limit = $_POST['limit'];
 
             $start = ($limit * $page) - $limit;
             $conditions = [];

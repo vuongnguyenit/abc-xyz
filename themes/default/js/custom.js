@@ -62,9 +62,10 @@ jQuery(document).ready(function ($) {
         }
         return output;
     }
+
     var is_busy = false;
     var page = 1;
-    var record_per_page = 4;
+    var record_per_page = $('input[name="limit"]').val();
     var list = [];
     $('input.category').on('click', function () {
         $('div#loadMore').html('<a href="javascript:void(0);" class="btn btn-default">Xem thêm</a>')
@@ -105,7 +106,7 @@ jQuery(document).ready(function ($) {
                         html += '</div></div>';
                     });
                     console.log(result.total);
-                    if(result.total > 4) {
+                    if(result.total > record_per_page) {
                         page = 1;
                         $('div#loadMore a').show();
                     }
@@ -132,7 +133,8 @@ jQuery(document).ready(function ($) {
                 data: {
                     'page': page,
                     'action': 'loadMore',
-                    'listCate': list
+                    'listCate': list,
+                    'limit': record_per_page
                 },
                 success: function (result) {
                     var html = '';

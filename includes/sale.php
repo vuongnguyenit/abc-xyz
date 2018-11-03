@@ -21,9 +21,11 @@ $orderBys[] = [
     'field' => 'modified',
     'type' => 'desc',
 ];
-$productSale = $pns->selectData(prefixTable . 'product', $conditions, $orderBys, 4, 0);
+$limit = 4;
+$productSale = $pns->selectData(prefixTable . 'product', $conditions, $orderBys, $limit, 0);
 $totalproductSale = $pns->selectData(prefixTable . 'product', $conditions, $orderBys);
 ?>
+<input type="hidden" name="limit" value="<?= $limit ?>">
 <section class="products search">
     <div class="content">
         <?php if ($productSale) {
