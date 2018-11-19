@@ -32,3 +32,6 @@
     background-color: #fff;
     color: #33739E;
 }
+#quontes tr td {
+    vertical-align: middle;
+}

@@ -2983,7 +2983,7 @@ class BusinessLogic extends DBFunction {
      * @return array|string
      */
     function getProductInfo($id, $lang = 'vi-VN', $data = '') {
-        $rst = $this->getDynamicJoin($this->prefixTable . 'product', $this->prefixTable . 'product_desc', [
+        $rst = $this->getDynamicJoin(prefixTable . 'product', prefixTable . 'product_desc', [
             'name'    => 'pname',
             'rewrite' => 'rewrite',
         ], 'INNER JOIN', 't1.status = 1 AND t1.id = ' . $id . ' AND t2.lang = "' . $lang . '"', '', 't2.id = t1.id');

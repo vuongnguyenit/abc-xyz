@@ -303,6 +303,36 @@ if (is_array($data) && count($data) > 0) {
                 'total'  => count($totalproductSale)
             ]));
             break;
+        case 'addQuotes':
+            $product = $cart->getProduct($data['productId']);
+            if ($product) {
+                if (empty($_SESSION['quontes'])) {
+                    $_SESSION['quontes']['list'] = [
+                        $data['productId']
+                    ];
+                    $status = 1;
+                    $message = "Sản phẩm đã được thêm vào báo giá";
+                } elseif (!empty($_SESSION['quontes']['list'])) {
+                    if(in_array($data['productId'], $_SESSION['quontes']['list'])) {
+                        $status = 0;
+                        $message = "Sản phẩm đã tồn tại trong báo giá";
+                    } else {
+                        array_push($_SESSION['quontes']['list'], $data['productId']);
+                        $status = 1;
+                        $message = "Sản phẩm đã được thêm vào báo giá";
+                    }
+                }
+            } else {
+                $status = 0;
+                $message = "Sản phẩm không tồn tại";
+            }
+            // Trả kết quả về cho ajax
+            die (json_encode([
+                'status' => $status,
+                'message' => $message
+            ]));
+            break;
+
         /*
         case 'calcTax':
             $sub_total = $cart->totalprice();

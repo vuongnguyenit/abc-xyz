@@ -189,4 +189,21 @@ jQuery(document).ready(function ($) {
             });
 
     });
+    $('.add-quotes').on('click', function () {
+        $.ajax(
+            {
+                type: 'post',
+                dataType: 'json',
+                url: '/add-quotes',
+                data: {
+                    'productId': $(this).data('product-id'),
+                    'action': 'addQuotes'
+                },
+                success: function (result) {
+                    alert(result.message);
+                    return;
+                }
+            }
+        );
+    });
 });

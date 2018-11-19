@@ -109,7 +109,7 @@ if (isset($_GET['brand']) && $_GET['brand'] != '') {
 }
 $searchDataTotal = $dbf->selectData(prefixTable . 'product', $conditions);
 $searchDataTotal = count($searchDataTotal);
-$searchData      = $dbf->selectData(prefixTable . 'product', $conditions, [], $offset, $numPerPage);
+$searchData      = $dbf->selectData(prefixTable . 'product', $conditions, [], $numPerPage, $offset);
 ?>
 <div class="manufacturer mt10">
     <div class="block">
@@ -121,6 +121,7 @@ $searchData      = $dbf->selectData(prefixTable . 'product', $conditions, [], $o
                     <th>Mã sản phẩm</th>
                     <th>Tên sản phẩm</th>
                     <th>Nhà sản xuất</th>
+                    <th>Báo giá</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -139,11 +140,13 @@ $searchData      = $dbf->selectData(prefixTable . 'product', $conditions, [], $o
                         $pDesc = $pDesc['rewrite'];
                         $href  = '/san-pham/' . $pDesc . '-' . $row['id'] . '.html';
                     }
+                    $imgUrl = explode(';', $row['picture']);
+                    $imgUrl = reset($imgUrl);
                     ?>
                     <tr>
                         <td>
                             <a href="<?= $href ?>">
-                                <img src="<?= $row['picture'] ?>" width="40"
+                                <img src="<?= $imgUrl ?>" width="40"
                                      height="40"/>
                             </a>
                         </td>
@@ -167,6 +170,7 @@ $searchData      = $dbf->selectData(prefixTable . 'product', $conditions, [], $o
                         }
                         ?>
                         <td><?= $brand ?></td>
+                        <td><a href="javascript:void(0)" class="add-quotes btn btn-primary" data-product-id="<?= $row['id'] ?>">Thêm báo giá</a></td>
                     </tr>
                 <?php endforeach; ?>
                 </tbody>
