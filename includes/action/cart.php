@@ -303,34 +303,91 @@ if (is_array($data) && count($data) > 0) {
                 'total'  => count($totalproductSale)
             ]));
             break;
-        case 'addQuotes':
-            $product = $cart->getProduct($data['productId']);
-            if ($product) {
-                if (empty($_SESSION['quontes'])) {
-                    $_SESSION['quontes']['list'] = [
-                        $data['productId']
-                    ];
-                    $status = 1;
-                    $message = "Sản phẩm đã được thêm vào báo giá";
-                } elseif (!empty($_SESSION['quontes']['list'])) {
-                    if(in_array($data['productId'], $_SESSION['quontes']['list'])) {
-                        $status = 0;
-                        $message = "Sản phẩm đã tồn tại trong báo giá";
-                    } else {
-                        array_push($_SESSION['quontes']['list'], $data['productId']);
+        case 'quotes':
+            if($data['type'] == 'add') {
+                $product = $cart->getProduct($data['productId']);
+                if ($product) {
+                    if (empty($_SESSION['quontes'])) {
+                        $_SESSION['quontes'] = [
+                            [
+                                'quantity' => 1,
+                                'product_id'    => $data['productId']
+                            ]
+                        ];
+                        $status = 1;
+                        $message = "Sản phẩm đã được thêm vào báo giá";
+                    } elseif (!empty($_SESSION['quontes'])) {
+                        $key = array_search($data['productId'], array_column($_SESSION['quontes'], 'product_id'));
+                        if($_SESSION['quontes'][$key]['product_id'] == $data['productId']) {
+                            $_SESSION['quontes'][$key]['quantity'] = intval($_SESSION['quontes'][$key]['quantity']) + 1;
+                        } else {
+                            $newItem = [
+                                'quantity' => 1,
+                                'product_id'    => $data['productId']
+                            ];
+                            array_push($_SESSION['quontes'], $newItem);
+                        }
                         $status = 1;
                         $message = "Sản phẩm đã được thêm vào báo giá";
                     }
+                } else {
+                    $status = 0;
+                    $message = "Sản phẩm không tồn tại";
                 }
-            } else {
-                $status = 0;
-                $message = "Sản phẩm không tồn tại";
+                // Trả kết quả về cho ajax
+                die (json_encode([
+                    'status' => $status,
+                    'message' => $message
+                ]));
             }
-            // Trả kết quả về cho ajax
-            die (json_encode([
-                'status' => $status,
-                'message' => $message
-            ]));
+            if($data['type'] == 'delete') {
+                $key = array_search($data['productId'], array_column($_SESSION['quontes'], 'product_id'));
+                unset($_SESSION['quontes'][$key]);
+                die (json_encode([
+                    'status' => 1,
+                    'message' => 'Xóa sản phẩm thành công'
+                ]));
+            }
+            if($data['type'] == 'update') {
+                foreach ($data['list'] as $item) {
+                    $items = explode('-', $item);
+                    $key = array_search($items[0], array_column($_SESSION['quontes'], 'product_id'));
+                }
+                $key = array_search($data['productId'], array_column($_SESSION['quontes'], 'product_id'));
+                $_SESSION['quontes'][$key]['quantity'] = $items[1];
+                die (json_encode([
+                    'status' => 1,
+                    'message' => 'Cập nhật báo giá thành công'
+                ]));
+            }
+            if($data['type'] == 'confirm') {
+                $list = explode('#', $data['list']);
+                array_pop($list);
+                $products = [];
+                foreach ($list as $item) {
+                    $items = explode('-', $item);
+                    $products[] = [
+                        'product_id'=> $items[0],
+                        'quantity'=> $items[1]
+                    ];
+                }
+                $listP = serialize($products);
+                $arrayValues = [
+                    'full_name' => $data['name'],
+                    'email' => $data['mail'],
+                    'content' => $data['content'],
+                    'list' => $listP,
+                    'phone' => $data['phone']
+                ];
+                echo "<pre>";
+                print_r($arrayValues);
+                die();
+                $cart->insertTable(prefixTable . 'quontes', $arrayValues);
+                die (json_encode([
+                    'status' => 1,
+                    'message' => 'Gửi yêu cầu báo giá thành công! chúng tôi sẽ gửi thông tin báo giá sớm nhất cho bạn'
+                ]));
+            }
             break;
 
         /*

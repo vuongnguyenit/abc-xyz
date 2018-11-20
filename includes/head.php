@@ -53,6 +53,7 @@ $html =
 <script type="text/javascript" src="' . JS_PATH . 'jquery.cart.js"></script>
 <script type="text/javascript" src="' . JS_PATH . 'functions_main.js"></script>
 <script type="text/javascript" src="' . JS_PATH . 'jquery.autocomplete.js"></script>
+<script type="text/javascript" src="' . JS_PATH . 'jquery.validate.js"></script>
 <script type="text/javascript" src="' . JS_PATH . 'custom.js"></script>
 <script type="text/javascript"> var lang = \'' . $def->code . '\'; </script>
 <script type="text/javascript">$(function(){ setAutoComplete(); });

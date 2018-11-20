@@ -170,7 +170,7 @@ $searchData      = $dbf->selectData(prefixTable . 'product', $conditions, [], $n
                         }
                         ?>
                         <td><?= $brand ?></td>
-                        <td><a href="javascript:void(0)" class="add-quotes btn btn-primary" data-product-id="<?= $row['id'] ?>">Thêm báo giá</a></td>
+                        <td><a href="javascript:void(0)" class="add-quotes btn btn-sm btn-primary" data-product-id="<?= $row['id'] ?>">Thêm báo giá</a></td>
                     </tr>
                 <?php endforeach; ?>
                 </tbody>

@@ -35,3 +35,9 @@
 #quontes tr td {
     vertical-align: middle;
 }
+.border-bottom {
+  border-bottom: 1px solid #D0D0D0;
+}
+label.error{
+  color: red;
+}

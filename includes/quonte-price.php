@@ -7,57 +7,99 @@ if (!defined('PHUONG_NAM_SOLUTION')) {
 $html = $pns->buildBreadcrumb($def, $_LNG);
 $pns->showHTML($html);
 ?>
-<div class="container">
-    <?php if (!empty($_SESSION['quontes']['list'])) : ?>
-        <table id="quontes" class="table table-hover table-condensed">
-            <thead>
-            <tr>
-                <th style="width:70%">Sản phẩm</th>
-                <th style="width:15%">Số lượng</th>
-                <th style="width:15%"></th>
-            </tr>
-            </thead>
-            <tbody>
-            <?php foreach ($_SESSION['quontes']['list'] as $productId) { ?>
-                <?php
-                $conditions = [
-                    [
-                        'field' => 'id',
-                        'type' => '=',
-                        'value' => $productId,
-                    ]
-                ];
-                $product = $dbf->selectData(prefixTable . 'product', $conditions);
-                $product = reset($product);
-                $imgUrl = explode(';', $product['picture']);
-                $imgUrl = reset($imgUrl);
-                ?>
-                <tr>
-                    <td data-th="Product">
+<?php if (!empty($_SESSION['quontes'])) : ?>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <div class="panel-title">
                         <div class="row">
-                            <div class="col-sm-2 hidden-xs"><img src="<?= $imgUrl ?>" alt="..." class="img-responsive"/>
+                            <div class="col-xs-9">
+                                <h5>
+                                    <span class="glyphicon glyphicon-shopping-cart"></span>Báo
+                                    giá
+                                </h5>
                             </div>
-                            <div class="col-sm-10 margin-top-2">
-                                <h4 class="nomargin"><?= @$product['name'] ?></h4>
+                            <div class="col-xs-3">
+                                <a href="/bang-gia-san-pham.html"
+                                   class="btn btn-primary btn-sm btn-block">
+                                    <span class="glyphicon glyphicon-share-alt"></span>
+                                    Thêm báo giá khác
+                                </a>
                             </div>
                         </div>
-                    </td>
-                    <td data-th="Quantity">
-                        <input type="number" class="form-control text-center" value="1">
-                    </td>
-                    <td class="actions text-center" data-th="">
-                        <button class="btn btn-danger btn-sm delete-quontes" data-product-id="<?= $productId ?>"><i
-                                    class="fa fa-trash-o"></i></button>
-                    </td>
-                </tr>
-            <?php } ?>
-            </tbody>
-            <tfoot>
-            <tr>
-                <td colspan="2" class="hidden-xs"></td>
-                <td><a href="#" class="btn btn-success btn-block">Báo giá <i class="fa fa-angle-right"></i></a></td>
-            </tr>
-            </tfoot>
-        </table>
-    <?php endif; ?>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <?php foreach ($_SESSION['quontes'] as $i => $row) { ?>
+                        <?php
+                        $conditions = [
+                            [
+                                'field' => 'id',
+                                'type'  => '=',
+                                'value' => $row['product_id'],
+                            ],
+                        ];
+                        $product    = $dbf->selectData(prefixTable . 'product', $conditions);
+                        $product    = reset($product);
+                        $imgUrl     = explode(';', $product['picture']);
+                        $imgUrl     = reset($imgUrl);
+                        ?>
+                        <div class="row <?= $i == (count($_SESSION['quontes']) - 1) ? '' : 'border-bottom' ?> " style="padding: 10px">
+                            <div class="col-xs-2">
+                                <img width="60%" src="<?= $imgUrl ?>"
+                                     alt="<?= $product['name'] ?>"
+                                     class="img-responsive"/>
+                            </div>
+                            <div class="col-xs-4">
+                                <h4 class="product-name">
+                                    <strong><?= $product['name'] ?></strong>
+                                </h4>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="col-xs-6 text-right">
+                                </div>
+                                <div class="col-xs-4">
+                                    <input type="number"
+                                           class="form-control input-sm quonte-quantity"
+                                           value="<?= $row['quantity'] ?>" data-product-id="<?= $row['product_id'] ?>">
+                                </div>
+                                <div class="col-xs-2">
+                                    <button type="button"
+                                            class="btn btn-link btn-xs delete-quonte"
+                                            data-product-id="<?= $row['product_id'] ?>">
+                                        <span class="glyphicon glyphicon-trash"> </span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    <?php } ?>
+                </div>
+                <div class="panel-footer">
+                    <div class="row text-center">
+                        <div class="col-xs-3">
+                            <button type="button" class="btn btn-default btn-sm btn-block update-quonte">
+                                Cập nhật báo giá
+                            </button>
+                        </div>
+                        <div class="col-xs-6"></div>
+                        <div class="col-xs-3">
+                            <a href="/xac-nhan-bao-gia.html" class="btn btn-success btn-block">
+                                Yêu cầu báo giá&nbsp;
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php else: ?>
+<div class="row">
+    <div class="col-xs-12">
+        <p class="text-center" style="padding: 15px">
+            Không có sản phẩm nào trong báo giá - <a href="/bang-gia-san-pham.html">Tiếp tục thêm báo giá</a>
+        </p>
+    </div>
 </div>
+<?php endif; ?>

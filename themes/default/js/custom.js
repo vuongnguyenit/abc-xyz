@@ -189,19 +189,125 @@ jQuery(document).ready(function ($) {
             });
 
     });
+    // quonte
     $('.add-quotes').on('click', function () {
         $.ajax(
             {
                 type: 'post',
                 dataType: 'json',
-                url: '/add-quotes',
+                url: '/quotes',
                 data: {
                     'productId': $(this).data('product-id'),
-                    'action': 'addQuotes'
+                    'action': 'quotes',
+                    'type': 'add'
                 },
                 success: function (result) {
                     alert(result.message);
                     return;
+                }
+            }
+        );
+    });
+    $('.quonte-quantity').on('change', function () {
+        if($(this).val() < 1 ) {
+            $(this).val(1);
+        }
+    });
+    $('.delete-quonte').on('click', function () {
+        $.ajax(
+            {
+                type: 'post',
+                dataType: 'json',
+                url: '/quotes',
+                data: {
+                    'productId': $(this).data('product-id'),
+                    'action': 'quotes',
+                    'type': 'delete'
+                },
+                success: function (result) {
+                    if(result.status == 1) {
+                        alert(result.message);
+                        location.reload();
+                    }
+                }
+            }
+        );
+    });
+    $('.update-quonte').on('click', function () {
+        var list = [];
+        $('.quonte-quantity').each(function () {
+            list.push($(this).data('product-id').toString() + '-' + $(this).val().toString());
+        });
+        $.ajax(
+            {
+                type: 'post',
+                dataType: 'json',
+                url: '/quotes',
+                data: {
+                    'list': list,
+                    'action': 'quotes',
+                    'type': 'update'
+                },
+                success: function (result) {
+                    if(result.status == 1) {
+                        alert(result.message);
+                        location.reload();
+                    }
+                }
+            }
+        );
+    });
+    // validate confirm quonte
+    $("#confirm-quonte").validate({
+        rules: {
+            "name": {
+                required: true,
+            },
+            "email": {
+                required: true,
+                email: true
+            },
+            "phone": {
+                required: true
+            }
+        },
+        messages: {
+            "name": {
+                required: "Họ tên là bắt buộc",
+            },
+            "email": {
+                required: "Email là bắt buộc",
+                email: 'Nhập sai định dạng email'
+            },
+            "phone": {
+                equalTo: "Số điện thoại là bắt buộc"
+            }
+        }
+    });
+    // send quonte
+    $(".send-quonte").on('click', function () {
+        $.ajax(
+            {
+                type: 'post',
+                dataType: 'json',
+                url: $('#confirm-quonte').attr('action'),
+                data: {
+                    'name': $('#name').val(),
+                    'mail': $('#email').val(),
+                    'phone': $('#phone').val(),
+                    'content': $('#content').val(),
+                    'list': $('#list').val(),
+                    'action': $('#action').val(),
+                    'type': $('#type').val()
+                },
+                success: function (result) {
+                    if(result.status == 1) {
+                        alert(result.message);
+                        $(location).attr('href', '/bang-gia-san-pham.html')
+                    }
+                },
+                error: function (err) {
+                    console.log("AJAX error in request: " + JSON.stringify(err, null, 2));
                 }
             }
         );

@@ -57,7 +57,8 @@ switch($_route) {
   case 'tai-du-lieu': include_once PNSDOTVN_ACT . DS . 'getdata.php'; exit; break;
   case 'mua-tat-ca':
   case 'dat-mua':
-  case 'add-quotes':
+  case 'quotes':
+  case 'xac-nhan-bao-gia':
   case 'load-more':
   case 'sale-filter':
   case 'cap-nhat-gio-hang':
