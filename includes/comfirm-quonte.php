@@ -19,7 +19,7 @@ $pns->showHTML($html);
         ?>
         <input type="hidden" value="<?= $list ?>" name="list" id="list">
         <!-- Form Name -->
-        <legend>Thông tin khách hàng!</legend>
+        <legend>Thông tin báo giá!</legend>
         <!-- Text input-->
         <div class="form-group">
             <label class="col-md-2 control-label">Họ tên</label>
@@ -42,7 +42,7 @@ $pns->showHTML($html);
                         <i class="glyphicon glyphicon-envelope"></i>
                     </span>
                     <input name="email" placeholder="E-Mail"
-                           class="form-control" type="text" id="email">
+                           class="form-control" type="text" id="mail">
                 </div>
             </div>
         </div>

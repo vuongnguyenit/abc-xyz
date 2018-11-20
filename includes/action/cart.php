@@ -379,10 +379,8 @@ if (is_array($data) && count($data) > 0) {
                     'list' => $listP,
                     'phone' => $data['phone']
                 ];
-                echo "<pre>";
-                print_r($arrayValues);
-                die();
                 $cart->insertTable(prefixTable . 'quontes', $arrayValues);
+                unset($_SESSION['quontes']);
                 die (json_encode([
                     'status' => 1,
                     'message' => 'Gửi yêu cầu báo giá thành công! chúng tôi sẽ gửi thông tin báo giá sớm nhất cho bạn'

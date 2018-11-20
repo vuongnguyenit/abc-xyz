@@ -293,7 +293,7 @@ jQuery(document).ready(function ($) {
                 url: $('#confirm-quonte').attr('action'),
                 data: {
                     'name': $('#name').val(),
-                    'mail': $('#email').val(),
+                    'mail': $('#mail').val(),
                     'phone': $('#phone').val(),
                     'content': $('#content').val(),
                     'list': $('#list').val(),
