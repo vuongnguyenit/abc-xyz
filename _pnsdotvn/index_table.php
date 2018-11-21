@@ -30,7 +30,7 @@ ob_start('ob_gzhandler');
 	$titleWebsite="Administrator";
 	$arrayCSS=array("/_pnsdotvn/style/styleadmin.css");
 	//../prototype/prototype.js
-	$arrayJS=array("/_pnsdotvn/js/adminLib.js","/_pnsdotvn/js/jsForm.js");
+	$arrayJS=array("/_pnsdotvn/js/jquery-1.7.1.min.js","/_pnsdotvn/js/adminLib.js","/_pnsdotvn/js/jsForm.js", "/_pnsdotvn/js/custom.js");
 	$dbf->displayHead("utf-8","3600",$titleWebsite,"","","","../images/logo.jpg",$arrayCSS,$arrayJS);
    
 	$contentScript="function huy()\n";

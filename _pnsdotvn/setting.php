@@ -179,15 +179,6 @@ if ($isEdit) {
     'class'  => 'validate',
 ]);
 ?>
-<style type="text/css">
-    td.cellAction1 a {
-        padding: 3px 10px;
-        text-decoration: none;
-        border: 1px solid;
-        margin-left: 10px;
-        margin-top: -10px;
-    }
-</style>
 <script type="text/javascript" src="js/yetii.js"></script>
 <script type="text/javascript" src="../themes/default/js/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="js/jquery.validate.js"></script>
@@ -398,10 +389,10 @@ if ($isEdit) {
             <table id="panelTable" cellspacing="0" cellpadding="0">
                 <tr>
                     <td class="cellAction1">
-                        <a href="/_pnsdotvn/setting.php?insert">Thêm</a>
+                        <a href="/_pnsdotvn/setting.php?insert" class="new-style">Thêm</a>
                     </td>
                     <td class="cellAction1 deleleAction">
-                        <a href="javascript:void(0);">Xóa</a>
+                        <a href="javascript:void(0);" class="new-style">Xóa</a>
                     </td>
                 </tr>
             </table>
