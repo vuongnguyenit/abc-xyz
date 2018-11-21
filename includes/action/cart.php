@@ -349,12 +349,12 @@ if (is_array($data) && count($data) > 0) {
                 ]));
             }
             if($data['type'] == 'update') {
+
                 foreach ($data['list'] as $item) {
                     $items = explode('-', $item);
                     $key = array_search($items[0], array_column($_SESSION['quontes'], 'product_id'));
+                    $_SESSION['quontes'][$key]['quantity'] = $items[1];
                 }
-                $key = array_search($data['productId'], array_column($_SESSION['quontes'], 'product_id'));
-                $_SESSION['quontes'][$key]['quantity'] = $items[1];
                 die (json_encode([
                     'status' => 1,
                     'message' => 'Cập nhật báo giá thành công'
@@ -377,7 +377,9 @@ if (is_array($data) && count($data) > 0) {
                     'email' => $data['mail'],
                     'content' => $data['content'],
                     'list' => $listP,
-                    'phone' => $data['phone']
+                    'phone' => $data['phone'],
+                    'registered' => date("Y-m-d h:m:s"),
+                    'qstatus' => 0
                 ];
                 $cart->insertTable(prefixTable . 'quontes', $arrayValues);
                 unset($_SESSION['quontes']);
