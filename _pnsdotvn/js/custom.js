@@ -178,4 +178,91 @@ jQuery(document).ready(function ($) {
         $("form#frm").append('<input type="hidden" value="delete" name="delete">');
         $('form#frm').submit();
     });
+    $('.quonte-price').on('change', function() {
+        if($(this).val() == '') {
+            $(this).parent().find('label').addClass('error').removeClass('hidden');
+        } else {
+            $(this).parent().find('label').addClass('hidden').removeClass('error');
+        }
+    });
+    $('.quonte-total').on('change', function() {
+        if($(this).val() == '') {
+            $(this).parent().find('label').addClass('error').removeClass('hidden');
+        } else {
+            $(this).parent().find('label').addClass('hidden').removeClass('error');
+        }
+    });
+    $('#exportPdf').on('click', function() {
+        var priceEmpty = false;
+        var dataPrice = [];
+        $('.quonte-price').each(function() {
+            if($(this).val() == '') {
+                $(this).parent().find('label').addClass('error').removeClass('hidden');
+                priceEmpty = true;
+            } else {
+                var item = {};
+                item.id = $(this).data('id');
+                item.price = $(this).val();
+                dataPrice.push(item);
+            }
+        });
+        if(priceEmpty == true) {
+            return false;
+        }
+        var totalEmpty = false;
+        var dataTotal = [];
+        $('.quonte-total').each(function() {
+            if($(this).val() == '') {
+                $(this).parent().find('label').addClass('error').removeClass('hidden');
+                totalEmpty = true;
+            } else {
+                var item = {};
+                item.id = $(this).data('id');
+                item.total = $(this).val();
+                dataTotal.push(item);
+            }
+        });
+        if(totalEmpty == true) {
+            return false;
+        }
+        var dataQty = [];
+        $('.qty').each(function() {
+            var item = {};
+            item.id = $(this).data('id');
+            item.qty = $(this).val();
+            dataQty.push(item);
+        });
+        var dataName = [];
+        $('.name').each(function() {
+            var item = {};
+            item.id = $(this).data('id');
+            item.name = $(this).val();
+            dataName.push(item);
+        });
+        var dataImg = [];
+        $('.img').each(function() {
+            var item = {};
+            item.id = $(this).data('id');
+            item.img = $(this).val();
+            dataImg.push(item);
+        });
+        $.ajax({
+            url: 'print-pdf.php',
+            type: 'post',
+            data: {
+                "price" : dataPrice,
+                "total": dataTotal,
+                "quantity": dataQty,
+                "image": dataImg,
+                "name": dataName,
+                "tax": $('#tax').val()
+            },
+            dataType: 'json',
+            success: function (result, status) {
+                
+            }
+        });
+    });
+    
+
 });

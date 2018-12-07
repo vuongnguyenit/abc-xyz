@@ -180,8 +180,6 @@ if ($isEdit) {
 ]);
 ?>
 <script type="text/javascript" src="js/yetii.js"></script>
-<script type="text/javascript" src="../themes/default/js/jquery-1.7.2.min.js"></script>
-<script type="text/javascript" src="js/jquery.validate.js"></script>
 <script type="text/javascript" src="../plugins/editors2/ckeditor/ckeditor.js"></script>
 <script type="text/javascript" src="../plugins/editors2/ckfinder/ckfinder.js"></script>
 <script type="text/javascript" src="js/custom.js"></script>

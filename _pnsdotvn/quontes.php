@@ -140,7 +140,6 @@ if (!$isEdit) {
     </div>
 <?php }
 if ($isEdit) { ?>
-
     <div id="panelForm" class="panelForm">
         <table id="mainTable" cellpadding="0" cellspacing="0">
             <?php
@@ -213,28 +212,38 @@ if ($isEdit) { ?>
                                         <img src="<?= $imgUrl ?>"
                                              alt="<?= $product['name'] ?>"
                                              width="25%">
+                                        <input type="hidden" name="img[]" value="<?= $imgUrl ?>" class="img"  data-id="<?= $item['product_id'] ?>"/>
                                     </td>
-                                    <td style="vertical-align: middle"><?= $product['name'] ?></td>
+                                    <td style="vertical-align: middle">
+                                        <?= $product['name'] ?>
+                                        <input type="hidden" name="name[]" value="<?= $product['name'] ?>" class="name"  data-id="<?= $item['product_id'] ?>"/>
+                                    </td>
                                     <td align="center"
-                                        style="vertical-align: middle"><?= $item['quantity'] ?></td>
+                                        style="vertical-align: middle"><?= $item['quantity'] ?>
+                                        <input type="hidden" name="qty[]" value="<?= $item['quantity'] ?>" class="qty"  data-id="<?= $item['product_id'] ?>"/>
+                                    </td>
                                     <td align="center"
                                         style="vertical-align: middle">
                                         <input type="text" name="price[]"
                                                value="" size="20"
-                                               data-id="<?php $item['product_id'] ?>">
+                                               data-id="<?= $item['product_id'] ?>" class="quonte-price"><br>
+                                        <label class="hidden">Chưa nhập giá</label>
                                     </td>
                                     <td align="center"
                                         style="vertical-align: middle">
                                         <input type="text" name="total[]"
                                                value="" size="20"
-                                               data-id="<?php $item['product_id'] ?>">
+                                               data-id="<?= $item['product_id'] ?>" class="quonte-total"><br>
+                                        <label class="hidden">Chưa chưa nhập tổng tiền</label>
                                     </td>
                                 </tr>
                             <?php }
                             ?>
                             <tr>
-                                <td colspan="5" style="text-align: right">
-                                    <label for="tax"><strong>Thuế</strong></label>
+                                <td colspan="4" style="text-align: right">
+                                </td>
+                                <td style="text-align: left">
+                                    <label for="tax" style="margin-right: 15px"><strong>Thuế</strong></label>
                                     <input type="text" name="tax" id="tax">
                                 </td>
                             </tr>
@@ -271,24 +280,3 @@ if ($isEdit) { ?>
         </table>
     </div>
 <?php } ?>
-<?php
-require_once 'lib/vendor/autoload.php';
-$mpdf = new \Mpdf\Mpdf([
-    'mode'           => 'utf-8',
-    'tempDir'        => 'tmp',
-    'autoLangToFont' => TRUE,
-    'format'         => 'A4',
-]);
-$mpdf->shrink_tables_to_fit = 1;
-$html = '<h1>heoo</h1>';
-$mpdf->WriteHTML($html);
-$mpdf->SetHTMLFooter('
-            <table width="100%">
-                <tr>
-                    <td align="center">({PAGENO}/{nbpg})</td>
-                </tr>
-            </table>');
-
-ob_clean();
-$mpdf->Output(date('Ymdhis') . '_call_number_.pdf', 'D');
-?>

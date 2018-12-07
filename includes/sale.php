@@ -21,7 +21,7 @@ $orderBys[] = [
     'field' => 'modified',
     'type' => 'desc',
 ];
-$limit = 4;
+$limit = 20;
 $productSale = $pns->selectData(prefixTable . 'product', $conditions, $orderBys, $limit, 0);
 $totalproductSale = $pns->selectData(prefixTable . 'product', $conditions, $orderBys);
 ?>

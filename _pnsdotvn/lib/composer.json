@@ -1,0 +1,12 @@
+{
+    "name": "hoang/examplepdf",
+    "authors": [
+        {
+            "name": "hoangthong",
+            "email": "hoangthongpham@outlook.com"
+        }
+    ],
+    "require": {
+        "mpdf/mpdf": "6.1.2"
+    }
+}

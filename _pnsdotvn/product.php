@@ -432,6 +432,9 @@ if ($subUpdate) {
             }
             $data['product_size'] = implode(';', $_prices);
         }
+
+        $data['sale_ajax'] = isset($_POST['sale_ajax']) ? $_POST['sale_ajax'] : 0;
+
         $data['info'] = serialize([
             'size' => $_j_price,
             'color' => $_j_color,
@@ -447,7 +450,6 @@ if ($subUpdate) {
         $value['vi-VN']['metatitle'] = !empty($_POST['metatitle_vi']) ? ($utls->checkValues($_POST['metatitle_vi'])) : $value['vi-VN']['name'];
         $value['vi-VN']['metakey'] = !empty($_POST['metakey_vi']) ? ($utls->checkValues($_POST['metakey_vi'])) : $value['vi-VN']['name'];
         $value['vi-VN']['metadesc'] = !empty($_POST['metadesc_vi']) ? ($utls->checkValues($_POST['metadesc_vi'])) : $value['vi-VN']['name'];
-
 
         $affect = $dbf->updateTable(prefixTable . 'product', $data, 'id = ' . $_id);
         if ($affect > 0) {
@@ -496,6 +498,7 @@ if ($isEdit) {
         $new = $row->new;
         $promo = $row->promo;
         $flashsale = $row->flashsale;
+        $saleAjax = $row->sale_ajax;
         #$new_date		= $row->new_date;
         #featured		= $row->featured;
         #$comingsoon	= $row->comingsoon;
@@ -1516,6 +1519,11 @@ if ($isEdit) {
                                                    id="flashsale"
                                                    value="1" <?php echo strtr((isset($flashsale)) ? $flashsale : '', $statusChecked) ?> />
                                             Flash sale ?<br/>
+                                            <input type="checkbox"
+                                                   name="sale_ajax"
+                                                   id="sale_ajax"
+                                                   value="1" <?= ($saleAjax == 1) ? "checked" : '' ?>/>
+                                            Sale ajax ?<br/>
                                         </td>
                                     </tr>
                                     <tr>

@@ -982,3 +982,10 @@ td.cellAction1 a.new-style {
   margin-top: -10px;
   padding-left: 0 !important;
 }
+
+.hidden {
+    display: none !important;
+}
+.error {
+    color: red;
+}

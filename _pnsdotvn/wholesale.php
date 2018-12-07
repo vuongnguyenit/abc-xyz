@@ -83,7 +83,7 @@ try {
  */
 function getProduct($conn, $productId) {
     try {
-        $sql = 'select wholesale from dynw_product where id=:id';
+        $sql = 'select * from dynw_product where id=:id';
         $stmt = $conn->prepare($sql);
         $stmt->execute([
             'id' => $productId,
