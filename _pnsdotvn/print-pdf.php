@@ -108,7 +108,7 @@ $mpdf->SetHTMLHeader('<table width="100%">
                 </tr>
             </table>');
 $file_name = 'pdf/' . time() . '.pdf';
-$mpdf->Output($file_name, 'F');
+$mpdf->Output($file_name, 'D');
 ?>
 
 
