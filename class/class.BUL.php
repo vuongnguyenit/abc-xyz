@@ -1693,7 +1693,7 @@ class BusinessLogic extends DBFunction {
                 $d->Pagenumber = 1;
                 $d->ModePaging = '';
                 $a             = ' AND t1.id = ' . $d->route->id;
-                $c             = ', t1.code, t1.list_price, t1.sale_off, t1.cid, t1.brand, t1.qty, t1.supplier, t1.outofstock, t1.jrelated, t1.jalsobuy, t1.joption, t1.info, t1.rating_vote, t1.rating_point, t1.wholesale ,t2.introtext, t2.description, t2.guide, t2.promodesc';
+                $c             = ', t1.code, t1.list_price, t1.sale_off, t1.cid, t1.brand, t1.qty, t1.supplier, t1.outofstock, t1.jrelated, t1.jalsobuy, t1.joption, t1.info, t1.rating_vote, t1.rating_point, t1.wholesale ,t2.introtext, t2.description, t2.guide, t2.promodesc, t2.specification';
                 break;
             case 'related' :
                 $d->PageUrl    = '#';

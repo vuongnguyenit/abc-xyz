@@ -106,6 +106,24 @@ jQuery(document).ready(function ($) {
             }
         });
     });
+    $('.delete-doc').on('click', function () {
+        var $this = $(this)
+        $.ajax({
+            url: 'wholesale.php',
+            type: 'get',
+            data: {
+                'product_id': $this.data('pid'),
+                'pos': $this.data('position'),
+                'action': 'delete-doc'
+            },
+            dataType: 'json',
+            success: function (result) {
+                if(result.message == 'success') {
+                    $this.parent().parent().remove();
+                }
+            }
+        });
+    });
     if($('#type').length) {
         $('.content-label').hide();
         $('.content').hide();

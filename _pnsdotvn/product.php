@@ -36,7 +36,10 @@ if ($isDelete) {
         $msg = 'Đã xóa (' . count($id_array) . ') dòng trong cơ sở dữ liệu';
     }
 }
-
+if ($isEdit) {
+    $rst = $dbf->getDynamic(prefixTable . 'product', 'id = ' . (int)$_GET["edit"], '');
+    $row = $dbf->nextObject($rst);
+}
 if ($subInsert) {
     $_j_color = '';
     $_j_price = '';
@@ -451,6 +454,29 @@ if ($subUpdate) {
         $value['vi-VN']['metakey'] = !empty($_POST['metakey_vi']) ? ($utls->checkValues($_POST['metakey_vi'])) : $value['vi-VN']['name'];
         $value['vi-VN']['metadesc'] = !empty($_POST['metadesc_vi']) ? ($utls->checkValues($_POST['metadesc_vi'])) : $value['vi-VN']['name'];
 
+        // upload document
+        $targetfolder = "documents/";
+        $targetfolder = $targetfolder . basename($_FILES['document']['name']);
+        $documents = unserialize($row->doc);
+        if (move_uploaded_file($_FILES['document']['tmp_name'], $targetfolder)) {
+            $fileName = $_FILES['document']['name'];
+        }
+        if($documents) {
+            $newFile = [
+                'label' => $_POST['document-label'],
+                'file' => $fileName
+            ];
+            array_push($documents, $newFile);
+        } else {
+            $documents = [
+                [
+                    'label' => $_POST['document-label'],
+                    'file' => $fileName
+                ]
+            ];
+        }
+        $data['doc'] = serialize($documents);
+
         $affect = $dbf->updateTable(prefixTable . 'product', $data, 'id = ' . $_id);
         if ($affect > 0) {
             $langs = array_keys($value);
@@ -472,14 +498,9 @@ if ($subUpdate) {
 }
 
 if ($isEdit) {
-    $rst = $dbf->getDynamic(prefixTable . 'product', 'id = ' . (int) $_GET["edit"], '');
-    if ($dbf->totalRows($rst)) {
-        $row = $dbf->nextObject($rst);
-        //		echo "<pre>";
-        //		print_r($row );die();
+    if ($row) {
         $id = $row->id;
         $code = stripslashes($row->code);
-        #$name 			= stripslashes($row->name);
         $mangpicture = explode(';', $row->picture);
         $list_price = $row->list_price;
         $sale_off = $row->sale_off;
@@ -492,28 +513,17 @@ if ($isEdit) {
         $status = $row->status;
         $qty = $row->qty;
         $outofstock = $row->outofstock;
-        #$top 			= $row->top;
         $hot = $row->hot;
-        #$favorite 		= $row->favorite;
         $new = $row->new;
         $promo = $row->promo;
         $flashsale = $row->flashsale;
         $saleAjax = $row->sale_ajax;
-        #$new_date		= $row->new_date;
-        #featured		= $row->featured;
-        #$comingsoon	= $row->comingsoon;
         $ordering = $row->ordering;
         $ordering2 = $row->ordering2;
 
-        #$size1 		= $row->size1;
-        #$type1 		= $row->type1;
-        #$material		= $row->material;
-        #$capacity		= $row->capacity;
         $warranty = $row->warranty;
         $promo_txt = $row->promo_txt;
         $origin = $row->origin;
-        #$source 		= $row->source;
-        #$internet 		= $row->internet;
         $related = unserialize($row->jrelated);
         $option = unserialize($row->joption);
         $lname = $row->lname;
@@ -521,14 +531,12 @@ if ($isEdit) {
         $alsobuy = unserialize($row->jalsobuy);
 
         $vi = $dbf->getArray(prefixTable . 'product_desc', 'id = "' . $id . '" and lang = "vi-VN"', '', 'stdObject');
-        #$en = $dbf->getArray(prefixTable . 'product_desc', 'id = "' . $id . '" and lang = "en-US"', '', 'stdObject');
     }
 } ?>
     <script type="text/javascript"
             src="../plugins/editors2/ckeditor/ckeditor.js"></script>
     <script type="text/javascript"
             src="../plugins/editors2/ckfinder/ckfinder.js"></script>
-    <!--<script type="text/javascript" src="../plugins/editors/ckeditor/ckeditor.js"></script> -->
     <script type="text/javascript"
             src="../themes/default/js/jquery-1.7.2.min.js"></script>
     <script type="text/javascript" src="js/jquery.validate.js"></script>
@@ -959,7 +967,7 @@ if ($isEdit) {
                                                                             name="specification_vi"
                                                                             id="specification_vi"
                                                                             cols="75"
-                                                                            rows="20"><?php echo (isset($vi[0]->specification) && !empty($vi[0]->guide)) ? stripslashes($vi[0]->specification) : '' ?></textarea>
+                                                                            rows="20"><?= stripslashes($vi[0]->specification)  ?></textarea>
                                                                     <script type="text/javascript">
                                                                         var editor = CKEDITOR.replace('specification_vi', {
                                                                             language: 'vi',
@@ -1150,6 +1158,9 @@ if ($isEdit) {
                                             <li>
                                                 <a href="#wholesale"><span>Giá sỉ</span></a>
                                             </li>
+                                            <li>
+                                                <a href="#document"><span>Document</span></a>
+                                            </li>
                                         </ul>
                                         <div id="hinh-anh" class="tab"
                                              style="padding: 10px;">
@@ -1304,7 +1315,7 @@ if ($isEdit) {
                                                         <label for="#quantity-from">Từ</label>&nbsp;
                                                         <select name="quantity-from" id="quantity-from">
                                                             <?php
-                                                            $numberFrom = range(0, 20);
+                                                            $numberFrom = range(0, 100);
                                                             foreach ($numberFrom as $from) {
                                                                 echo "<option value='$from'>$from</option>";
                                                             }
@@ -1317,7 +1328,7 @@ if ($isEdit) {
                                                         <label for="" class="wholesale-quantity error" style="display: none">Số lương "từ" phải lớn hơn "đến"</label>
                                                         <select name="quantity-to" id="quantity-to">
                                                             <?php
-                                                            $numberTo = range(0, 20);
+                                                            $numberTo = range(0, 100);
                                                             foreach ($numberFrom as $to) {
                                                                 echo "<option value='$to'>$to</option>";
                                                             }
@@ -1372,6 +1383,38 @@ if ($isEdit) {
                                                         </div>
                                                     </td>
                                                 </tr>
+                                            </table>
+                                        </div>
+                                        <div id="document" class="tab"
+                                             style="padding: 10px;">
+                                            <input type="file"
+                                                   name="document"
+                                                   id="upload-document"
+                                                   style="width:250px;"/>
+                                            <label for="#document-label">Label</label>
+                                            <input type="text"
+                                                   name="document-label"
+                                                   id="document-label"
+                                                   style="width:250px;"/>
+                                            <table cellspacing="1" cellpadding="1" border="1" style="margin-top: 20px">
+                                                <tr>
+                                                    <th style='padding: 5px'>Label</th>
+                                                    <th style='padding: 5px'>File</th>
+                                                    <th style='padding: 5px'>Xóa</th>
+                                                </tr>
+                                                <?php
+                                                    $doc = unserialize($row->doc);
+                                                    foreach ($doc as $pos => $item) {
+                                                        if($item) {
+                                                            echo "<tr>";
+                                                            echo "<td style='padding: 5px'>{$item['label']}</td>";
+                                                            echo "<td style='padding: 5px'>{$item['file']}</td>";
+                                                            echo "<td style='text-align:center;padding: 5px'><a data-pid='{$row->id}' data-position='{$pos}' href='javascript:void(0);' class='delete-doc'>X</a></td>";
+                                                            echo "</tr>";
+                                                        }
+
+                                                    }
+                                                ?>
                                             </table>
                                         </div>
                                     </div>
